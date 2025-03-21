@@ -1,0 +1,229 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:layout="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:suite="sap.suite.ui.commons"
+    height="100%"
+>
+    <Dialog
+        id="idDataDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="87%"
+        contentHeight="90%"
+    >
+        <customHeader>
+            <Bar
+                id="_IDGenBar1"
+                class="title"
+            >
+                <contentMiddle>
+                    <FlexBox
+                        id="flexboxHeader"
+                        alignItems="Center"
+                        justifyContent="Center"
+                        width="100%"
+                    >
+                    </FlexBox>
+                </contentMiddle>
+                <contentRight>
+                    <MenuButton
+                        id="idDataAnlysis"
+                        text="Chart Type"
+                    >
+                        <menu>
+                            <Menu
+                                id="idDataAnlysismenu"
+                                itemSelected="onMenuAction"
+                            >
+                                <MenuItem
+                                    id="idDataAnlysismenuitem1"
+                                    text="Line Chart"
+                                    key="line"
+                                    icon="sap-icon://line-chart"
+                                    press="onLinePress"
+                                />
+                                <MenuItem
+                                    id="idDataAnlysismenuitem2"
+                                    text="Column"
+                                    key="column"
+                                    icon="sap-icon://full-stacked-column-chart"
+                                    press="onColumnPress"
+                                />
+                                <MenuItem
+                                    id="idDataAnlysismenuitem4"
+                                    text="Bar"
+                                    key="bar"
+                                    icon="sap-icon://horizontal-bar-chart"
+                                    press="onBarPress"
+                                />
+                                <MenuItem
+                                    id="idDataAnlysismenuitem3"
+                                    text="Area"
+                                    key="area"
+                                    icon="sap-icon://area-chart"
+                                    press="onAreaPress"
+                                />
+                                <MenuItem
+                                    id="idDataAnlysismenuitem5"
+                                    text="Stacked"
+                                    key="stacked_bar"
+                                    icon="sap-icon://horizontal-stacked-chart"
+                                    press="onstockedPress"
+                                />
+                                <MenuItem
+                                    id="idDataAnlysismenuitem6"
+                                    text="Combained"
+                                    key="combination"
+                                    icon="sap-icon://line-charts"
+                                    press="onCombainedPress"
+                                />
+                            </Menu>
+                        </menu>
+                    </MenuButton>
+                    <Button
+                        class="button"
+                        id="idCloseDataBTN"
+                        tooltip="Close"
+                        icon="sap-icon://decline"
+                        press="onCloseDataAnalysisDialog"
+                        type="Transparent"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <VBox
+            id="vbox"
+            fitContainer="true"
+
+        >
+                <suite:ChartContainerContent id="chartContainerContent333">
+                    <suite:content>
+                        <viz:VizFrame
+                            id="idBarChart"
+                            width="auto"
+                            height="500px"
+                            uiConfig="{applicationSet:'fiori'}"
+                            vizType="column"
+                            vizProperties="{
+                            plotArea: {
+                                dataLabel: {visible: true},
+                                colorPalette: ['#c87b00', '#3278be']
+ 
+                            },
+                            title: {text:'Previous Simulations'},
+                            valueAxis: {
+                                title: {
+                                    visible: false,
+                                    text: 'Count'
+                                },
+                                label: {
+                                    formatString: '#,##0'
+                                },
+                                interval: {
+                                    value: 3
+                                }
+                            },
+                            categoryAxis: {
+                                title: {
+                                    visible: false,
+                                    text: 'Date'
+                                }
+                            }
+                        }"
+                            selectData="onSelectData"
+                            renderComplete="handleRenderComplete"
+                        >
+                            <viz:dataset>
+                                <viz.data:FlattenedDataset
+                                    id="flattenData0"
+                                    data="{HistoryModel>/Items}"
+                                >
+                                    <viz.data:dimensions>
+                                        <viz.data:DimensionDefinition
+                                            id="_IDGenDimensionDefinition2"
+                                            name="Date"
+                                            value="{HistoryModel>date}"
+                                        />
+                                    </viz.data:dimensions>
+                                    <viz.data:measures>
+                                        <viz.data:MeasureDefinition
+                                            id="_IDGenMeasureDefinition3"
+                                            name="Pending"
+                                            value="{HistoryModel>PendingCount}"
+                                        />
+                                         <viz.data:MeasureDefinition
+                                            id="_IDGenMeasureDefinition2"
+                                            name="Completed"
+                                            value="{HistoryModel>CompletedCount}"
+                                        />
+                                    </viz.data:measures>
+                                </viz.data:FlattenedDataset>
+                            </viz:dataset>
+                            <viz:feeds>
+                                <viz.feeds:FeedItem
+                                    id="_IDGenFeedItem3"
+                                    uid="valueAxis"
+                                    type="Measure"
+                                    values="Completed"
+                                />
+                                <viz.feeds:FeedItem
+                                    id="_IDGenFeedItem4"
+                                    uid="valueAxis"
+                                    type="Measure"
+                                    values="Pending"
+                                />
+                                <viz.feeds:FeedItem
+                                    id="_IDGenFeedItem7"
+                                    uid="categoryAxis"
+                                    type="Dimension"
+                                    values="Date"
+                                />
+                            </viz:feeds>
+                        </viz:VizFrame>
+                    </suite:content>
+                </suite:ChartContainerContent>
+
+            <!-- Time period selection buttons -->
+            <HBox
+                id="_IDGenHBox2"
+                justifyContent="Center"
+            >
+                <Button
+                    id="_IDGenButton4"
+                    text="Day"
+                    press=".onSelectTimePeriod"
+                    class="sapUiTinyMarginEnd"
+                />
+                <Button
+                    id="_IDGenButton5"
+                    text="Month"
+                    press=".onSelectTimePeriod"
+                    class="sapUiTinyMarginEnd"
+                />
+                <Button
+                    id="_IDGenButton6"
+                    text="Quarterly"
+                    press=".onSelectTimePeriod"
+                    class="sapUiTinyMarginEnd"
+                />
+                <Button
+                    id="_IDGenButton7"
+                    text="Year"
+                    press=".onSelectTimePeriod"
+                    class="sapUiTinyMarginEnd"
+                />
+                <Button
+                    id="_IDGenButton8"
+                    text="All"
+                    press=".onSelectTimePeriod"
+                />
+            </HBox>
+        </VBox>
+    </Dialog>
+</core:FragmentDefinition>

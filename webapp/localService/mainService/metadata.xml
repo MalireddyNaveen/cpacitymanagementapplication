@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZEWM_CAPACITYMANAGMENT_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="CM_MATERIAL" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Model"/>
+                </Key>
+                <Property Name="Model" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="MODEL"/>
+                <Property Name="Length" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="LENGTH"/>
+                <Property Name="Width" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="WIDTH"/>
+                <Property Name="Height" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="HEIGHT"/>
+                <Property Name="Volume" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="VOLUME"/>
+                <Property Name="Mcategory" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MCATEGORY"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="DESCRIPTION"/>
+                <Property Name="Netweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="NETWEIGHT"/>
+                <Property Name="Grossweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="GROSSWEIGHT"/>
+                <Property Name="Quantity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="QUANTITY"/>
+                <Property Name="Stack" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="STACK"/>
+                <Property Name="Bearingcapacity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="BEARINGCAPACITY"/>
+            </EntityType>
+            <EntityType Name="CM_SELECTED_PRODUCT" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Id"/>
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="ID"/>
+                <Property Name="Productno" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="PRODUCTNO"/>
+                <Property Name="Selectedquantity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="SELECTEDQUANTITY"/>
+                <Property Name="Simulationname" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="SIMULATIONNAME"/>
+                <Property Name="Color" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="COLOR"/>
+            </EntityType>
+            <EntityType Name="CM_SIMULATED_RECORDS" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Simulationname"/>
+                </Key>
+                <Property Name="Simulationname" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="SIMULATIONNAME"/>
+                <Property Name="Trucktype" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="TRUCKTYPE"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="STATUS"/>
+                <Property Name="Createdby" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CREATEDBY"/>
+                <Property Name="Containercount" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CONTAINERCOUNT"/>
+                <Property Name="Createdat" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CREATEDAT"/>
+                <Property Name="Modifiedat" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MODIFIEDAT"/>
+                <Property Name="Modifiedby" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MODIFIEDBY"/>
+            </EntityType>
+            <Association Name="simulation_product" sap:content-version="1">
+                <End Type="ZEWM_CAPACITYMANAGMENT_SRV.CM_SIMULATED_RECORDS" Multiplicity="*" Role="FromRole_simulation_product"/>
+                <End Type="ZEWM_CAPACITYMANAGMENT_SRV.CM_SELECTED_PRODUCT" Multiplicity="*" Role="ToRole_simulation_product"/>
+            </Association>
+            <EntityContainer Name="ZEWM_CAPACITYMANAGMENT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="CM_MATERIALSet" EntityType="ZEWM_CAPACITYMANAGMENT_SRV.CM_MATERIAL" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CM_SELECTED_PRODUCTSet" EntityType="ZEWM_CAPACITYMANAGMENT_SRV.CM_SELECTED_PRODUCT" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CM_SIMULATED_RECORDSSet" EntityType="ZEWM_CAPACITYMANAGMENT_SRV.CM_SIMULATED_RECORDS" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="simulation_product_AssocSet" Association="ZEWM_CAPACITYMANAGMENT_SRV.simulation_product" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CM_SIMULATED_RECORDSSet" Role="FromRole_simulation_product"/>
+                    <End EntitySet="CM_SELECTED_PRODUCTSet" Role="ToRole_simulation_product"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://vhcalakeci.artihcus.com:50600/sap/opu/odata/sap/ZEWM_CAPACITYMANAGMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://vhcalakeci.artihcus.com:50600/sap/opu/odata/sap/ZEWM_CAPACITYMANAGMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

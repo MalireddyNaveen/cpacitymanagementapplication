@@ -1,0 +1,163 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idEditContainerDssialog"
+        resizable="true"
+        draggable="true"
+        title="Edit Container"
+    >
+        <beginButton>
+            <Button
+                id="idSaveEditContainer"
+                text="Save"
+                press="onSaveEditContainerPress"
+                type="Emphasized"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="idCancleEditContainer"
+                text="Cancel"
+                press="onCancelEditContainer"
+                type="Emphasized"
+            />
+        </endButton>
+        <content>
+            <form:SimpleForm
+                id="idEditContainerSimpleForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+            >
+            <VBox >
+            <HBox >
+                <Label
+                    id="editContainerType_Label"
+                    text="Container Type"
+                    class="sapUiTinyMarginTop"
+                    width="7rem"
+                />
+                <Input
+                    id="IdContainerType_Input"
+                    value="{CombinedModel>/Vehicle/truckType}"
+                    editable="false"
+                    width="5rem"
+                />
+                </HBox>
+                <HBox>
+                <Label
+                    id="IdContainerLength_Label"
+                    text="Length(m)"
+                    class="sapUiTinyMarginTop"
+                    width="7rem"
+                />
+                <Input
+                    id="IdContainerLength_Input"
+                    value="{CombinedModel>/Vehicle/length}"
+                    liveChange="onEidtContainerLenght_LC"
+                    width="5rem"
+                />
+                </HBox>
+                <HBox>
+                <Label
+                    id="idContainerWidth_Label"
+                    text="Width(m)"
+                    class="sapUiTinyMarginTop"
+                    width="7rem"
+                />
+                <Input
+                    id="idContainerWidth_Input"
+                    value="{CombinedModel>/Vehicle/width}"
+                    liveChange="onEidtContainerWidth_LC"
+                    width="5rem"
+                />
+                </HBox>
+                <HBox>
+                <Label
+                    id="idContainerHeight_Label"
+                    text="Height(m)"
+                    class="sapUiTinyMarginTop"
+                    width="7rem"
+                />
+                <Input
+                    id="idContainerHeight_Input"
+                    value="{CombinedModel>/Vehicle/height}"
+                    liveChange="onEidtContainerHeight_LC"
+                    width="5rem"
+                />
+                </HBox>
+                <HBox>
+                <Label
+                    id="idContainerCapacity_Label"
+                    text="Capacity(Kg)"
+                    class="sapUiTinyMarginTop"
+                    width="7rem"
+                />
+                <Input
+                    id="idContainerCapacity_Input"
+                    value="{CombinedModel>/Vehicle/capacity}"
+                    liveChange="onEidtContainerCapacity_LC"
+                    width="5rem"
+                    
+                />
+                </HBox>
+                <!-- <Label
+                    id="idContainerTruckWeight_Label"
+                    text="Truck Weight(Kg)"
+                />
+                <Input
+                    id="idContainerTruckWeight_Input"
+                    value="{CombinedModel>/Vehicle/truckWeight}"
+                    liveChange="onEidtContainerTruckWeight_LC"
+                /> -->
+                <!--  <Label
+                    id="idContainerTuom_Label"
+                    text="Tuom"
+                />
+                <Input
+                    id="idContainerTuom_Input"
+                    value="{CombinedModel>/Vehicle/tuom}"
+                />  -->
+                <!--  <Label
+                    id="idContainerTvuom_Label"
+                    text="Tvoum"
+                />
+                <Input
+                    id="idContainerTvuom_Input"
+                    value="{CombinedModel>/Vehicle/tvuom}"
+                />
+                <Label
+                    id="idContainerUom_Label"
+                    text="Uom"
+                />
+                <Input
+                    id="idContainerUom_Input"
+                    value="{CombinedModel>/Vehicle/uom}"
+                />
+                <Label
+                    id="idContainerVolume_Label"
+                    text="Volume"
+                />
+                <Input
+                    id="idContainerVolume_Input"
+                    value="{CombinedModel>/Vehicle/volume}"
+                />  -->
+                </VBox>
+            </form:SimpleForm>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

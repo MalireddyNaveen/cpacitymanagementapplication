@@ -1,0 +1,1774 @@
+<mvc:View
+    xmlns:f="sap.f"
+    controllerName="com.app.capacitymanagement.controller.MainPage"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    height="100%"
+    xmlns:uxap="sap.uxap"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar"
+    xmlns:smarttable="sap.ui.comp.smarttable"
+    xmlns:vk="sap.ui.vk"
+    xmlns:u="sap.ui.unified"
+    xmlns:smartform="sap.ui.comp.smartform"
+    xmlns:layout="sap.ui.layout"
+    xmlns:filterBar="sap.fe.macros.filterBar"
+    xmlns:smartchart="sap.ui.comp.smartchart"
+    xmlns:commons="sap.suite.ui.commons"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:suite="sap.suite.ui.commons"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+>
+    <tnt:ToolPage id="toolPage">
+        <tnt:header>
+            <tnt:ToolHeader id="idToolHeaderPageHeader">
+                <Image
+                    id="idheaderImage"
+                    height="1.5rem"
+                    class="sapUiTinyMarginBegin"
+                    src="https://www.daikin.com/-/media/Project/Daikin/daikin_com/dg_common/images/logo_daikin-png.png"
+                />
+
+                <ToolbarSpacer id="idToolbarSpacer_1" />
+                <Title
+                    level="H1"
+                    text="Capacity Management"
+                    wrapping="false"
+                    id="idCapacityManaementTitle"
+                    class="capacityManagementTitle"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData
+                            id="idOverflowToolbarLayoutDataTitle"
+                            priority="Disappear"
+                        />
+                    </layoutData>
+                </Title>
+                <ToolbarSpacer id="spacer" />
+
+                <tnt:ToolHeaderUtilitySeparator
+                    id="idToolHeaderUtilitySeparator"
+                />
+                <ToolbarSpacer
+                    id="idToolbarSpacer_2"
+                    width="1.125rem"
+                />
+                
+            </tnt:ToolHeader>
+        </tnt:header>
+        <tnt:subHeader>
+            <tnt:ToolHeader id="idToolHeaderPageSubHeader">
+                <IconTabHeader
+                    id="idIconTabHeader"
+                    selectedKey="{NamedModel>/selectedKey}"
+                    items="{path: 'NamedModel>/navigation'}"
+                    select=".onItemSelect"
+                    mode="Inline"
+                    backgroundDesign="Transparent"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData
+                            id="idOverflowToolbarLayoutDataIconTabHeader"
+                            priority="NeverOverflow"
+                            shrinkable="true"
+                        />
+                    </layoutData>
+                    <items>
+                        <IconTabFilter
+                            id="idIconTabFilterItems_1"
+                            text="{NamedModel>title}"
+                            key="{NamedModel>key}"
+                            icon="{NamedModel>icon}"
+                        />
+                    </items>
+                </IconTabHeader>
+            </tnt:ToolHeader>
+        </tnt:subHeader>
+        <tnt:mainContents>
+            <NavContainer
+                id="pageContainer"
+                initialPage="page1"
+            >
+                <pages>
+                    <ScrollContainer
+                        id="page1"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <Carousel
+                            id="welcomeCarousel"
+                            showPageIndicator="false"
+                            loop="true"
+                            pageChanged=".onCarouselPageChanged"
+                            visible="{=!${device>/system/phone}}"
+                        >
+                            <VBox
+                                id="idwelcomepage_vbox1"
+                                renderType="Bare"
+                                width="100%"
+                                height="70%"
+                            >
+                                <Image
+                                    id="idwelcomepage_image3"
+                                    src="https://www.aconrentindwarka.com/img/ac-on-rent-in-dwarka.png"
+                                    class="imageSize"
+                                />
+                                <!-- <Text
+                                    text="Simulation Layout Documentation"
+                                    class="imageTextOverlay"
+                                /> -->
+
+                                <!-- <Text
+                                    text="{i18n>welcomeCarouselShipping}"
+                                    class="welcomeCarouselText"
+                                /> -->
+                            </VBox>
+                            <VBox
+                                renderType="Bare"
+                                id="idwelcomepage_vbox2"
+                                width="100%"
+                                height="70%"
+                            >
+                                <VBox
+                                    id="VBoxforImageConatiner"
+                                    class="imageContainer"
+                                >
+                                    <Image
+                                        id="idwelcomepage_image2"
+                                        src="image/3dsimulationpage.png"
+                                        class="imageSize"
+                                    />
+                                    <!-- <Text
+                                        id="id3DSimulationVisulalization"
+                                        text="3D Simulation Visualization"
+                                        class="imageTextOverlay1"
+                                    /> -->
+                                </VBox>
+                                <!-- <Text
+                                    text="{i18n>welcomeCarouselInviteFriend}"
+                                    class="welcomeCarouselText"
+                                /> -->
+                            </VBox>
+                            <VBox
+                                renderType="Bare"
+                                id="idwelcomepage_vbox3"
+                                width="100%"
+                                height="70%"
+                            >
+                                <VBox
+                                    id="VBoxImageContainer2"
+                                    class="imageContainer"
+                                >
+                                    <Image
+                                        id="idwelcomepage_image1"
+                                        src="https://www.renoirgroup.com/wp-content/uploads/2023/12/Why-warehouse-management-matters-more-than-ever_v2.jpg"
+                                        class="imageSize"
+                                    />
+                                    <!-- <Text
+                                        text="Large-Scale Data Import"
+                                        class="imageTextOverlay2"
+                                    /> -->
+                                </VBox>
+
+                                <!-- <Text
+                                    text="{i18n>welcomeCarouselTablet}"
+                                    class="welcomeCarouselText"
+                                /> -->
+                            </VBox>
+                            <VBox
+                                id="idwelcomepage_vbox4"
+                                renderType="Bare"
+                                width="100%"
+                                height="70%"
+                            >
+                                <VBox
+                                    id="IDVBOXIMageContainer2"
+                                    class="imageContainer"
+                                >
+                                    <Image
+                                        id="idwelcomepage_image4"
+                                        src="https://klinelogistics.ca/wp-content/uploads/elementor/thumbs/truck-logistics-operations-dusk-2-scaled-qnucshbbvnt4dgdbpary0t4afur2lh2c9225ajwxxc.jpg"
+                                        class="imageSize"
+                                    />
+                                    <Text
+                                        id="idTextAdvanceProduct"
+                                        text="Advanced Product Loading Capability"
+                                        class="imageTextOverlay3"
+                                    />
+                                </VBox>
+                                <!-- <Text
+                                    text="{i18n>welcomeCarouselCreditCard}"
+                                    class="welcomeCarouselText"
+                                /> -->
+                            </VBox>
+                        </Carousel>
+
+                        <VBox
+                            id="id_firstCardMainContainer"
+                            class="firstCardMainContainer"
+                            alignContent="Center"
+                            alignItems="Center"
+                        >
+                            <HBox
+                                id="id_firstCardsubImageContainer"
+                                class="firstCardsubImageContainerclass"
+                                width="100%"
+                            >
+                                <HBox
+                                    id="id_firstCardImageContainer"
+                                    width="50%"
+                                    class="image"
+                                >
+                                    <Image
+                                        id="id_firstCardImage"
+                                        src="image/spreadsheet.png"
+                                        width="100%"
+                                    />
+                                </HBox>
+                                <HBox
+                                    id="id_firstCardsubTextContainer"
+                                    class="firstCardsubTextContainerclass"
+                                >
+                                    <VBox
+                                        id="id_firstCardTextVbox"
+                                        class="firstCardTextVbox"
+                                    >
+                                        <Title
+                                            id="id_firstCardTitle"
+                                            class="FirstCard"
+                                            text="Large-Scale Data Import"
+                                        />
+
+                                        <Text
+                                            id="id_firstCardText"
+                                            class="firstCardTextClass cardText"
+                                            text=" Facilitate the efficient upload of large data files, ensuring seamless integration and automatic population of relevant information into the system's database."
+                                        />
+                                    </VBox>
+                                </HBox>
+                            </HBox>
+                        </VBox>
+                        <VBox
+                            id="id_SecondCardMainContainer"
+                            class="secondCardMainContainer"
+                            alignContent="Center"
+                            alignItems="Center"
+                        >
+                            <HBox id="id_SecondCardsubTextContainer">
+                                <VBox
+                                    id="id_SecondCardTextVbox"
+                                    class="secondCardMainContainerVBox"
+                                    height="14rem"
+                                >
+                                    <Title
+                                        id="id_SecondCardTitle"
+                                        class="firstCardTitleClass"
+                                        text="Advanced product loading capability"
+                                    />
+
+                                    <Text
+                                        id="id_SecondCardText"
+                                        class="secondCardText cardText"
+                                        text="Utilize a sophisticated feature to load products into a container with optimal space efficiency, displaying the results in real-time for precise analysis and decision-making."
+                                    />
+                                </VBox>
+
+                                <!-- <HBox id="id_SecondCardsubImageContainer"
+                            class="SecondCardsubImageContainerclass" width="100%"> -->
+                                <!-- <HBox
+                                id="id_SecondCardImageContainer"
+                                    width="50%"
+                                    class="image"
+                                > -->
+                                <Image
+                                    id="id_SecondCardImage"
+                                    class="secondImage"
+                                    src="image/AdvancedProductLoadingCapabilityIllus-1.png"
+                                    width="90%"
+                                    height="90%"
+                                />
+                                <!-- </HBox> -->
+                            </HBox>
+                            <!-- </HBox> -->
+                        </VBox>
+
+                        <VBox
+                            id="id_FourthCardMainContainer"
+                            class="secondCardMainContainer"
+                            alignContent="Center"
+                            alignItems="Center"
+                        >
+                            <HBox id="id_FourthCardsubTextContainer">
+                                <Image
+                                    id="id_FourthCardImage"
+                                    src="image/3DSimulationIllus.png"
+                                    width="100%"
+                                />
+
+                                <VBox
+                                    id="id_FourthCardTextVbox"
+                                    class="FourthCard"
+                                    height="15rem"
+                                >
+                                    <Title
+                                        id="id_FourthCardTitle"
+                                        class="FirstCard fourthCardTitleClass"
+                                        text="3D Simulation Visualization"
+                                    />
+
+                                    <Text
+                                        id="id_FourthCardText"
+                                        class="FourthCardTextClass cardText"
+                                        text="Visualize and interact with the loaded products within a container using a detailed 3D view, enhancing spatial understanding and analysis. This enables an accurate representation of product placement and arrangement."
+                                    />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                        <VBox
+                            id="id_ThirdCardMainContainer"
+                            alignContent="Center"
+                            alignItems="Center"
+                            class="firstCardMainContainer"
+                        >
+                            <HBox
+                                id="id_ThirdCardsubTextContainer"
+                                width="100%"
+                                height="40%"
+                                class="firstCardsubImageContainerclass"
+                            >
+                                <HBox
+                                    id="id_ThirdCardsubTextContainer1"
+                                    class="firstCardsubTextContainerclass"
+                                >
+                                    <VBox
+                                        id="id_ThirdCardTextVbox"
+                                        class="ThirdCardTextVbox"
+                                        height="14rem"
+                                    >
+                                        <Title
+                                            id="id_ThirdCardTitle"
+                                            class="firstCardTitleClass thirdCardTitleText"
+                                            text="Simulation Layout Documentation"
+                                        />
+                                        <Text
+                                            id="id_ThirdCardText"
+                                            class="ThirdCardTextClass cardText"
+                                            text="Present a formal report detailing the arrangement of products within the container, ensuring the customer understands the optimized loading plan as demonstrated in the simulation."
+                                        />
+                                    </VBox>
+                                </HBox>
+                                <HBox
+                                    id="id_ThirdCardImageContainer"
+                                    width="50%"
+                                    class="image"
+                                >
+                                    <Image
+                                        id="id_ThirdCardImage"
+                                        src="image/DataTransferIllus.png"
+                                        width="120%"
+                                        height="60%"
+                                    />
+                                </HBox>
+                            </HBox>
+                        </VBox>
+                    </ScrollContainer>
+                    <!-- <ScrollContainer
+                        id="page2"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    > -->
+                    <uxap:ObjectPageLayout id="page2">
+                        <uxap:headerTitle>
+                            <uxap:ObjectPageDynamicHeaderTitle
+                                id="ObjectPageDynamicHeaderTitlepage2"
+                            >
+                                <uxap:heading>
+                                    <Title
+                                        id="idTitle"
+                                        text="Filters"
+                                    />
+                                </uxap:heading>
+                            </uxap:ObjectPageDynamicHeaderTitle>
+                        </uxap:headerTitle>
+                        <uxap:headerContent>
+                            <smartfilterbar:SmartFilterBar
+                                id="idSmartFiltersForModel"
+                                filterBarExpanded="true"
+                                entitySet="Materials"
+                                useToolbar="false"
+                                search="onSearchSmartFiltersMasterData"
+                            >
+                                <smartfilterbar:controlConfiguration>
+                                    <smartfilterbar:ControlConfiguration
+                                        visibleInAdvancedArea="true"
+                                        id="idModelControl"
+                                        label="Model"
+                                        key="model"
+                                    />
+                                    <smartfilterbar:ControlConfiguration
+                                        visibleInAdvancedArea="true"
+                                        id="idDescriptionControl"
+                                        label="Description"
+                                        key="description"
+                                    />
+                                    <smartfilterbar:ControlConfiguration
+                                        visibleInAdvancedArea="true"
+                                        id="idCategoryControl"
+                                        label="Material Category"
+                                        key="mCategory"
+                                    />
+                                    <smartfilterbar:ControlConfiguration
+                                        visible="false"
+                                        id="idbearingcapacity"
+                                        label="Bearing Capacity"
+                                        key="bearingCapacity"
+                                    />
+                                </smartfilterbar:controlConfiguration>
+                            </smartfilterbar:SmartFilterBar>
+                        </uxap:headerContent>
+
+                        <uxap:sections>
+                            <uxap:ObjectPageSection
+                                id="idss"
+                                showTitle="false"
+                            >
+                                <uxap:ObjectPageSubSection
+                                    id="_IDGenObjectPageSubSection"
+                                    showTitle="false"
+                                >
+                                    <smarttable:SmartTable
+                                        id="idModelsSmartTable"
+                                        header="Models/Products"
+                                        headerLevel="H6"
+                                        showRowCount="false"
+                                        showFullScreenButton="true"
+                                        enableAutoBinding="false"
+                                        enableExport="true"
+                                        enableCopy="false"
+                                        tableType="ResponsiveTable"
+                                        smartFilterId="idSmartFiltersForModel"
+                                        entitySet="Materials"
+                                    >
+                                        <smarttable:customToolbar>
+                                            <OverflowToolbar
+                                                id="idOverFlowForProducts"
+                                            >
+                                                <ToolbarSpacer
+                                                    id="idToolbarForProducts"
+                                                />
+
+                                                <MenuButton
+                                                    id="idMaterialMenuBtn"
+                                                    text="Actions"
+                                                    enabled="false"
+                                                >
+                                                    <Menu
+                                                        id="idMaterialMenu"
+                                                        itemSelected="onMenuAction"
+                                                    >
+                                                        <MenuItem
+                                                            id="idMaterialEditBtn"
+                                                            text="Edit"
+                                                            icon="sap-icon://edit"
+                                                            press="onModelEdit"
+                                                        />
+                                                        <!-- <MenuItem
+                                                                    id="idMaterialEditBtn"
+                                                                    text="Edit"
+                                                                    icon="sap-icon://edit"
+                                                                    press="onPressEditInProductsTable"
+                                                                /> -->
+                                                        <MenuItem
+                                                            id="idMaterialDeleteBtn"
+                                                            text="Delete"
+                                                            icon="sap-icon://delete"
+                                                            press="onModelDelete"
+                                                        />
+                                                        <MenuItem
+                                                            id="idMaterialUploadBtn"
+                                                            text="Upload"
+                                                            icon="sap-icon://upload"
+                                                            press="onMaterialUploadbtn"
+                                                        />
+                                                    </Menu>
+                                                </MenuButton>
+                                            </OverflowToolbar>
+                                        </smarttable:customToolbar>
+                                        <Table
+                                            id="idModelsTable"
+                                            mode="MultiSelect"
+                                            selectionChange="onModelChange"
+                                            class="tableSection"
+                                            sticky="ColumnHeaders"
+                                            noDataText="To start, set the relevant filters."
+                                        >
+                                            <!-- <noData>
+                                                <VBox id="idGenVBoxIllusModel">
+                                                    <IllustratedMessage
+                                                        id="idGenIllustratedMessageModel"
+                                                        title="No Models/Products Available"
+                                                        description="Currently, no models are available. Please add new models."
+                                                        illustrationSize="Dialog"
+                                                        illustrationType="sapIllus-SimpleEmptyDoc"
+                                                    />
+                                                </VBox>
+                                            </noData> -->
+                                        </Table>
+                                    </smarttable:SmartTable>
+                                </uxap:ObjectPageSubSection>
+                            </uxap:ObjectPageSection>
+                        </uxap:sections>
+                    </uxap:ObjectPageLayout>
+                    <!-- </ScrollContainer> -->
+                    <ScrollContainer
+                        id="page3"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <HBox
+                            id="idHbox"
+                            justifyContent="SpaceAround"
+                        >
+                            <HBox
+                                id="idHBoxForCreateModel"
+                                width="100%"
+                                justifyContent="SpaceBetween"
+                            >
+                                <form:SimpleForm
+                                    id="idForModelCreationForm"
+                                    layout="ResponsiveGridLayout"
+                                    backgroundDesign="Transparent"
+                                    width="100%"
+                                >
+                                    <VBox
+                                        id="idVBoxforModelCreation"
+                                        visible="true"
+                                    >
+                                        <HBox id="idHboxForModelNum">
+                                            <Label
+                                                id="idLabelForModelNum"
+                                                text="Product ID:"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelNum"
+                                                value="{CombinedModel>/Product/Model}"
+                                                placeholder="Enter Productno"
+                                                class="customInput"
+                                                liveChange="onLiveChangeProduct"
+                                                width="100%"
+                                            />
+                                        </HBox>
+
+                                        <HBox id="idHBoxForModelDesc">
+                                            <Label
+                                                id="idLabelForModelDesc"
+                                                text="Description:"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelDesc"
+                                                value="{CombinedModel>/Product/Description}"
+                                                placeholder="Enter Description"
+                                                class="customInput"
+                                                liveChange="onLiveChangeDesc"
+                                                width="100%"
+                                                maxLength="200"
+                                            />
+                                        </HBox>
+
+                                        <HBox id="idHBoxForModelCat">
+                                            <Label
+                                                id="idLablelForModelCat"
+                                                text="Material Category:"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <ComboBox
+                                                id="idSelectCat"
+                                                width="174px"
+                                                placeholder="Select from dropdown"
+                                            >
+                                                <core:Item
+                                                    id="idCat1"
+                                                    key="RA-IDU"
+                                                    text="RA-IDU"
+                                                />
+                                                <core:Item
+                                                    id="idCat2"
+                                                    key="RA-ODU"
+                                                    text="RA-ODU"
+                                                />
+                                            </ComboBox>
+                                        </HBox>
+
+                                        <HBox id="idHBoxForModelLeng">
+                                            <Label
+                                                id="idLableForModelLeng"
+                                                text="Length(m):"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelLeng"
+                                                value="{CombinedModel>/Product/Length}"
+                                                placeholder="Enter Length"
+                                                liveChange="onLiveChange"
+                                                width="100%"
+                                                type="Number"
+                                            />
+                                        </HBox>
+
+                                        <HBox id="idHBoxForModelWidth">
+                                            <Label
+                                                id="idLableForModelWidth"
+                                                text="Width(m):"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelWidth"
+                                                value="{CombinedModel>/Product/Width}"
+                                                placeholder="Enter Width"
+                                                maxLength="5"
+                                                width="100%"
+                                                liveChange="onLiveChange1"
+                                                editable="true"
+                                                type="Number"
+                                            />
+                                        </HBox>
+
+                                        <HBox id="idHBoxForModelHeight">
+                                            <Label
+                                                id="idLabelForModelHeight"
+                                                text="Height(m):"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelHeight"
+                                                value="{CombinedModel>/Product/Height}"
+                                                placeholder="Enter Height"
+                                                class="customInput"
+                                                liveChange="onLiveChange2"
+                                                width="100%"
+                                                type="Number"
+                                            />
+                                        </HBox>
+
+                                        <HBox
+                                            id="idHBoxforModelUOM"
+                                            visible="false"
+                                        >
+                                            <Label
+                                                id="idLablelForModelUOM"
+                                                text="UOM:"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Select
+                                                id="idForSelectModelLWHUOM"
+                                                width="174px"
+                                            >
+                                                <core:Item
+                                                    id="idSelectUOM1"
+                                                    key="Select"
+                                                    text="Select"
+                                                />
+
+                                                <core:Item
+                                                    id="idSelectUOM2"
+                                                    key="M"
+                                                    text="M"
+                                                />
+
+                                                <core:Item
+                                                    id="idSelectUOM3"
+                                                    key="CM"
+                                                    text="CM"
+                                                />
+                                                <core:Item
+                                                    id="idSelectUOM4"
+                                                    key="mm"
+                                                    text="mm"
+                                                />
+                                            </Select>
+                                        </HBox>
+                                        <HBox id="idHBoxForModelNetWeight">
+                                            <Label
+                                                id="idLablelForModelNetWeight"
+                                                text="Net Weight(Kg):"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelNetWeight"
+                                                value="{CombinedModel>/Product/Netweight}"
+                                                placeholder="Enter Net Weight"
+                                                class="customInput"
+                                                liveChange="onLiveChangeNetWt"
+                                                width="100%"
+                                                maxLength="200"
+                                                type="Number"
+                                            />
+                                        </HBox>
+                                        <HBox id="idHBoxForModelGrossWeight">
+                                            <Label
+                                                id="idLablelForModelGrossWeight"
+                                                text="Gross Weight(Kg):"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelGrossWeight"
+                                                value="{CombinedModel>/Product/Grossweight}"
+                                                placeholder="Enter Gross Weight"
+                                                class="customInput"
+                                                liveChange="onLivechangeGrossWeight"
+                                                width="100%"
+                                                maxLength="200"
+                                                type="Number"
+                                            />
+                                        </HBox>
+
+                                        <HBox
+                                            id="idHBoxForModelWeight"
+                                            visible="false"
+                                        >
+                                            <Label
+                                                id="idLablForModelWeight"
+                                                text="UOM:"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+
+                                            <Select
+                                                id="idSelectModelWeightUOM"
+                                                width="174px"
+                                            >
+                                                <items>
+                                                    <core:Item
+                                                        id="idModelWeightUOM1"
+                                                        key="Select"
+                                                        text="Select"
+                                                    />
+                                                    <core:Item
+                                                        id="idModelWeightUOM2"
+                                                        key="KG"
+                                                        text="Kilograms"
+                                                    />
+                                                    <core:Item
+                                                        id="idModelWeightUOM3"
+                                                        key="G"
+                                                        text="Grams"
+                                                    />
+
+                                                    <!-- Add more UOM options as needed -->
+                                                </items>
+                                            </Select>
+                                        </HBox>
+                                        <HBox id="idHBoxForModelStack">
+                                            <Label
+                                                id="idLablelForModelStack"
+                                                text="Stack Level:"
+                                                width="125px"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                            <Input
+                                                id="idInputForModelStack"
+                                                value="{CombinedModel>/Product/Stack}"
+                                                placeholder="Enter Stack Levels"
+                                                class="customInput"
+                                                width="100%"
+                                                liveChange="onLiveChange4"
+                                                maxLength="200"
+                                                type="Number"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="buttonsHbox_productList"
+                                            class="sapUiSmallMarginTop"
+                                        >
+                                            <Button
+                                                id="idBtnForModelClear"
+                                                text="Clear"
+                                                press="onClearProduct"
+                                                type="Emphasized"
+                                                class="dialogButton_sapconnect addProductSaveButton sapUiMediumMarginEnd"
+                                            />
+
+                                            <Button
+                                                id="idBtnForModelSave"
+                                                text="Save"
+                                                press="onCreateProduct"
+                                                type="Emphasized"
+                                                class="dialogButton_sapconnect addProductSaveButton"
+                                            />
+                                        </HBox>
+                                    </VBox>
+                                </form:SimpleForm>
+                            </HBox>
+                            <HBox id="idHboxText">
+                                <VBox
+                                    id="idImageAddProduct"
+                                    alignContent="Center"
+                                >
+                                    <Image
+                                        id="idImageAddPrd"
+                                        src="image/vector_image-removebg-preview.png"
+                                        height="100%"
+                                        width="50%"
+                                        class="sapUiSmallMarginTop AddProductImage"
+                                    />
+
+                                    <HBox
+                                        id="idImageAddProductText"
+                                        class="AddProductImageText"
+                                    >
+                                        <Text
+                                            id="idAddPrdText"
+                                            text="Add Product"
+                                            class="AddProductImageText"
+                                        />
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                    </ScrollContainer>
+
+                    <uxap:ObjectPageLayout id="page4">
+                        <uxap:headerTitle>
+                            <uxap:ObjectPageDynamicHeaderTitle
+                                id="idObjectPageDynamicHeaderTitle"
+                            >
+                                <uxap:heading>
+                                    <Title
+                                        id="idTitle1"
+                                        text="Filter"
+                                    />
+                                </uxap:heading>
+                            </uxap:ObjectPageDynamicHeaderTitle>
+                        </uxap:headerTitle>
+                        <uxap:headerContent>
+                            <smartfilterbar:SmartFilterBar
+                                id="idSmarFilterContainerForContainers"
+                                filterBarExpanded="true"
+                                entitySet="TruckTypes"
+                                useToolbar="false"
+                                search="onSearchSmartFiltersContainersData"
+                            >
+                                <smartfilterbar:controlConfiguration>
+                                    <smartfilterbar:ControlConfiguration
+                                        id="idForTruckTypeCon"
+                                        key="truckType"
+                                        visibleInAdvancedArea="true"
+                                        label="Container Type"
+                                    />
+                                    <!-- <smartfilterbar:ControlConfiguration
+                                        id="idForTruckCap"
+                                        key="capacity"
+                                        visibleInAdvancedArea="true"
+                                        label="Container Capacity"
+                                    /> -->
+                                </smartfilterbar:controlConfiguration>
+                            </smartfilterbar:SmartFilterBar>
+                        </uxap:headerContent>
+
+                        <uxap:sections>
+                            <uxap:ObjectPageSection
+                                id="id1"
+                                showTitle="false"
+                            >
+                                <uxap:ObjectPageSubSection
+                                    id="_IDGenObjectPageSubSection1"
+                                    showTitle="false"
+                                >
+                                    <smarttable:SmartTable
+                                        id="idSmartTableForContainer"
+                                        smartFilterId="idSmarFilterContainerForContainers"
+                                        entitySet="TruckTypes"
+                                        headerLevel="H6"
+                                        header="Containers"
+                                        enableCopy="false"
+                                        showRowCount="false"
+                                        showFullScreenButton="true"
+                                        enableAutoBinding="false"
+                                        enableExport="true"
+                                        tableType="ResponsiveTable"
+                                    >
+                                        <smarttable:customToolbar>
+                                            <OverflowToolbar
+                                                id="idOverFlowForConatiners"
+                                            >
+                                                <ToolbarSpacer
+                                                    id="idToolbarForContainers"
+                                                />
+                                                <MenuButton
+                                                    id="idContainerMenuBtn"
+                                                    text="Actions"
+                                                    enabled="false"
+                                                >
+                                                    <menu>
+                                                        <Menu
+                                                            id="idContainerlMenu"
+                                                            itemSelected="onMenuAction"
+                                                        >
+                                                            <MenuItem
+                                                                id="idContainerEditBtn"
+                                                                text="Edit"
+                                                                icon="sap-icon://edit"
+                                                                press="onContainerEditPress"
+                                                            />
+                                                            <MenuItem
+                                                                id="idContainerDeleteBtn"
+                                                                text="Delete"
+                                                                press="onContainerDelete"
+                                                                icon="sap-icon://delete"
+                                                            />
+                                                            <MenuItem
+                                                                id="idContainerUploadBtn"
+                                                                text="Upload"
+                                                                press="onContainerUpload"
+                                                                icon="sap-icon://upload"
+                                                            />
+                                                        </Menu>
+                                                    </menu>
+                                                </MenuButton>
+                                            </OverflowToolbar>
+                                        </smarttable:customToolbar>
+                                        <Table
+                                            id="idContianersTable"
+                                            mode="MultiSelect"
+                                            class="tableSection"
+                                            sticky="ColumnHeaders"
+                                            noDataText="To start, set the relevant filters."
+                                        />
+                                        <VBox
+                                            id="idErrorIllustrationContainer"
+                                            visible="false"
+                                        >
+                                            <IllustratedMessage
+                                                id="idErrorIllustration"
+                                                title="{/errorTitle}"
+                                                description="{/errorDescription}"
+                                                illustrationType="{/errorIllustrationType}"
+                                                illustrationSize="Spot"
+                                            />
+                                        </VBox>
+                                    </smarttable:SmartTable>
+                                </uxap:ObjectPageSubSection>
+                            </uxap:ObjectPageSection>
+                        </uxap:sections>
+                    </uxap:ObjectPageLayout>
+
+                    <ScrollContainer
+                        id="page5"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <HBox
+                            id="idHBoxForCreateContainer"
+                            width="100%"
+                            justifyContent="SpaceBetween"
+                        >
+                            <form:SimpleForm
+                                id="idCreateContainerSimpleForm"
+                                layout="ResponsiveGridLayout"
+                                backgroundDesign="Transparent"
+                                width="100%"
+                            >
+                                <VBox
+                                    id="idVBoxforContainerCreation"
+                                    visible="true"
+                                >
+                                    <HBox id="idHboxForContainerNum">
+                                        <Label
+                                            id="idCreateContainerTruckTypeLabel"
+                                            text="Truck Type"
+                                            width="125px"
+                                            class="sapUiTinyMarginTop"
+                                        />
+                                        <Input
+                                            id="idCreateContainerTruckTypeInput"
+                                            value="{CombinedModel>/Vehicle/truckType}"
+                                            maxLength="2"
+                                            liveChange="onLiveChangeForContainerType"
+                                            type="Number"
+                                            placeholder="Enter Truck Type"
+                                            class="customInput"
+                                            width="100%"
+                                        />
+                                    </HBox>
+                                    <HBox id="idHBoxForContainerDesc">
+                                        <Label
+                                            id="idCreateContainerLengthLabel"
+                                            text="Length(m)"
+                                            width="125px"
+                                            class="sapUiTinyMarginTop"
+                                        />
+                                        <Input
+                                            id="idCreateContainerLengthInput"
+                                            value="{CombinedModel>/Vehicle/length}"
+                                            liveChange="onLiveChangeForConatainerLength"
+                                            placeholder="Enter Length"
+                                            type="Number"
+                                            class="customInput"
+                                            width="100%"
+                                        />
+                                    </HBox>
+                                    <HBox id="idHBoxForModelCat1">
+                                        <Label
+                                            id="idCreateContainerWidthLable"
+                                            text="Width(m)"
+                                            width="125px"
+                                            class="sapUiTinyMarginTop"
+                                        />
+                                        <Input
+                                            id="idCreateContainerWidthInput"
+                                            value="{CombinedModel>/Vehicle/width}"
+                                            liveChange="onLiveChangeForContainerWidth"
+                                            type="Number"
+                                            class="customInput"
+                                            placeholder="Enter Truck Width"
+                                            width="100%"
+                                        />
+                                    </HBox>
+                                    <HBox id="idHBoxForModelLeng1">
+                                        <Label
+                                            id="idCreateContainerHeightLabel"
+                                            text="Height(m)"
+                                            width="125px"
+                                            class="sapUiTinyMarginTop"
+                                        />
+                                        <Input
+                                            id="idCreateContainerHeightInput"
+                                            value="{CombinedModel>/Vehicle/height}"
+                                            liveChange="onLiveChangeForContainerHeight"
+                                            type="Number"
+                                            class="customInput"
+                                            placeholder="Enter Truck Height"
+                                            width="100%"
+                                        />
+                                    </HBox>
+                                    <!-- <HBox id="idHBoxForModelWidth1">
+                                        <Label
+                                            id="idCreateContainerTruckWieghtLabel"
+                                            text="Truck Weight(Kg)"
+                                            width="125px"
+                                            class="sapUiTinyMarginTop"
+                                        />
+                                        <Input
+                                            id="idCreateContainerTruckWieghtInput"
+                                            value="{CombinedModel>/Vehicle/truckWeight}"
+                                            class="customInput"
+                                            placeholder="Enter Truck Weight"
+                                            liveChange="onLiveChangeForContainerWeight"
+                                            width="100%"
+                                            type="Number"
+                                        />
+                                    </HBox> -->
+                                    <HBox id="idHBoxForModelHeight1">
+                                        <Label
+                                            id="idCreateContainerCapacityLabel"
+                                            text="Capacity(Kg)"
+                                            width="125px"
+                                            class="sapUiTinyMarginTop"
+                                        />
+                                        <Input
+                                            id="idCreateContainerCapacityInput"
+                                            value="{CombinedModel>/Vehicle/capacity}"
+                                            class="customInput"
+                                            placeholder="Enter Truck Capacity"
+                                            width="100%"
+                                            liveChange="onLiveChangeForContainerCapacity"
+                                            type="Number"
+                                        />
+                                    </HBox>
+                                    <HBox
+                                        id="buttonsHbox_ContainerList"
+                                        class="sapUiSmallMarginTop"
+                                    >
+                                        <Button
+                                            id="idCreateContainerCreateBt1"
+                                            text="Clear"
+                                            press="onClearContainer"
+                                            type="Emphasized"
+                                            class="dialogButton_sapconnect addProductSaveButton sapUiMediumMarginEnd"
+                                        />
+                                        <Button
+                                            id="idCreateContainerCreateBtn"
+                                            text="Create"
+                                            press="onSaveCreateContainer"
+                                            type="Emphasized"
+                                            class="dialogButton_sapconnect addProductSaveButton"
+                                        />
+                                    </HBox>
+                                </VBox>
+                            </form:SimpleForm>
+                            <VBox id="idContainerImageVbox">
+                                <Image
+                                    id="IdContainerImage"
+                                    src="https://arvindengineers.com/wp-content/uploads/2023/06/02.png"
+                                    class="sapUiMediumMarginTop"
+                                    height="70%"
+                                    width="30%"
+                                />
+                                <Text
+                                    id="idcontainerText"
+                                    text="Add Container"
+                                />
+                            </VBox>
+                        </HBox>
+                    </ScrollContainer>
+
+                    <uxap:ObjectPageLayout id="page6">
+                        <uxap:headerTitle>
+                            <uxap:ObjectPageDynamicHeaderTitle
+                                id="idFilterTitleBarContainerFor_previous_simulation"
+                            >
+                                <uxap:heading>
+                                    <Title
+                                        id="idTitledd"
+                                        text="Filters"
+                                    />
+                                </uxap:heading>
+                            </uxap:ObjectPageDynamicHeaderTitle>
+                        </uxap:headerTitle>
+                        <uxap:headerContent>
+                            <smartfilterbar:SmartFilterBar
+                                id="idSmarFilterContainerFor_previous_simulation"
+                                filterBarExpanded="true"
+                                entitySet="SimulatedRecords"
+                                useToolbar="false"
+                                search="onSearchSmartFiltersPreviousSimulationData"
+                            >
+                                <smartfilterbar:controlConfiguration>
+                                    <smartfilterbar:ControlConfiguration
+                                        id="idFor_simulation_name"
+                                        key="simulationName"
+                                        visibleInAdvancedArea="true"
+                                        label="Simulation Name"
+                                    />
+                                    <smartfilterbar:ControlConfiguration
+                                        id="idFor_simulation_Delete"
+                                        key="isDelete"
+                                        visibleInAdvancedArea="false"
+                                        
+                                    >
+                                    <smartfilterbar:defaultFilterValues>
+							<smartfilterbar:SelectOption low="false">
+							</smartfilterbar:SelectOption>
+						</smartfilterbar:defaultFilterValues>
+                           </smartfilterbar:ControlConfiguration>
+                                </smartfilterbar:controlConfiguration>
+                            </smartfilterbar:SmartFilterBar>
+                        </uxap:headerContent>
+
+                        <uxap:sections>
+                            <uxap:ObjectPageSection
+                                id="id"
+                                showTitle="false"
+                            >
+                                <uxap:ObjectPageSubSection
+                                    id="_IDGenObjectPageSubSectionds"
+                                    showTitle="false"
+                                >
+                                    <smarttable:SmartTable
+                                        id="idSimulationSmartTable"
+                                        entitySet="SimulatedRecords"
+                                        
+                                        enableAutoBinding="false"
+                                        enableAutoColumnWidth="false"
+                                        enableCopy="false"
+                                        smartFilterId="idSmarFilterContainerFor_previous_simulation"
+                                        header="Previous Simulations"
+                                        headerLevel="H6"
+                                        showRowCount="false"
+
+                                    >
+                                        <smarttable:customToolbar>
+                                            <OverflowToolbar
+                                                id="idOverFlowForProducts1"
+                                            >
+                                                <ToolbarSpacer
+                                                    id="idToolbarForProducts1"
+                                                />
+                                                <Button
+                                                    id="iddeletebutton"
+                                                    tooltip="Delete"
+                                                    icon="sap-icon://delete"
+                                                    press="onPressDelete"
+                                                    enabled="false"
+                                                />
+                                                <Button
+                                                    id="idrefreshbutton"
+                                                    text="Refresh"
+                                                    icon="sap-icon://synchronize"
+                                                    tooltip="Refresh"
+                                                    press="onPressRefresh"
+                                                    visible="false"
+                                                />
+                                                <Button
+                                                    id="iddatavisualization"
+                                                    icon="sap-icon://bar-chart"
+                                                    tooltip="Data Visualizations"
+                                                    press="onPressBarChart"
+                                                    enabled="false"
+                                                />
+                                            </OverflowToolbar>
+                                        </smarttable:customToolbar>
+                                        <Table
+                                            id="idSimulationtable"
+                                            class="tableSection"
+                                            sticky="ColumnHeaders"
+                                            noDataText="To start, set the relevant filters."
+                                            mode="MultiSelect"
+                                         
+                                        >
+                                            <ColumnListItem
+                                                id="columnListItemSimulation"
+                                                type="Navigation"
+                                                press=".onListItemPress"
+                                            />
+                                            <!-- No Data Message -->
+                                            <!-- <noData>
+                                                    <VBox
+                                                        id="idGenVBoxIllusPreviousSimulation"
+                                                    >
+                                                        <IllustratedMessage
+                                                            id="idGenIllustratedPreviousSimulation"
+                                                            title="No Simulation Available"
+                                                            description="Currently, no Previous Simulation are available. Please add new Simulation."
+                                                            illustrationSize="Dialog"
+                                                            illustrationType="sapIllus-NoData"
+                                                        />
+                                                    </VBox>
+                                                </noData> -->
+                                        </Table>
+                                    </smarttable:SmartTable>
+                                </uxap:ObjectPageSubSection>
+                            </uxap:ObjectPageSection>
+                        </uxap:sections>
+                    </uxap:ObjectPageLayout>
+                    <ScrollContainer
+                        id="page7"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <VBox
+                            id="idVBoxCreateSimulaion_CM_Mainpage"
+                            class="ScrollingIconTabsInside"
+                        >
+                            <Text
+                                id="idList4"
+                                text="For new Simulation Click on Simulation ⬆️"
+                            />
+
+                            <HBox
+                                id="id_Simulation_UI"
+                                visible="false"
+                            >
+                                <HBox id="HBOXforMenuItemButtons">
+                                    <!-- VBox for Product Entry -->
+                                    <VBox
+                                        id="_IDGenVBox3"
+                                        class="sapUiLargeMargin"
+                                        alignContent="Stretch"
+                                        width="25%"
+                                    >
+                                        <HBox
+                                            id="_IDGenHBox4"
+                                            alignItems="End"
+                                        >
+                                            <Button
+                                                id="_IDGenButton2"
+                                                text="Save"
+                                                press="onBatchSaveSelectedProduct"
+                                                class="sapUiSmallMarginBottom "
+                                                visible="false"
+                                            />
+                                            <Button
+                                                id="idUpdateModelQTYBtn"
+                                                text="Update"
+                                                press="onUpdateSelectedProductQTY"
+                                                class="sapUiSmallMarginBottom "
+                                                visible="false"
+                                            />
+                                            <Button
+                                                id="idCancelUpdateModelQTYBtn"
+                                                text="Cancel"
+                                                press="onCancelUpdateSelProductQTY"
+                                                class="sapUiSmallMarginBottom sapUiTinyMarginBegin"
+                                                visible="false"
+                                            />
+                                            <MenuButton
+                                                id="id_newSimlation_MenuBtn"
+                                                text="Actions"
+                                                class="sapUiSmallMarginBottom sapUiTinyMarginBegin"
+                                            >
+                                                <menu>
+                                                    <Menu
+                                                        id="id_newSimlation_Menu"
+                                                        itemSelected="onMenuAction"
+                                                    >
+                                                        <MenuItem
+                                                            id="id_newSimlation_selected_UploadBtn"
+                                                            text="Upload"
+                                                            icon="sap-icon://upload"
+                                                            press="onUploadSelectedProducts"
+                                                        />
+                                                        <MenuItem
+                                                            id="id_newSimlation_selected_AddProductBtn"
+                                                            text="Add Product"
+                                                            icon="sap-icon://add"
+                                                            press="onAddRowPress"
+                                                        />
+                                                        <MenuItem
+                                                            id="id_newSimlation_selected_EditProductBtn"
+                                                            text="Update Quantity"
+                                                            icon="sap-icon://edit"
+                                                            press="onEditModelQTYPress"
+                                                        />
+                                                        <MenuItem
+                                                            id="id_newSimlation_selected_DeleBtn"
+                                                            text="Delete"
+                                                            icon="sap-icon://delete"
+                                                            press="onDeleSeleProducts"
+                                                        />
+                                                    </Menu>
+                                                </menu>
+                                            </MenuButton>
+                                        </HBox>
+
+                                        <!-- test -->
+                                        <ScrollContainer
+                                            id="idAddModelsForSimulation"
+                                            width="100%"
+                                            height="557px"
+                                            horizontal="true"
+                                            vertical="true"
+                                        >
+                                            <Table
+                                                id="id_SelectedProductsForSimulation_table"
+                                                items="{MaterialModel>/items}"
+                                                mode="MultiSelect"
+                                                width="100%"
+                                                visible="false"
+                                                sticky="ColumnHeaders"
+                                            >
+                                                <headerToolbar>
+                                                    <OverflowToolbar
+                                                        id="id_SelectedProductsForSimulationTableHeader"
+                                                        class="SelectedProductsForSimulationTableHeader"
+                                                    >
+                                                        <Text
+                                                            id="idtabletitle"
+                                                            text="Add simulation Products"
+                                                        />
+
+                                                        <Button
+                                                            id="id_SelectedProductsForSimulation_close"
+                                                            text="Cancel"
+                                                            type="Default"
+                                                            tooltip="Cancel uploading"
+                                                            press="onCancelSelectedProdUpload"
+                                                            class="stickyCancelButton sapUiLargeMarginBegin"
+                                                        />
+                                                    </OverflowToolbar>
+                                                </headerToolbar>
+                                                <columns>
+                                                    <Column
+                                                        id="id_SelecteFragment_table_coloumn1"
+                                                    >
+                                                        <Label
+                                                            id="id_SelecteFragment_table_coloumn1_label"
+                                                            text="S.No"
+                                                        />
+                                                    </Column>
+                                                    <Column
+                                                        id="id_SelecteFragment_table_coloumn2"
+                                                    >
+                                                        <Label
+                                                            id="id_SelecteFragment_table_coloumn2_label"
+                                                            text="Model/Product"
+                                                        />
+                                                    </Column>
+                                                    <Column
+                                                        id="id_SelecteFragment_table_coloumn3"
+                                                    >
+                                                        <Label
+                                                            id="id_SelecteFragment_table_coloumn3_label"
+                                                            text="Quantity"
+                                                        />
+                                                    </Column>
+                                                </columns>
+                                                <items>
+                                                    <ColumnListItem
+                                                        id="id_S0.electeFragment_table_ColumnListItem1"
+                                                    >
+                                                        <cells>
+                                                            <Text
+                                                                id="id_SelecteFragment_table_cell_serialNo"
+                                                                text="{MaterialModel>serialNumber}"
+                                                            />
+                                                            <Input
+                                                                id="id_SelecteFragment_table_cell_model"
+                                                                value="{MaterialModel>model}"
+                                                                showValueHelp="true"
+                                                                valueHelpRequest="onValueHelpRequest"
+                                                            />
+                                                            <Input
+                                                                id="id_SelecteFragment_table_cell_selectedquantity"
+                                                                value="{MaterialModel>quantity}"
+                                                            />
+                                                        </cells>
+                                                    </ColumnListItem>
+                                                </items>
+                                            </Table>
+                                            <!-- test -->
+                                            <Table
+                                                id="idProductTable"
+                                                mode="MultiSelect"
+                                                items="{path: '/CM_SELECTED_PRODUCTSet', filters: []}"
+                                                width="100%"
+                                                class="tableSection"
+                                                sticky="ColumnHeaders"
+                                            >
+                                                <columns>
+                                                    <!-- <Column id="_IDGenColum" visible="false">
+                                                        <Text
+                                                            id="_IDGenText_"
+                                                            text="UUID"
+                                                        />
+                                                    </Column> -->
+                                                    <Column id="_IDGenColumn">
+                                                        <Text
+                                                            id="_IDGenText3"
+                                                            text="Product/Model"
+                                                        />
+                                                    </Column>
+                                                    <Column id="_IDGenColumn1">
+                                                        <Text
+                                                            id="_IDGenText4"
+                                                            text="Quantity"
+                                                        />
+                                                    </Column>
+                                                </columns>
+                                                <items>
+                                                    <ColumnListItem
+                                                        id="_IDGenColumnListItem"
+                                                    >
+                                                        <cells>
+                                                            <!-- <Text
+                                                                id="_IDGenT_ID"
+                                                                text="{ID}"
+                                                            /> -->
+                                                            <Input
+                                                                id="_IDGenInput"
+                                                                value="{Productno}"
+                                                                showValueHelp="true"
+                                                                valueHelpRequest="onValueHelpRequest"
+                                                                editable="false"
+                                                            >
+                                                                <customData>
+                                                                    <core:CustomData
+                                                                        key="rowId"
+                                                                        value="{MaterialModel>serialNumber}"
+                                                                    />
+                                                                </customData>
+                                                            </Input>
+
+                                                            <Input
+                                                                id="_IDGenInput1"
+                                                                value="{Selectedquantity}"
+                                                                type="Number"
+                                                                placeholder="Enter quantity"
+                                                                editable="false"
+                                                            />
+                                                            <Text
+                                                                id="_IDGenText5"
+                                                                text="{Color}"
+                                                            />
+                                                        </cells>
+                                                    </ColumnListItem>
+                                                </items>
+                                            </Table>
+                                        </ScrollContainer>
+                                    </VBox>
+
+                                    <VBox
+                                        id="idTruckVBox"
+                                        class="sapUiLargeMarginTop myCustomMarginVbox sapUiLargeMargin"
+                                        width="45%"
+                                    >
+                                        <Text
+                                            id="idCurrentSimName"
+                                            text=""
+                                        />
+
+                                        <HBox id="_IDGenHBox3">
+                                            <Text
+                                                id="_IDGenText"
+                                                text="Select Container Type:"
+                                                class="sapUiTinyMarginTop sapUiTinyMarginEnd"
+                                            />
+                                            <ComboBox
+                                                id="id_combobox_for_truckType"
+                                                items="{path: '/TruckTypes'}"
+                                                change="onTruckTypeChange"
+                                            >
+                                                <core:Item
+                                                    id="_IDGenItem"
+                                                    key=""
+                                                    text="Select Container"
+                                                />
+                                                <core:ListItem
+                                                    id="_IDGenListItem"
+                                                    key="{truckType}"
+                                                    text="{truckType}"
+                                                />
+                                            </ComboBox>
+                                            <HBox
+                                                id="idVboxforFinsih"
+                                                class="sapUiLargeMarginEnd sapUiTinyMarginBegin"
+                                            >
+                                                <Button
+                                                    id="idButtonFinish"
+                                                    text="Finish"
+                                                    type="Emphasized"
+                                                    press="onFinishSimulation"
+                                                />
+                                            </HBox>
+                                            <!-- <Select
+                                                    id="idTruckTypeSelect"
+                                                    class="sapUiTinyMarginBegin"
+                                                   
+                                                    items="{
+                                                path: '/TruckTypes'
+                                            }"
+                                                    change="onTruckTypeChange"
+                                                >
+                                                    <core:Item
+                                                        id="_IDGenItem"
+                                                        key=""
+                                                        text="Select Container"
+                                                    />
+                                                    <core:ListItem
+                                                        id="_IDGenListItem"
+                                                        key="{truckType}"
+                                                        text="{truckType}"
+                                                    />
+                                                </Select> -->
+                                        </HBox>
+                                        <Button
+                                            id="ManualSimulation"
+                                            text="Manual Simulation"
+                                            press="onManualSimulation"
+                                            visible="false"
+                                        />
+                                        <!-- <VBox id="_IDGenVBox2">
+                                            <Text
+                                                id="_IDGenText2"
+                                                text="Simulation View:"
+                                                class="text-red-500! font-bold! mr-20! text-1xl!"
+                                                visible="false"
+                                            />
+                                        </VBox> -->
+                                        <core:HTML
+                                            id="threeContainer"
+                                            content="&lt;div id=&quot;threejsCanvas&quot; style=&quot;width: 5%; height: 2px;&quot;&gt;&lt;/div&gt;"
+                                            xmlns:core="sap.ui.core"
+                                        />
+                                    </VBox>
+                                </HBox>
+                                <!-- VBox for Truck Type and Save -->
+                            </HBox>
+                            <HBox
+                                id="idPieChartThings"
+                                visible="false"
+                                class="sapUiSmallMargin"
+                                justifyContent="SpaceBetween"
+                            >
+                                <!-- Chart Container -->
+
+                                <VBox
+                                    id="VBoxChart"
+                                    width="50%"
+                                >
+                                    <suite:ChartContainer
+                                        id="chartContainer"
+                                        width="100%"
+                                    >
+                                        <suite:content>
+                                            <suite:ChartContainerContent
+                                                id="chartContainerContent"
+                                            >
+                                                <suite:content>
+                                                    <viz:VizFrame
+                                                        id="idPieChart"
+                                                        width="120%"
+                                                        height="500px"
+                                                        vizType="donut"
+                                                        vizProperties='{
+                                    title: { text:"Container Volume Breakdown"},
+                                    
+                                    background: {
+                                        type: "Solid",
+                                        color: "Transparent"
+                                    }
+                                   
+                                }'
+                                                    >
+                                                        <viz:dataset>
+                                                            <viz.data:FlattenedDataset
+                                                                id="idFlattenedDataSet"
+                                                                data="{ChartData>/chartData}"
+                                                            >
+                                                                <viz.data:dimensions
+                                                                >
+                                                                    <viz.data:DimensionDefinition
+                                                                        id="idDimension1"
+                                                                        name="Name"
+                                                                        value="{ChartData>Name}"
+                                                                    />
+                                                                    <viz.data:DimensionDefinition
+                                                                        id="idDimension3"
+                                                                        name="Quantity"
+                                                                        value="{ChartData>Packages}"
+                                                                    />
+                                                                    <viz.data:DimensionDefinition
+                                                                        id="idDimension4"
+                                                                        name="Percentage"
+                                                                        value="{ChartData>Percentage}"
+                                                                    />
+                                                                </viz.data:dimensions>
+                                                                <viz.data:measures
+                                                                >
+                                                                    <viz.data:MeasureDefinition
+                                                                        id="idDimension2"
+                                                                        name="Volume"
+                                                                        value="{ChartData>Volume}"
+                                                                    />
+
+                                                                    <!-- <viz.data:MeasureDefinition
+                                                                        id="idDimension4"
+                                                                        name="percentage"
+                                                                        value="{percentage}"
+                                                                    /> -->
+                                                                </viz.data:measures>
+                                                            </viz.data:FlattenedDataset>
+                                                        </viz:dataset>
+
+                                                        <viz:feeds>
+                                                            <viz.feeds:FeedItem
+                                                                id="idFeedItem_size"
+                                                                uid="size"
+                                                                type="Measure"
+                                                                values="Volume"
+                                                            />
+                                                            <viz.feeds:FeedItem
+                                                                id="idFeedItem_color"
+                                                                uid="color"
+                                                                type="Dimension"
+                                                                values="Name"
+                                                                
+                                                            />
+                                                            <viz.feeds:FeedItem
+                                                                id="idFeedItem_color1"
+                                                                uid="color"
+                                                                type="Dimension"
+                                                                values="Quantity"
+                                                            />
+                                                            <viz.feeds:FeedItem
+                                                                id="idFeedItem_color2"
+                                                                uid="color"
+                                                                type="Dimension"
+                                                                values="Percentage"
+                                                            />
+                                                            
+                                                        </viz:feeds>
+                                                    </viz:VizFrame>
+                                                </suite:content>
+                                            </suite:ChartContainerContent>
+                                        </suite:content>
+                                    </suite:ChartContainer>
+                                </VBox>
+
+                                <!-- Required trucks details -->
+                                <VBox
+                                    id="VBoxForTrucks"
+                                    width="45%"
+                                    justifyContent="Start"
+                                    class="mr-50! sapUiTinyMarginTop"
+                                >
+                                    <HBox id="HBoxForTruckVolume">
+                                        <Text
+                                            id="truckVoume"
+                                            text="Container Volume:"
+                                            class="sapUiTinyMarginEnd"
+                                        />
+                                        <Text
+                                            id="truckVolumeText"
+                                            text="{CombinedModel>/RequiredTruck/truckVolume} m³"
+                                        />
+                                    </HBox>
+
+                                    <HBox id="HBoxForRequiredTrucks">
+                                        <Text
+                                            id="requiredTrucks"
+                                            text="Required Container:"
+                                            class="sapUiTinyMarginEnd"
+                                        />
+                                        <Text
+                                            id="requiredTrucksText"
+                                            text="{CombinedModel>/RequiredTruck/requiredTrucks}"
+                                        />
+                                    </HBox>
+
+                                    <HBox id="HBoxForTotalProdVolume">
+                                        <Text
+                                            id="totalProdVol"
+                                            text="Total Products Volume:"
+                                            class="sapUiTinyMarginEnd"
+                                        />
+                                        <Text
+                                            id="totalProductsVolumeText"
+                                            text="{CombinedModel>/RequiredTruck/totalProductsVolume} m³"
+                                        />
+                                    </HBox>
+
+                                    <HBox id="HBoxForTruckRemVolume">
+                                        <Text
+                                            id="RemainingVolume"
+                                            text="Remaining Container Volume:"
+                                            class="sapUiTinyMarginEnd"
+                                        />
+                                        <Text
+                                            id="ReaminingTruckVolume"
+                                            text=""
+                                        />
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </ScrollContainer>
+                </pages>
+            </NavContainer>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

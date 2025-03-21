@@ -1,0 +1,426 @@
+
+<core:FragmentDefinition
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt"
+    xmlns:unified="sap.ui.unified"
+    xmlns:vk="sap.ui.vk"
+    xmlns:layout="sap.ui.layout"
+>
+    <Dialog
+        id="idDialogUsrCustomeSettings_CM"
+        contentWidth="60%"
+        contentHeight="70%"
+    >
+        <customHeader>
+            <Bar id="idBarUsrCustomeSettings_CM">
+                <contentLeft>
+                    <Text
+                        id="idTitleTextUsrCustomeSettings_CM"
+                        text="Customize your Settings:"
+                    />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        id="idBtnDeclineUsrCustomeSettings_CM"
+                        icon="sap-icon://decline"
+                        press="onPressDeclin_UsrCustomeSettings_CM"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <tnt:ToolPage id="idToolPageUsrCustomeSettings_CM">
+            <!-- Side Navigation -->
+            <tnt:sideContent>
+                <tnt:SideNavigation
+                    id="idSideNavigationUsrCustomeSettings_CM"
+                    itemSelect="onItemSelectFragment"
+                >
+                    <tnt:NavigationList
+                        id="idNavigationListUsrCustomeSettings_CM"
+                    >
+                        <tnt:NavigationListItem
+                            id="idNavItemHomeUsrCustomeSettings_CM"
+                            key="Home"
+                            text="Home"
+                            icon="sap-icon://home"
+                        />
+                        <tnt:NavigationListItem
+                            id="idNavItemAppearanceUsrCustomeSettings_CM"
+                            key="Appearance"
+                            text="Themes"
+                            icon="sap-icon://palette"
+                        />
+                        <tnt:NavigationListItem
+                            id="idNavItemHelpUsrCustomeSettings_CM"
+                            key="Help"
+                            text="Help"
+                            icon="sap-icon://sys-help"
+                        />
+                    </tnt:NavigationList>
+                </tnt:SideNavigation>
+            </tnt:sideContent>
+            <!-- Main Content -->
+            <tnt:mainContents>
+                <NavContainer id="idNavcontainerUsrCustomeSettings_CM">
+                    <pages>
+                        <ScrollContainer
+                            id="idPageUserHomeUsrCustomeSettings_CM"
+                            horizontal="false"
+                            vertical="true"
+                            height="100%"
+                            width="100%"
+                            class="sapUiContentPadding"
+                        >
+                            <form:SimpleForm
+                                id="idSimpleFormUserHomeUsrCustomeSettings_CM"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="4"
+                                labelSpanL="4"
+                                labelSpanM="2"
+                                columnsXL="1"
+                                columnsL="1"
+                                columnsM="1"
+                            >
+                                <HBox id="idHBoxUserInfoUsrCustomeSettings_CM">
+                                    <Avatar
+                                        id="idAvatarUserUsrCustomeSettings_CM"
+                                        displaySize="XL"
+                                        displayShape="Circle"
+                                    />
+                                    <Label
+                                        id="idLabelUserSpacingUsrCustomeSettings_CM"
+                                        width="2.5rem"
+                                    />
+                                    <VBox
+                                        id="idVBoxUserDetailsUsrCustomeSettings_CM"
+                                    >
+                                        <HBox
+                                            id="idHBoxUserIdUsrCustomeSettings_CM"
+                                            alignContent="Center"
+                                        >
+                                            <Text
+                                                id="idTextUserIdLabelUsrCustomeSettings_CM"
+                                                text="User ID:"
+                                                width="4rem"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                            <Text
+                                                id="idTextUserIdUsrCustomeSettings_CM"
+                                                text="{oUserSetingsModel>/oUserID}"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                        </HBox>
+                                        <Label
+                                            id="idLabelUserNameSpacingUsrCustomeSettings_CM"
+                                            width="2rem"
+                                        />
+                                        <HBox
+                                            id="idHBoxUserNameUsrCustomeSettings_CM"
+                                            alignContent="Center"
+                                        >
+                                            <Text
+                                                id="idTextUserNameLabelUsrCustomeSettings_CM"
+                                                text="Name:"
+                                                width="4rem"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                            <Text
+                                                id="idTextUserFirstNameUsrCustomeSettings_CM"
+                                                text="{oUserSetingsModel>/firstName}"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                            <Label
+                                                id="idLabelUserLastNameSpacingUsrCustomeSettings_CM"
+                                                width="0.5rem"
+                                            />
+                                            <Text
+                                                id="idTextUserLastNameUsrCustomeSettings_CM"
+                                                text="{oUserSetingsModel>/lastName}"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                        </HBox>
+                                        <Label
+                                            id="idLabelUserMobileSpacingUsrCustomeSettings_CM"
+                                            width="2rem"
+                                        />
+                                        <HBox
+                                            id="idHBoxUserMobileUsrCustomeSettings_CM"
+                                            alignContent="Center"
+                                        >
+                                            <Text
+                                                id="idTextUserMobileLabelUsrCustomeSettings_CM"
+                                                text="Mobile:"
+                                                width="4rem"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                            <Text
+                                                id="idTextUserMobileNumberUsrCustomeSettings_CM"
+                                                text="{oUserSetingsModel>/PhNumber}"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                        </HBox>
+                                        <Label
+                                            id="idLabelUserEmailSpacingUsrCustomeSettings_CM"
+                                            width="2rem"
+                                        />
+                                        <HBox
+                                            id="idHBoxUserEmailUsrCustomeSettings_CM"
+                                            alignContent="Center"
+                                        >
+                                            <Text
+                                                id="idTextUserEmailLabelUsrCustomeSettings_CM"
+                                                text="Email:"
+                                                width="4rem"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                            <Text
+                                                id="idTextUserEmailAddressUsrCustomeSettings_CM"
+                                                text="{oUserSetingsModel>/UserMail}"
+                                                class="profileDetailItem_CustomeSettings"
+                                            />
+                                        </HBox>
+                                    </VBox>
+                                </HBox>
+                            </form:SimpleForm>
+                        </ScrollContainer>
+                        <!-- Appearance Page -->
+                        <ScrollContainer
+                            id="idPageUserAppearanceUsrCustomeSettings_CM"
+                            horizontal="false"
+                            vertical="true"
+                            height="100%"
+                            width="100%"
+                        >
+                            <Toolbar
+                                id="idToolbarAppearanceUsrCustomeSettings_CM"
+                                class="ToolBarNotScrollable"
+                            >
+                                <Title
+                                    id="idTitleAppearanceUsrCustomeSettings_CM"
+                                    text="Select Application Theme:"
+                                    level="H3"
+                                />
+                                <ToolbarSpacer
+                                    id="idToolbarSpacerAppearanceUsrCustomeSettings_CM"
+                                />
+                                <Button
+                                    id="idButtonSaveAppearanceUsrCustomeSettings_CM"
+                                    text="Apply"
+                                    press="onApplySelectedColour_UsrCustomeSettings_CM"
+                                />
+                                <!-- <Button
+                                    id="idButtonCancelAppearanceUsrCustomeSettings_CM"
+                                    text="Reset"
+                                    icon="sap-icon://reset"
+                                    type="Transparent"
+                                    press="onResetSelectedColour_UsrCustomeSettings_CM"
+                                /> -->
+                            </Toolbar>
+                            <VBox
+                                id="idSimpleFormAppearanceUsrCustomeSettings_CM"
+                                class="SimpleFormThemes sapUiMediumMarginTop"
+                            >
+                                <!-- Color Options -->
+                                <VBox
+                                    id="idVBoxColorOptionsUsrCustomeSettings_CM"
+                                    justifyContent="Start"
+                                    
+                                >
+                                    <items>
+                                        <HBox
+                                            id="idHBoxColorOption00UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor00UsrCustomeSettings_CM"
+                                                class="sapUiTinyMarginBegin TileColour00"
+                                                press="onPressSelectedColour"
+                                                header="sap_fiori_3"
+                                            />
+                                            <Text
+                                                id="idTextColorOption00UsrCustomeSettings_CM"
+                                                text="Default"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption01UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor01UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour01"
+                                                press="onPressSelectedColour"
+                                                header="sap_belize_plus"
+                                            />
+                                            <Text
+                                                id="idTextColorOption01UsrCustomeSettings_CM"
+                                                text="Belize Deep"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption02UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor02UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour02"
+                                                press="onPressSelectedColour"
+                                                header="sap_belize"
+                                            />
+                                            <Text
+                                                id="idTextColorOption02UsrCustomeSettings_CM"
+                                                text="Belize"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption03UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor03UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour03"
+                                                press="onPressSelectedColour"
+                                                header="sap_belize_hcw"
+                                            />
+                                            <Text
+                                                id="idTextColorOption03UsrCustomeSettings_CM"
+                                                text="High Contrast White"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption04UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor04UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour04"
+                                                press="onPressSelectedColour"
+                                                header="sap_belize_hcb"
+                                            />
+                                            <Text
+                                                id="idTextColorOption04UsrCustomeSettings_CM"
+                                                text="High Contrast Black"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption06UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor06UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour05"
+                                                press="onPressSelectedColour"
+                                                header="sap_horizon"
+                                            />
+                                            <Text
+                                                id="idTextColorOption06UsrCustomeSettings_CM"
+                                                text="Morning Horizon"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption07UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor07UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour06"
+                                                press="onPressSelectedColour"
+                                                header="sap_fiori_3_dark"
+                                            />
+                                            <Text
+                                                id="idTextColorOption07UsrCustomeSettings_CM"
+                                                text="Quartz Dark"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption08UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor08UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour08"
+                                                press="onPressSelectedColour"
+                                                header="sap_fiori_4_dark"
+                                            />
+                                            <Text
+                                                id="idTextColorOption08UsrCustomeSettings_CM"
+                                                text="Sap Fiori 4"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption09UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor09UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour09"
+                                                press="onPressSelectedColour"
+                                                header=""
+                                            />
+                                            <Text
+                                                id="idTextColorOption09UsrCustomeSettings_CM"
+                                                text="Need modification"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                        <HBox
+                                            id="idHBoxColorOption10UsrCustomeSettings_CM"
+                                            class="sapUiTinyMargin customHBoxLineBelow"
+                                            alignItems="Center"
+                                        >
+                                            <GenericTile
+                                                id="idTileColor10UsrCustomeSettings_CM"
+                                                class="sapUiSmallMarginBegin TileColour10"
+                                                press="onPressSelectedColour"
+                                                header=""
+                                            />
+                                            <Text
+                                                id="idTextColorOption10UsrCustomeSettings_CM"
+                                                text="Need modification"
+                                                class="sapUiSmallMarginBegin ColourText"
+                                            />
+                                        </HBox>
+                                    </items>
+                                </VBox>
+                            </VBox>
+                        </ScrollContainer>
+                        <!-- Help Page -->
+                        <ScrollContainer
+                            id="idPageUserHelpUsrCustomeSettings_CM"
+                            horizontal="false"
+                            vertical="true"
+                            height="100%"
+                            width="100%"
+                            class="sapUiContentPadding"
+                        >
+                            <Text
+                                id="idTextHelpContentUsrCustomeSettings_CM"
+                                text="Help content goes here..."
+                            />
+                        </ScrollContainer>
+                    </pages>
+                </NavContainer>
+            </tnt:mainContents>
+        </tnt:ToolPage>
+    </Dialog>
+</core:FragmentDefinition>

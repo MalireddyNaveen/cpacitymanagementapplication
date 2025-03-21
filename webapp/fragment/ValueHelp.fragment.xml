@@ -1,0 +1,133 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idValueHelpDialog"
+        resizable="false"
+        draggable="false"
+    >
+        <customHeader>
+            <Bar id="idBar_valueHelp">
+                <contentLeft>
+                    <Title
+                        id="idTitle_valueHelp"
+                        text="Add Products"
+                    />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        id="idAddBtn_valueHelp"
+                        text="Add"
+                        press="onAddPress"
+                    />
+                    <Button
+                        id="idCancelBtn_valueHelp"
+                        text="Cancel"
+                        press="onCancelPress_valueHelp"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <Table
+            id="idTableAddProduct"
+            growing="true"
+            noDataText="No Vehicle Types Available"
+            backgroundDesign="Transparent"
+            selectionChange="onRow"
+            items="{/Materials}"
+            mode="MultiSelect"
+            class="backgroundColour"
+            width="85%"
+        >
+            <columns>
+                <Column
+                    visible="false"
+                    id="idTableColorgumProduct"
+                    class="backgroundColour"
+                >
+                    <!-- Set specific widths -->
+                    <Text
+                        id="idTablefTextProduct"
+                        text="UUID"
+                    />
+                </Column>
+                <Column
+                    id="idTableColoumProduct"
+                    class="backgroundColour"
+                >
+                    <!-- Set specific widths -->
+                    <Text
+                        id="idTableTextProduct"
+                        text="Product"
+                    />
+                </Column>
+                <Column
+                    id="idTableColoumProductDiscription"
+                    class="backgroundColour"
+                >
+                    <!-- Set specific widths -->
+                    <Text
+                        id="idTableTextProductdes"
+                        text="Description"
+                    />
+                </Column>
+                <Column
+                    id="idTableColoumProductactualQty"
+                    class="backgroundColour"
+                >
+                    <!-- Set specific widths -->
+                    <Text
+                        id="idTableTextProductactualQty"
+                        text="Actual Quantity"
+                    />
+                </Column>
+                <Column
+                    id="idTableColoumProductactpickingQty"
+                    class="backgroundColour"
+                >
+                    <!-- Set specific widths -->
+                    <Text
+                        id="idTableTextProductpickingQty"
+                        text="Picking Quantity"
+                    />
+                </Column>
+            </columns>
+
+            <items>
+                <ColumnListItem
+                    id='idTableColumnListItem'
+                    class="backgroundColour"
+                >
+                    <cells>
+                        <Text
+                            id="idTableCdolumnListTextProduct"
+                            text="{ID}"
+                        />
+                        <Text
+                            id="idTableColumnListTextProduct"
+                            text="{model}"
+                        />
+                        <Text
+                            id="idTableColumnListTextDes"
+                            text="{description}"
+                        />
+                        <Text
+                            id="idTableColumnListTextActQty"
+                            text="{quantity}"
+                        />
+                        <Input
+                            type="Number"
+                            liveChange="onlivechangeValue_"
+                            id="idTableColumnListTextPickingQty"
+                            value="{= ${selectedProduct/SelectedQuantity}}"
+                        />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Dialog>
+</core:FragmentDefinition>

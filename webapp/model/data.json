@@ -1,0 +1,42 @@
+{
+	"selectedKey": "page1",
+	"navigation": [
+		{
+			"title": "Home",
+			"key": "page1",
+			"icon":"sap-icon://home"
+		},
+		{
+			"title": "Model List",
+			"key": "page2",
+			"icon":"sap-icon://product"
+		},
+		{
+			"title": "Add Model",
+			"key":"page3",
+			"icon":"sap-icon://add-product"
+		},
+        {
+			"title": "Container List",
+			"key": "page4",
+			"icon":"sap-icon://shipping-status"
+		},
+		{
+			"title": "Add Container",
+			"key":"page5",
+			"icon":"sap-icon://add"
+		},
+        {
+			"title": "Previous Simulation",
+			"key": "page6",
+			"icon":"sap-icon://clinical-task-tracker"
+		},
+		{
+			"title": "Simulation",
+			"key":"page7",
+			"icon":"sap-icon://simulate"
+		}
+
+
+	]
+}
