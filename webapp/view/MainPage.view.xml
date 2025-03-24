@@ -1003,7 +1003,7 @@
                                         />
                                         <Input
                                             id="idCreateContainerTruckTypeInput"
-                                            value="{CombinedModel>/Vehicle/truckType}"
+                                            value="{CombinedModel>/Vehicle/Trucktype}"
                                             maxLength="2"
                                             liveChange="onLiveChangeForContainerType"
                                             type="Number"
@@ -1021,7 +1021,7 @@
                                         />
                                         <Input
                                             id="idCreateContainerLengthInput"
-                                            value="{CombinedModel>/Vehicle/length}"
+                                            value="{CombinedModel>/Vehicle/Length}"
                                             liveChange="onLiveChangeForConatainerLength"
                                             placeholder="Enter Length"
                                             type="Number"
@@ -1038,7 +1038,7 @@
                                         />
                                         <Input
                                             id="idCreateContainerWidthInput"
-                                            value="{CombinedModel>/Vehicle/width}"
+                                            value="{CombinedModel>/Vehicle/Width}"
                                             liveChange="onLiveChangeForContainerWidth"
                                             type="Number"
                                             class="customInput"
@@ -1055,7 +1055,7 @@
                                         />
                                         <Input
                                             id="idCreateContainerHeightInput"
-                                            value="{CombinedModel>/Vehicle/height}"
+                                            value="{CombinedModel>/Vehicle/Height}"
                                             liveChange="onLiveChangeForContainerHeight"
                                             type="Number"
                                             class="customInput"
@@ -1089,7 +1089,7 @@
                                         />
                                         <Input
                                             id="idCreateContainerCapacityInput"
-                                            value="{CombinedModel>/Vehicle/capacity}"
+                                            value="{CombinedModel>/Vehicle/Capacity}"
                                             class="customInput"
                                             placeholder="Enter Truck Capacity"
                                             width="100%"
@@ -1529,7 +1529,7 @@
                                             />
                                             <ComboBox
                                                 id="id_combobox_for_truckType"
-                                                items="{path: '/TruckTypes'}"
+                                                items="{path: '/CM_Truck_DetailsSet'}"
                                                 change="onTruckTypeChange"
                                             >
                                                 <core:Item
@@ -1539,8 +1539,8 @@
                                                 />
                                                 <core:ListItem
                                                     id="_IDGenListItem"
-                                                    key="{truckType}"
-                                                    text="{truckType}"
+                                                    key="{Trucktype}"
+                                                    text="{Trucktype}"
                                                 />
                                             </ComboBox>
                                             <HBox

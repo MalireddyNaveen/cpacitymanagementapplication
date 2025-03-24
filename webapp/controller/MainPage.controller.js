@@ -57,12 +57,12 @@ sap.ui.define(
               Bearingcapacity: "",
             },
             Vehicle: {
-              truckType: "",
-              length: "",
-              width: "",
-              height: "",
-              volume: "",
-              capacity: "",
+              Trucktype: "",
+              Length: "",
+              Width: "",
+              Height: "",
+              Volume: "",
+              Capacity: "",
             },
             RequiredTruck: {
               totalProductsVolume: "",
@@ -415,26 +415,26 @@ sap.ui.define(
             oDataModel = oView.getModel("CombinedModel"),
             oVehcileData = oDataModel.getProperty("/Vehicle"),
             oModel = oView.getModel(),
-            oPath = "/TruckTypes";
+            oPath = "/CM_Truck_DetailsSet";
 
           if (
-            !oVehcileData.truckType ||
-            !oVehcileData.length ||
-            !oVehcileData.width ||
-            !oVehcileData.height ||
-            !oVehcileData.capacity
+            !oVehcileData.Trucktype ||
+            !oVehcileData.Length ||
+            !oVehcileData.Width ||
+            !oVehcileData.Height ||
+            !oVehcileData.Capacity
           ) {
             MessageBox.warning("Please Enter all Values");
             return;
           }
-          if (!oVehcileData.truckType.endsWith("FT")) {
-            oVehcileData.truckType = `${oVehcileData.truckType}FT`;
+          if (!oVehcileData.Trucktype.endsWith("FT")) {
+            oVehcileData.Trucktype = `${oVehcileData.Trucktype}FT`;
           }
-          oVehcileData.volume = String(
+          oVehcileData.Volume = String(
             (
-              oVehcileData.length *
-              oVehcileData.width *
-              oVehcileData.height
+              oVehcileData.Length *
+              oVehcileData.Width *
+              oVehcileData.Height
             ).toFixed(2)
           );
           /**Error check */
@@ -443,31 +443,31 @@ sap.ui.define(
             // { Id: "idDesvbncriptionInput_InitialView", value: oProductPayload.EAN, regex: null, message: "Please enter EAN" },
             {
               Id: "idCreateContainerTruckTypeInput",
-              value: oVehcileData.truckType,
+              value: oVehcileData.Trucktype,
               regex: null,
               message: "Enter Truck Type",
             },
             {
               Id: "idCreateContainerLengthInput",
-              value: oVehcileData.length,
+              value: oVehcileData.Length,
               regex: /^-?\d+(\.\d+)?$/,
               message: "Length should be numeric",
             },
             {
               Id: "idCreateContainerWidthInput",
-              value: oVehcileData.width,
+              value: oVehcileData.Width,
               regex: /^-?\d+(\.\d+)?$/,
               message: "Width should be numeric",
             },
             {
               Id: "idCreateContainerHeightInput",
-              value: oVehcileData.height,
+              value: oVehcileData.Height,
               regex: /^-?\d+(\.\d+)?$/,
               message: "Height should be numeric",
             },
             {
               Id: "idCreateContainerCapacityInput",
-              value: oVehcileData.capacity,
+              value: oVehcileData.Capacity,
               regex: /^-?\d+(\.\d+)?$/,
               message: "Capacity should be numeric",
             },
@@ -501,10 +501,10 @@ sap.ui.define(
           // oVehcileData.tuom = "KG";
           /**Checking capacity it should be greater than Truck Weight */
 
-          oVehcileData.length = this.roundOfValue(oVehcileData.length);
-          oVehcileData.width = this.roundOfValue(oVehcileData.width);
-          oVehcileData.height = this.roundOfValue(oVehcileData.height);
-          oVehcileData.capacity = this.roundOfValue(oVehcileData.capacity);
+          oVehcileData.Length = this.roundOfValue(oVehcileData.Length);
+          oVehcileData.Width = this.roundOfValue(oVehcileData.Width);
+          oVehcileData.Height = this.roundOfValue(oVehcileData.Height);
+          oVehcileData.Capacity = this.roundOfValue(oVehcileData.Capacity);
           try {
             await this.createData(oModel, oVehcileData, oPath);
             MessageToast.show("Successfully Created!!");
@@ -1198,7 +1198,7 @@ sap.ui.define(
 
           // Fetch dimensions based on truck type
           const oModel = this.getOwnerComponent().getModel();
-          const sPath = `/TruckTypes('${oSelectedItem}')`;
+          const sPath = `/CM_Truck_DetailsSet('${oSelectedItem}')`;
           let oRemainingVolume = 0;
 
           oModel.read(sPath, {
@@ -1229,10 +1229,10 @@ sap.ui.define(
                   // MessageBox.information(`You will need ${trucksToUse} truck.`);
                 }
 
-                const height = parseFloat(odata.height);
-                const length = parseFloat(odata.length);
-                const width = parseFloat(odata.width);
-                const capacity = parseFloat(odata.capacity);
+                const height = parseFloat(odata.Height);
+                const length = parseFloat(odata.Length);
+                const width = parseFloat(odata.Width);
+                const capacity = parseFloat(odata.Capacity);
                 //   OTruckData = {
                 //     height,
                 //     length,
@@ -2793,17 +2793,17 @@ sap.ui.define(
             .setText(`Current Simulation Name:${oNewSimulationName}`);
           oView.byId("id_Simulation_UI").setVisible(true);
           MessageToast.show(`${oNewSimulationName} is created successfully`);
-          var oTable = this.byId("idProductTable");
-          var oBinding = oTable.getBinding("items");
-          // Create the filter
-          var oFilter = new sap.ui.model.Filter(
-            "Simulationname",
-            sap.ui.model.FilterOperator.EQ,
-            this.SimulationName
-          );
-          // Apply the filter
-          oBinding.filter([oFilter]);
-          this.byId("idProductTable").getBinding("items").refresh();
+          // var oTable = this.byId("idProductTable");
+          // var oBinding = oTable.getBinding("items");
+          // // Create the filter
+          // var oFilter = new sap.ui.model.Filter(
+          //   "Simulationname",
+          //   sap.ui.model.FilterOperator.EQ,
+          //   this.SimulationName
+          // );
+          // // Apply the filter
+          // oBinding.filter([oFilter]);
+          // this.byId("idProductTable").getBinding("items").refresh();
         },
 
         //Material Batch operations fragment open and data setting to that model ---> subash */
