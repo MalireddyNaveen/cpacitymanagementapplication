@@ -1,7 +1,7 @@
 {
     "base": "./dist",
     "conn_usestrictssl" : false,
-    "conn_server": "http://vhcalakeci.artihcus.com:50600",
+    "conn_server": "https://vhcalakeci.artihcus.com:44306",
     "conn_client" : "400",
     "conn_user": "NaveenM",
     "conn_password": "Naveen@123",

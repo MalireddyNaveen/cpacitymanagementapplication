@@ -815,7 +815,7 @@
                                                 type="Emphasized"
                                                 class="dialogButton_sapconnect addProductSaveButton"
                                             />
-                                        </HBox>
+                                        </HBox> 
                                     </VBox>
                                 </form:SimpleForm>
                             </HBox>

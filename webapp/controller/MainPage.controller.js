@@ -1147,34 +1147,34 @@ sap.ui.define(
             "id_combobox_for_truckType"
           ).getSelectedKey();
 
-          var oTable = this.byId("idProductTable");
-          var aItems = oTable.getItems();
-          if (aItems.length == 0) {
-            MessageBox.information(
-              "Please Add products or Upload excel file for Simulation and Save"
-            );
-            return;
-          }
+          // var oTable = this.byId("idProductTable");
+          // var aItems = oTable.getItems();
+          // if (aItems.length == 0) {
+          //   MessageBox.information(
+          //     "Please Add products or Upload excel file for Simulation and Save"
+          //   );
+          //   return;
+          // }
 
-          let aSlectedObject = [];
+          // let aSlectedObject = [];
 
-          /***New Code For Volumes */
-          aItems.forEach((item) => {
-            let oRowContext = item.getBindingContext();
-            let oRowObject = oRowContext.getObject("Productno");
-            const { description, quantity, ...remainingProperties } =
-              oRowObject;
-            let oContextObject = oRowContext.getObject();
-            const { ID, Productno, simulationName, ...sampleValues } =
-              oContextObject;
-            let oMergeObject = { ...sampleValues, ...remainingProperties };
-            aSlectedObject.push(oMergeObject);
-          });
-          console.log("Sreedhar Items::", aSlectedObject);
-          let oTotalProd = aSlectedObject.reduce((sum, Item) => {
-            return sum + Number(Item.volume) * Number(Item.SelectedQuantity);
-          }, 0);
-          console.log("Total Product Volume", oTotalProd);
+          // /***New Code For Volumes */
+          // aItems.forEach((item) => {
+          //   let oRowContext = item.getBindingContext();
+          //   let oRowObject = oRowContext.getObject("Productno");
+          //   const { description, quantity, ...remainingProperties } =
+          //     oRowObject;
+          //   let oContextObject = oRowContext.getObject();
+          //   const { ID, Productno, simulationName, ...sampleValues } =
+          //     oContextObject;
+          //   let oMergeObject = { ...sampleValues, ...remainingProperties };
+          //   aSlectedObject.push(oMergeObject);
+          // });
+          // console.log("Sreedhar Items::", aSlectedObject);
+          // let oTotalProd = aSlectedObject.reduce((sum, Item) => {
+          //   return sum + Number(Item.volume) * Number(Item.SelectedQuantity);
+          // }, 0);
+          // console.log("Total Product Volume", oTotalProd);
 
           //         var oTable = this.byId("idProductTable").getItems()
           //         if (oTable.length == 0) {
@@ -1203,31 +1203,32 @@ sap.ui.define(
 
           oModel.read(sPath, {
             success: function (odata) {
-              if (odata.length > 0) {
-                const numberOfTrucksNeeded = Math.ceil(
-                  Math.ceil(oTotalProd) / Number(odata.volume)
-                );
-                const trucksToUse =
-                  numberOfTrucksNeeded > 0 ? numberOfTrucksNeeded : 1;
-                oRemainingVolume = Number(odata.volume) - oTotalProd;
-                console.log("Truck Volume", Number(odata.volume));
-                this.byId("idPieChartThings").setVisible(true);
-                const oDummyData = {
-                  totalProductsVolume: oTotalProd.toFixed(2),
-                  truckVolume: Number(odata.volume),
-                  requiredTrucks: numberOfTrucksNeeded,
-                  RemainingVolume: oRemainingVolume.toFixed(2),
-                };
-                this.getView()
-                  .getModel("CombinedModel")
-                  .setProperty("/RequiredTruck", oDummyData);
-                this.getView().getModel("CombinedModel").refresh(true);
+              console.log(odata)
+              if (odata) {
+                // const numberOfTrucksNeeded = Math.ceil(
+                //   Math.ceil(oTotalProd) / Number(odata.volume)
+                // );
+                // const trucksToUse =
+                //   numberOfTrucksNeeded > 0 ? numberOfTrucksNeeded : 1;
+                // oRemainingVolume = Number(odata.volume) - oTotalProd;
+                // console.log("Truck Volume", Number(odata.volume));
+                // this.byId("idPieChartThings").setVisible(true);
+                // const oDummyData = {
+                //   totalProductsVolume: oTotalProd.toFixed(2),
+                //   truckVolume: Number(odata.volume),
+                //   requiredTrucks: numberOfTrucksNeeded,
+                //   RemainingVolume: oRemainingVolume.toFixed(2),
+                // };
+                // this.getView()
+                //   .getModel("CombinedModel")
+                //   .setProperty("/RequiredTruck", oDummyData);
+                // this.getView().getModel("CombinedModel").refresh(true);
 
-                if (numberOfTrucksNeeded > 1) {
-                  // MessageBox.information(`Total product volume exceeds the limit. You will need ${trucksToUse} trucks.`);
-                } else {
-                  // MessageBox.information(`You will need ${trucksToUse} truck.`);
-                }
+                // if (numberOfTrucksNeeded > 1) {
+                //   // MessageBox.information(`Total product volume exceeds the limit. You will need ${trucksToUse} trucks.`);
+                // } else {
+                //   // MessageBox.information(`You will need ${trucksToUse} truck.`);
+                // }
 
                 const height = parseFloat(odata.Height);
                 const length = parseFloat(odata.Length);
@@ -1242,17 +1243,17 @@ sap.ui.define(
 
                 // Create a new container
                 this._createContainer(height, length, width, capacity);
-                var height1 = height - 0.01,
-                  width1 = width - 0.05,
-                  length1 = length - 0.05;
+                // var height1 = height - 0.01,
+                //   width1 = width - 0.05,
+                //   length1 = length - 0.05;
 
-                this._createProducts(
-                  aSlectedObject,
-                  height1,
-                  length1,
-                  width1,
-                  capacity
-                );
+                // this._createProducts(
+                //   aSlectedObject,
+                //   height1,
+                //   length1,
+                //   width1,
+                //   capacity
+                // );
                 this.byId("ManualSimulation").setVisible(true);
               } else {
                 console.error("No data found for the selected truck type.");
@@ -1265,6 +1266,8 @@ sap.ui.define(
         },
 
         //Material Batch operations fragment open and data setting to that model ---> subash */
+       
+       
         onMaterialUploadbtn: function () {
           var oFileInput = document.createElement("input");
           oFileInput.type = "file";
@@ -4307,11 +4310,11 @@ sap.ui.define(
                         groupId: oBatchGroup,
                         success: function (oData) {
                           console.log("Batch sent", oData);
-                          that
-                            .getView()
-                            .byId("idBarChart")
-                            .getModel("HistoryModel")
-                            .refresh(true);
+                          // that
+                          //   .getView()
+                          //   .byId("idBarChart")
+                          //   .getModel("HistoryModel")
+                          //   .refresh(true);
                         },
                         error: function (oError) {
                           console.log("Sending batch request failed", oError);
