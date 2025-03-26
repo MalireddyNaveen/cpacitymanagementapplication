@@ -93,7 +93,21 @@
                     "target": [
                         "TargetMainPage"
                     ]
-                }
+                },
+                {
+                    "name": "RouteSimulationDetails",
+                    "pattern": "SimulationDetails/:simID:",
+                    "target": [
+                      "TargetSimulationDetails"
+                    ]
+                  },
+                  {
+                    "name": "RouteManualSimulationDetails",
+                    "pattern": "ManualSimulationDetails/:simulationName:",
+                    "target": [
+                      "TargetManulaSimulationDetails"
+                    ]
+                  }
             ],
             "targets": {
                 "TargetMainPage": {
@@ -102,7 +116,21 @@
                     "clearControlAggregation": false,
                     "viewId": "MainPage",
                     "viewName": "MainPage"
-                }
+                },
+                "TargetSimulationDetails": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "SimulationDetails",
+                    "viewName": "SimulationDetails"
+                  },
+                  "TargetManulaSimulationDetails": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "manualsimulation",
+                    "viewName": "manualsimulation"
+                  }
             }
         },
         "rootView": {

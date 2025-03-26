@@ -505,6 +505,7 @@
                                             id="idModelsTable"
                                             mode="MultiSelect"
                                             selectionChange="onModelChange"
+                                                items="{path: '/CM_MATERIALSet'}"
                                             class="tableSection"
                                             sticky="ColumnHeaders"
                                             noDataText="To start, set the relevant filters."
@@ -520,6 +521,86 @@
                                                     />
                                                 </VBox>
                                             </noData> -->
+                                              <columns>
+                                <Column id="idProduct">
+                                    <Title
+                                        id="idProductotitle"
+                                        text="Model/Product"
+                                        class="title"
+                                    />
+                                </Column>
+                                 <Column id="idDescription">
+                                    <Title
+                                        id="idDescriptiontitle"
+                                        text="Description"
+                                        class="title"
+                                    />
+                                </Column>
+                                <Column id="idLength">
+                                    <Title
+                                        id="idLengthtitle"
+                                        text="Length"
+                                        class="title"
+                                    />
+                                </Column>
+                                <Column id="idWidth">
+                                    <Title
+                                        id="idWidthtitle"
+                                        text="Width"
+                                        class="title"
+                                    />
+                                </Column>
+                                <Column id="idHeightType">
+                                    <Title
+                                        id="idHeighttitle"
+                                        text="Height"
+                                        class="title"
+                                    />
+                                </Column>
+                            </columns>
+ 
+                            <items>
+                                <ColumnListItem
+                                    class="allternavtiColor"
+                                    id="idColumnListAllSlots"
+                                >
+                                    <cells>
+                                        <Text
+                                            id="idModelValue"
+                                            text="{Model}"
+                                            class="text"
+                                        />
+                                    </cells>
+                                    <cells>
+                                        <Text
+                                            id="idDescriptionValue"
+                                            class="text"
+                                            text="{Description}"
+                                        />
+                                    </cells>
+                                    <cells>
+                                        <Text
+                                            id="idLengthValue"
+                                            class="text"
+                                            text="{Length}"
+                                        />
+                                    </cells>
+                                    <cells>
+                                        <Text
+                                            id="idWidthValue"
+                                            class="text"
+                                            text="{Width}"
+                                        />
+                                    </cells>
+                                      <cells>
+                                        <Text
+                                            id="idHeightValue"
+                                            class="text"
+                                            text="{Height}"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
                                         </Table>
                                     </smarttable:SmartTable>
                                 </uxap:ObjectPageSubSection>
@@ -1233,16 +1314,94 @@
                                         <Table
                                             id="idSimulationtable"
                                             class="tableSection"
+                                            items="{path:'/CM_SIMULATED_RECORDSSet'}"
                                             sticky="ColumnHeaders"
                                             noDataText="To start, set the relevant filters."
                                             mode="MultiSelect"
                                          
                                         >
-                                            <ColumnListItem
-                                                id="columnListItemSimulation"
+                                            
+                                            <columns>
+                                <Column id="idSimulationname">
+                                    <Title
+                                        id="idSimulationnameTitle"
+                                        text="Simulationname"
+                                        class="title"
+                                    />
+                                </Column>
+                                 <Column id="idStatus">
+                                    <Title
+                                        id="idStatustitle"
+                                        text="Status"
+                                        class="title"
+                                    />
+                                </Column>
+                                <!-- <Column id="idLength">
+                                    <Title
+                                        id="idLengthtitle"
+                                        text="Length"
+                                        class="title"
+                                    />
+                                </Column>
+                                <Column id="idWidth">
+                                    <Title
+                                        id="idWidthtitle"
+                                        text="Width"
+                                        class="title"
+                                    />
+                                </Column>
+                                <Column id="idHeightType">
+                                    <Title
+                                        id="idHeighttitle"
+                                        text="Height"
+                                        class="title"
+                                    />
+                                </Column> -->
+                            </columns>
+ 
+                            <items>
+                                <ColumnListItem
+                                      id="columnListItemSimulation"
                                                 type="Navigation"
                                                 press=".onListItemPress"
-                                            />
+                                >
+                                    <cells>
+                                        <Text
+                                            id="idSimulationnameValue"
+                                            text="{Simulationname}"
+                                            class="text"
+                                        />
+                                    </cells>
+                                    <cells>
+                                        <Text
+                                            id="idStatusValue"
+                                            class="text"
+                                            text="{Status}"
+                                        />
+                                    </cells>
+                                    <!-- <cells>
+                                        <Text
+                                            id="idLengthValue"
+                                            class="text"
+                                            text="{Length}"
+                                        />
+                                    </cells>
+                                    <cells>
+                                        <Text
+                                            id="idWidthValue"
+                                            class="text"
+                                            text="{Width}"
+                                        />
+                                    </cells>
+                                      <cells>
+                                        <Text
+                                            id="idHeightValue"
+                                            class="text"
+                                            text="{Height}"
+                                        />
+                                    </cells> -->
+                                </ColumnListItem>
+                            </items> 
                                             <!-- No Data Message -->
                                             <!-- <noData>
                                                     <VBox
@@ -1428,13 +1587,13 @@
                                                             />
                                                             <Input
                                                                 id="id_SelecteFragment_table_cell_model"
-                                                                value="{MaterialModel>model}"
+                                                                value="{MaterialModel>Model}"
                                                                 showValueHelp="true"
                                                                 valueHelpRequest="onValueHelpRequest"
                                                             />
                                                             <Input
                                                                 id="id_SelecteFragment_table_cell_selectedquantity"
-                                                                value="{MaterialModel>quantity}"
+                                                                value="{MaterialModel>Quantity}"
                                                             />
                                                         </cells>
                                                     </ColumnListItem>
@@ -1444,7 +1603,7 @@
                                             <Table
                                                 id="idProductTable"
                                                 mode="MultiSelect"
-                                                items="{path: '/CM_SELECTED_PRODUCTSet', filters: []}"
+                                                items="{path: '/CM_SELECTED_PRODUCTSet',parameters:{expand:'ProductAssociation'}, filters: []}"
                                                 width="100%"
                                                 class="tableSection"
                                                 sticky="ColumnHeaders"

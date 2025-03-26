@@ -1140,40 +1140,39 @@ sap.ui.define(
         },
         //test
         /**Truck type selection based on click display details */
-        onTruckTypeChange: function (oEvent) {
+        onTruckTypeChange:async function (oEvent) {
+          const oModel = this.getOwnerComponent().getModel();
           var that = this;
           // let oSelectedItem = oEvent.getParameters().newValue;
           let oSelectedItem = this.byId(
             "id_combobox_for_truckType"
           ).getSelectedKey();
 
-          // var oTable = this.byId("idProductTable");
-          // var aItems = oTable.getItems();
-          // if (aItems.length == 0) {
-          //   MessageBox.information(
-          //     "Please Add products or Upload excel file for Simulation and Save"
-          //   );
-          //   return;
-          // }
+          var oTable = this.byId("idProductTable");
+          var aItems = oTable.getItems();
+          if (aItems.length == 0) {
+            MessageBox.information(
+              "Please Add products or Upload excel file for Simulation and Save"
+            );
+            return;
+          }
 
-          // let aSlectedObject = [];
+          let aSlectedObject = [];
 
           // /***New Code For Volumes */
           // aItems.forEach((item) => {
           //   let oRowContext = item.getBindingContext();
-          //   let oRowObject = oRowContext.getObject("Productno");
-          //   const { description, quantity, ...remainingProperties } =
-          //     oRowObject;
+          //   let oRowObject = oRowContext.getObject("ProductAssociation                                                ");
+          //   const { description, quantity, ...remainingProperties } = oRowObject;
           //   let oContextObject = oRowContext.getObject();
-          //   const { ID, Productno, simulationName, ...sampleValues } =
-          //     oContextObject;
-          //   let oMergeObject = { ...sampleValues, ...remainingProperties };
+          //   const { ID, Productno, simulationName, ...sampleValues } = oContextObject;
+          //   let oMergeObject = { ...sampleValues, ...remainingProperties }
           //   aSlectedObject.push(oMergeObject);
-          // });
-          // console.log("Sreedhar Items::", aSlectedObject);
+          // })
+          // console.log('Sreedhar Items::', aSlectedObject);
           // let oTotalProd = aSlectedObject.reduce((sum, Item) => {
           //   return sum + Number(Item.volume) * Number(Item.SelectedQuantity);
-          // }, 0);
+          // }, 0)
           // console.log("Total Product Volume", oTotalProd);
 
           //         var oTable = this.byId("idProductTable").getItems()
@@ -1197,7 +1196,7 @@ sap.ui.define(
           this._init3DScene();
 
           // Fetch dimensions based on truck type
-          const oModel = this.getOwnerComponent().getModel();
+        
           const sPath = `/CM_Truck_DetailsSet('${oSelectedItem}')`;
           let oRemainingVolume = 0;
 
@@ -1596,177 +1595,315 @@ sap.ui.define(
           }
         },
         //Creating Models batch
-        onBatchSave: async function () {
+        // onBatchSave: async function () {
+        //   var that = this;
+        //   // Fetch the data model containing the uploaded Models
+        //   var addedProdCodeModel = this.getView()
+        //     .getModel("MaterialModel")
+        //     .getData();
+        //   var oDataModel = this.getView().getModel();
+        //   // Group ID for batch requests
+        //   var batchGroupId = "batchCreateGroup";
+        //   const oView = this.getView();
+
+        //   let raisedErrors = [];
+        //   // Validation rules for various fields
+        //   addedProdCodeModel.items.forEach(async (item, index) => {
+        //     const aExcelInputs = [
+        //       {
+        //         value: item.Model,
+        //         regex: null,
+        //         message: "Enter SAP product number",
+        //       },
+        //       {
+        //         value: item.Description,
+        //         regex: null,
+        //         message: "Enter description",
+        //       },
+        //       { value: item.Mcategory, regex: null, message: "Enter category" },
+        //       {
+        //         value: item.Length,
+        //         regex: /^\d+(\.\d+)?$/,
+        //         message: "Length should be numeric",
+        //       },
+        //       {
+        //         value: item.Width,
+        //         regex: /^\d+(\.\d+)?$/,
+        //         message: "Width should be numeric",
+        //       },
+        //       {
+        //         value: item.Height,
+        //         regex: /^\d+(\.\d+)?$/,
+        //         message: "Height should be numeric",
+        //       },
+        //       {
+        //         value: item.Grossweight,
+        //         regex: /^\d+(\.\d+)?$/,
+        //         message: "Gross Weight should be numeric",
+        //       },
+        //       {
+        //         value: item.Netweight,
+        //         regex: /^\d+(\.\d+)?$/,
+        //         message: "Net Weight should be numeric",
+        //       },
+        //     ];
+        //     // Validate each input field
+        //     for (let input of aExcelInputs) {
+        //       let aValidations = this.validateField(
+        //         oView,
+        //         null,
+        //         input.value,
+        //         input.regex,
+        //         input.message
+        //       );
+        //       if (aValidations.length > 0) {
+        //         raisedErrors.push({ index: index, errorMsg: aValidations[0] });
+        //       }
+        //     }
+        //   });
+        //   // If there are any validation errors, show them to the user and exit
+        //   if (raisedErrors.length > 0) {
+        //     for (let error of raisedErrors) {
+        //       MessageBox.information(
+        //         `Check record number ${error.index + 1} ${error.errorMsg}`
+        //       );
+        //       return;
+        //     }
+        //   }
+
+        //   try {
+        //     let entityExistsFlag = false;
+        //     let batchErrorOccurred = false;
+
+        //     for (const [index, item] of addedProdCodeModel.items.entries()) {
+        //       const propertiesToDelete = [
+        //         "serialNumber",
+        //         "muom",
+        //         "uom",
+        //         "wuom",
+        //         "EAN",
+        //       ];
+        //       propertiesToDelete.forEach((property) => delete item[property]);
+
+        //       item.Length = String(item.Length).trim();
+        //       item.Width = String(item.Width).trim();
+        //       item.Height = String(item.Height).trim();
+        //       item.Netweight = String(item.Netweight).trim();
+        //       item.Grossweight = String(item.Grossweight).trim();
+        //       item.Stack = String(item.Stack).trim();
+        //       item.Volume = String(
+        //         parseFloat(item.Length * item.Width * item.Height).toFixed(3)
+        //       );
+        //       item.Quantity=String(item.Quantity).trim();
+
+        //       if (Number(item.Grossweight) < Number(item.Netweight)) {
+        //         MessageBox.warning(
+        //           "Gross weight should be greater than or equal to net weight!"
+        //         );
+        //         return;
+        //       }
+        //       //Create a batch request for each item
+        //       oDataModel.create("/CM_MATERIALSet", item, {
+        //         method: "POST",
+        //         groupId: batchGroupId,
+        //         success: function (data, response) {
+        //           console.log("Material created successfully:", data);
+        //           that.byId("idModelsTable").getBinding("items").refresh();
+        //         },
+        //         error: function (err) {
+        //           console.error("Error creating material:", err);
+        //           if (
+        //             JSON.parse(
+        //               err.responseText
+        //             ).error.message.value.toLowerCase() ===
+        //             "entity already exists"
+        //           ) {
+        //             if (!entityExistsFlag) {
+        //               MessageBox.error(
+        //                 `You are trying to upload a material which already exists`
+        //               );
+        //               entityExistsFlag = true; // Set the flag to prevent showing the message again
+        //             }
+        //           } else {
+        //             batchErrorOccurred = true;
+        //           }
+        //           that.byId("idModelsTable").getBinding("items").refresh();
+        //         },
+        //       });
+        //     }
+        //     //Submit the batch request
+        //     await oDataModel.submitChanges({
+        //       batchGroupId: batchGroupId,
+        //       success: function (oData, response) {
+        //         console.log("Batch request submitted successfully", oData);
+
+        //         //  Refresh Model
+        //         oDataModel.refresh(true);
+
+        //         //Refresh the table binding explicitly
+        //         that.byId("idModelsTable").getBinding("items").refresh();
+
+        //         //MessageBox.success("Materials created successfully");
+
+        //         // Close dialog if it exists
+        //         if (that.oFragment) {
+        //           that.getView().getModel("MaterialModel").setData("");
+        //           that.oFragment.close();
+        //         }
+        //       },
+        //       error: function (err) {
+        //         if (batchErrorOccurred) {
+        //           MessageBox.error(
+        //             "Please check the uploaded file and upload correct data"
+        //           );
+        //         }
+        //         console.error("Error in batch request:", err);
+        //         that.byId("idModelsTable").getBinding("items").refresh();
+        //       },
+        //     });
+        //   } catch (error) {
+        //     console.log(error);
+        //     MessageToast.show("Facing technical issue");
+        //     that.byId("idModelsTable").getBinding("items").refresh();
+        //   }
+        // },
+        onBatchSave: async function() {
           var that = this;
-          // Fetch the data model containing the uploaded Models
-          var addedProdCodeModel = this.getView()
-            .getModel("MaterialModel")
-            .getData();
+          var addedProdCodeModel = this.getView().getModel("MaterialModel").getData();
           var oDataModel = this.getView().getModel();
-          // Group ID for batch requests
-          var batchGroupId = "batchCreateGroup";
           const oView = this.getView();
-
+      
+          // Validation phase
           let raisedErrors = [];
-          // Validation rules for various fields
-          addedProdCodeModel.items.forEach(async (item, index) => {
-            const aExcelInputs = [
-              {
-                value: item.model,
-                regex: null,
-                message: "Enter SAP product number",
-              },
-              {
-                value: item.description,
-                regex: null,
-                message: "Enter description",
-              },
-              { value: item.mCategory, regex: null, message: "Enter category" },
-              {
-                value: item.length,
-                regex: /^\d+(\.\d+)?$/,
-                message: "Length should be numeric",
-              },
-              {
-                value: item.width,
-                regex: /^\d+(\.\d+)?$/,
-                message: "Width should be numeric",
-              },
-              {
-                value: item.height,
-                regex: /^\d+(\.\d+)?$/,
-                message: "Height should be numeric",
-              },
-              {
-                value: item.grossWeight,
-                regex: /^\d+(\.\d+)?$/,
-                message: "Gross Weight should be numeric",
-              },
-              {
-                value: item.netWeight,
-                regex: /^\d+(\.\d+)?$/,
-                message: "Net Weight should be numeric",
-              },
-            ];
-            // Validate each input field
-            for (let input of aExcelInputs) {
-              let aValidations = this.validateField(
-                oView,
-                null,
-                input.value,
-                input.regex,
-                input.message
-              );
-              if (aValidations.length > 0) {
-                raisedErrors.push({ index: index, errorMsg: aValidations[0] });
-              }
-            }
-          });
-          // If there are any validation errors, show them to the user and exit
-          if (raisedErrors.length > 0) {
-            for (let error of raisedErrors) {
-              MessageBox.information(
-                `Check record number ${error.index + 1} ${error.errorMsg}`
-              );
-              return;
-            }
-          }
-
-          try {
-            let entityExistsFlag = false;
-            let batchErrorOccurred = false;
-
-            for (const [index, item] of addedProdCodeModel.items.entries()) {
-              const propertiesToDelete = [
-                "serialNumber",
-                "muom",
-                "uom",
-                "wuom",
-                "EAN",
+          addedProdCodeModel.items.forEach((item, index) => {
+              const aExcelInputs = [
+                  { value: item.Model, regex: null, message: "Enter SAP product number" },
+                  { value: item.Description, regex: null, message: "Enter description" },
+                  { value: item.Mcategory, regex: null, message: "Enter category" },
+                  { value: item.Length, regex: /^\d+(\.\d+)?$/, message: "Length should be numeric" },
+                  { value: item.Width, regex: /^\d+(\.\d+)?$/, message: "Width should be numeric" },
+                  { value: item.Height, regex: /^\d+(\.\d+)?$/, message: "Height should be numeric" },
+                  { value: item.Grossweight, regex: /^\d+(\.\d+)?$/, message: "Gross Weight should be numeric" },
+                  { value: item.Netweight, regex: /^\d+(\.\d+)?$/, message: "Net Weight should be numeric" }
               ];
-              propertiesToDelete.forEach((property) => delete item[property]);
-
-              item.length = String(item.length).trim();
-              item.width = String(item.width).trim();
-              item.height = String(item.height).trim();
-              item.netWeight = String(item.netWeight).trim();
-              item.grossWeight = String(item.grossWeight).trim();
-              item.stack = String(item.stack).trim();
-              item.volume = String(
-                parseFloat(item.length * item.width * item.height).toFixed(3)
-              );
-
-              if (Number(item.grossWeight) < Number(item.netWeight)) {
-                MessageBox.warning(
-                  "Gross weight should be greater than or equal to net weight!"
-                );
-                return;
-              }
-              //Create a batch request for each item
-              oDataModel.create("/Materials", item, {
-                method: "POST",
-                groupId: batchGroupId,
-                success: function (data, response) {
-                  console.log("Material created successfully:", data);
-                  that.byId("idModelsTable").getBinding("items").refresh();
-                },
-                error: function (err) {
-                  console.error("Error creating material:", err);
-                  if (
-                    JSON.parse(
-                      err.responseText
-                    ).error.message.value.toLowerCase() ===
-                    "entity already exists"
-                  ) {
-                    if (!entityExistsFlag) {
-                      MessageBox.error(
-                        `You are trying to upload a material which already exists`
-                      );
-                      entityExistsFlag = true; // Set the flag to prevent showing the message again
-                    }
-                  } else {
-                    batchErrorOccurred = true;
+      
+              for (let input of aExcelInputs) {
+                  let aValidations = this.validateField(oView, null, input.value, input.regex, input.message);
+                  if (aValidations.length > 0) {
+                      raisedErrors.push({ index: index + 1, errorMsg: aValidations[0] });
                   }
-                  that.byId("idModelsTable").getBinding("items").refresh();
-                },
-              });
-            }
-            //Submit the batch request
-            await oDataModel.submitChanges({
-              batchGroupId: batchGroupId,
-              success: function (oData, response) {
-                console.log("Batch request submitted successfully", oData);
-
-                //  Refresh Model
-                oDataModel.refresh(true);
-
-                //Refresh the table binding explicitly
-                that.byId("idModelsTable").getBinding("items").refresh();
-
-                //MessageBox.success("Materials created successfully");
-
-                // Close dialog if it exists
-                if (that.oFragment) {
+              }
+      
+              // Validate weight relationship
+              if (Number(item.Grossweight) < Number(item.Netweight)) {
+                  raisedErrors.push({ 
+                      index: index + 1, 
+                      errorMsg: "Gross weight should be greater than or equal to net weight!" 
+                  });
+              }
+          });
+      
+          if (raisedErrors.length > 0) {
+              let errorMessage = raisedErrors.map(e => `Row ${e.index}: ${e.errorMsg}`).join("\n");
+              MessageBox.error("Validation errors found:\n\n" + errorMessage);
+              return;
+          }
+      
+          // Processing phase
+          try {
+              let successCount = 0;
+              let errorCount = 0;
+              let duplicateExists = false;
+              let errorMessages = [];
+      
+              // Process items sequentially to avoid the batch limitation
+              for (const [index, item] of addedProdCodeModel.items.entries()) {
+                  try {
+                      // Clean up item data
+                      const propertiesToDelete = ["serialNumber", "muom", "uom", "wuom", "EAN"];
+                      propertiesToDelete.forEach(property => delete item[property]);
+                      
+                      item.Length = String(item.Length).trim();
+                      item.Width = String(item.Width).trim();
+                      item.Height = String(item.Height).trim();
+                      item.Netweight = String(item.Netweight).trim();
+                      item.Grossweight = String(item.Grossweight).trim();
+                      item.Stack = String(item.Stack).trim();
+                      item.Volume = String((parseFloat(item.Length) * parseFloat(item.Width) * parseFloat(item.Height)).toFixed(3));
+                      item.Quantity = String(item.Quantity).trim();
+      
+                      // Create material one by one
+                      await new Promise((resolve) => {
+                          oDataModel.create("/CM_MATERIALSet", item, {
+                              success: function(data) {
+                                  successCount++;
+                                  console.log(`Material ${item.Model} created successfully`);
+                                  resolve();
+                              },
+                              error: function(err) {
+                                  errorCount++;
+                                  let errorMsg = `Row ${index + 1}: Failed to create material`;
+                                  
+                                  if (err.responseText) {
+                                      try {
+                                          const errorObj = JSON.parse(err.responseText).error;
+                                          if (errorObj.message.value.toLowerCase().includes("entity already exists")) {
+                                              errorMsg = `Row ${index + 1}: Material ${item.Model} already exists`;
+                                              duplicateExists = true;
+                                          } else {
+                                              errorMsg = `Row ${index + 1}: ${errorObj.message.value}`;
+                                          }
+                                      } catch (e) {
+                                          console.error("Error parsing error response", e);
+                                      }
+                                  }
+                                  
+                                  errorMessages.push(errorMsg);
+                                  console.error(errorMsg, err);
+                                  resolve(); // Continue with next item
+                              }
+                          });
+                      });
+                  } catch (e) {
+                      errorCount++;
+                      errorMessages.push(`Row ${index + 1}: Unexpected error - ${e.message}`);
+                      console.error(`Error processing row ${index + 1}`, e);
+                  }
+              }
+      
+              // Refresh UI
+              that.byId("idModelsTable").getBinding("items").refresh();
+              oDataModel.refresh(true);
+      
+              // Show summary
+              let summaryMessage = `Processed ${addedProdCodeModel.items.length} items:\n` +
+                                  `- Success: ${successCount}\n` +
+                                  `- Failed: ${errorCount}`;
+              
+              if (errorMessages.length > 0) {
+                  summaryMessage += "\n\nErrors:\n" + errorMessages.join("\n");
+              }
+      
+              if (errorCount === 0) {
+                  MessageBox.success(summaryMessage);
+              } else if (duplicateExists && errorCount === 1) {
+                  MessageBox.warning(summaryMessage);
+              } else {
+                  MessageBox.error(summaryMessage);
+              }
+      
+              // Close dialog if exists
+              if (that.oFragment) {
                   that.getView().getModel("MaterialModel").setData("");
                   that.oFragment.close();
-                }
-              },
-              error: function (err) {
-                if (batchErrorOccurred) {
-                  MessageBox.error(
-                    "Please check the uploaded file and upload correct data"
-                  );
-                }
-                console.error("Error in batch request:", err);
-                that.byId("idModelsTable").getBinding("items").refresh();
-              },
-            });
+              }
+      
           } catch (error) {
-            console.log(error);
-            MessageToast.show("Facing technical issue");
-            that.byId("idModelsTable").getBinding("items").refresh();
+              console.error("Unexpected error in onBatchSave", error);
+              MessageBox.error("A technical error occurred while processing your request");
+              that.byId("idModelsTable").getBinding("items").refresh();
           }
-        },
+      },
         //close Models upload Fragment
         onClosePressXlData: function () {
           if (this.oFragment.isOpen()) {
@@ -1792,6 +1929,7 @@ sap.ui.define(
         },
         /***After Completed Simulation */
         async onFinishSimulation(oEvent) {
+          var oModel = this.getOwnerComponent().getModel()
           let oView = this.getView();
           let oSimulationTable = oView.byId("idSimulationtable");
           let oSimulationKeyText = oView.byId("idCurrentSimName").getText();
@@ -1806,38 +1944,38 @@ sap.ui.define(
               "Simulation is not completed Please check products or Truck Details "
             );
           }
-          let oRouter = this.getOwnerComponent().getRouter();
-          let str = oRouter.oHashChanger.hash;
-          const value = str.split("/").pop();
-          console.log(value);
-          let oUserID = this.ID ? this.ID : value;
-          if (typeof oUserID !== "string") {
-            oUserID = String(oUserID);
-          }
-          let sEntityPath = "/Users";
-          let oModel = oView.getModel();
-          let aUserID = new Filter("userID", FilterOperator.EQ, oUserID);
-          const oReadUserData = await this.readData(
-            oModel,
-            sEntityPath,
-            aUserID
-          );
-          if (!oReadUserData) {
-            return MessageBox.error("Error");
-          }
-          let oResult = oReadUserData.results[0];
-          let oUserName = `${oResult.fName} ${oResult.lName}`;
-          console.log("UserData", oReadUserData);
+          // let oRouter = this.getOwnerComponent().getRouter();
+          // let str = oRouter.oHashChanger.hash;
+          // const value = str.split("/").pop();
+          // console.log(value);
+          // let oUserID = this.ID ? this.ID : value;
+          // if (typeof oUserID !== "string") {
+          //   oUserID = String(oUserID);
+          // }
+          // let sEntityPath = "/Users";
+          // let oModel = oView.getModel();
+          // let aUserID = new Filter("userID", FilterOperator.EQ, oUserID);
+          // const oReadUserData = await this.readData(
+          //   oModel,
+          //   sEntityPath,
+          //   aUserID
+          // );
+          // if (!oReadUserData) {
+          //   return MessageBox.error("Error");
+          // }
+          // let oResult = oReadUserData.results[0];
+          // let oUserName = `${oResult.fName} ${oResult.lName}`;
+          // console.log("UserData", oReadUserData);
           let oRequiredTruck = oView
             .getModel("CombinedModel")
             .getProperty("/RequiredTruck");
           let oCount = oRequiredTruck.requiredTrucks;
-          let sPath = `/SimulatedRecords('${oSimulationKey}')`;
+          let sPath = `/CM_SIMULATED_RECORDSSet('${oSimulationKey}')`;
           const oPayload = {
-            modifiedBy: oUserName,
-            status: "Completed",
-            containerCount: oCount,
-            truckType_truckType: oKey,
+            // modifiedBy: oUserName,
+            Status: "Completed",
+            // containerCount: oCount,
+            Trucktype: oKey,
           };
           try {
             await this.updateData(oModel, oPayload, sPath);
@@ -1846,6 +1984,7 @@ sap.ui.define(
             oView.getModel("HistoryModel")?.refresh();
             // this.getView().byId("idBarChart").getModel("HistoryModel").refresh(true);
           } catch (error) {
+            console.log(error);
             oSimulationTable.getBinding("items").refresh();
             MessageBox.error("Error Ocuurs");
           }
@@ -3653,7 +3792,7 @@ sap.ui.define(
             oRouter.navTo("RouteSimulationDetails", {
               sid: ID,
               id: this.ID,
-              simID: oSelectedRowData.simulationName,
+              simID: oSelectedRowData.Simulationname,
             });
           } else {
             // oView.byId("_IDGenText2").setVisible(false);
@@ -3677,9 +3816,9 @@ sap.ui.define(
             oView
               .byId("idCurrentSimName")
               .setText(
-                `Current Simulation Name: ${oSelectedRowData.simulationName}`
+                `Current Simulation Name: ${oSelectedRowData.Simulationname}`
               );
-            this.SimulationName = oSelectedRowData.simulationName;
+            this.SimulationName = oSelectedRowData.Simulationname;
 
             // Apply filter to fetch product details based on simulationName
             var oTable = this.byId("idProductTable");
@@ -3687,9 +3826,9 @@ sap.ui.define(
 
             // Create the filter
             var oFilter = new sap.ui.model.Filter(
-              "simulationName_simulationName",
+              "Simulationname",
               sap.ui.model.FilterOperator.EQ,
-              oSelectedRowData.simulationName
+              oSelectedRowData.Simulationname
             );
 
             // Apply the filter
@@ -3804,7 +3943,7 @@ sap.ui.define(
                   if (sQuery) {
                     aFilters.push(
                       new sap.ui.model.Filter(
-                        "model",
+                        "Model",
                         sap.ui.model.FilterOperator.Contains,
                         sQuery
                       )
@@ -3866,7 +4005,7 @@ sap.ui.define(
             // Exclude selected models from the dialog's binding
             const aFilters = this._getSelectedModels().map(function (sModel) {
               return new sap.ui.model.Filter(
-                "model",
+                "Model",
                 sap.ui.model.FilterOperator.NE,
                 sModel
               );
@@ -3899,7 +4038,7 @@ sap.ui.define(
             .map(function (oItem) {
               return oItem
                 .getBindingContext("MaterialModel")
-                .getProperty("model");
+                .getProperty("Model");
             })
             .filter(Boolean); // Filter out empty or undefined values
 
@@ -4152,304 +4291,524 @@ sap.ui.define(
             reader.readAsArrayBuffer(file);
           }
         },
+        // onBatchSaveSelectedProduct: async function () {
+        //   this._oBusyUpload = new sap.m.BusyDialog({
+        //     text: "Please wait while uploading",
+        //   });
+        //   var that = this;
+        //   var addedProdCodeModel = this.getView()
+        //     .getModel("MaterialModel")
+        //     .getData();
+        //   // var batchChanges = [];
+        //   var oDataModel = this.getOwnerComponent().getModel();
+        //   var batchGroupId = "batchCreateGroup";
+        //   const oView = this.getView();
+        //   var oProductDetailsArray = [];
+
+        //   // test
+        //   // excel Validations
+        //   let raisedErrors = [];
+        //   if (addedProdCodeModel) {
+        //     if (addedProdCodeModel.items) {
+        //       this._oBusyUpload.open();
+        //       addedProdCodeModel.items.forEach(async (item, index) => {
+        //         const aExcelInputs = [
+        //           {
+        //             value: item.Model,
+        //             regex: null,
+        //             message: "Enter SAP model/product number",
+        //           },
+        //           {
+        //             value: item.Quantity,
+        //             regex: /^\d+$/,
+        //             message: "Quantity should be numeric",
+        //           },
+        //         ];
+        //         for (let input of aExcelInputs) {
+        //           let aValidations = this.validateField(
+        //             oView,
+        //             null,
+        //             input.value,
+        //             input.regex,
+        //             input.message
+        //           );
+        //           if (aValidations.length > 0) {
+        //             raisedErrors.push({
+        //               index: index,
+        //               errorMsg: aValidations[0],
+        //             }); // pushning error into empty array
+        //           }
+        //         }
+        //       });
+        //       if (raisedErrors.length > 0) {
+        //         for (let error of raisedErrors) {
+        //           MessageBox.information(
+        //             `Check record number ${error.index + 1} ${error.errorMsg}`
+        //           ); // showing error msg
+        //           this._oBusyUpload.close();
+        //           return;
+        //         }
+        //       }
+        //       // test
+        //       try {
+        //         const sPath = "/CM_SELECTED_PRODUCTSet",
+        //           oBatchGroup = "batchGroup1";
+        //         // Create the simulation filter
+        //         let aFilters = [
+        //           new sap.ui.model.Filter(
+        //             "Simulationname",
+        //             sap.ui.model.FilterOperator.EQ,
+        //             that.SimulationName
+        //           ),
+        //         ];
+
+        //         var oProductsInCurrentSimulation = await this.readData(
+        //           oDataModel,
+        //           sPath,
+        //           aFilters
+        //         );
+        //         // check the uploading data if exists...
+        //         // Create a Set of models for efficient lookup
+        //         const modelSet = new Set(
+        //           addedProdCodeModel.items.map((item) => item.Model)
+        //         );
+
+        //         // Filter products that match any model in the set
+        //         const duplicateItems =
+        //           oProductsInCurrentSimulation.results.filter((product) =>
+        //             modelSet.has(product.Productno)
+        //           );
+
+        //         // const duplicateItems = oProductsInCurrentSimulation.results.filter(item1 => addedProdCodeModel.items.some(item2 => item2.model === item1.Productno_model));
+        //         if (duplicateItems.length === 0) {
+        //           let Count = 0;
+        //           const readCAllerrors = await readMaterialData(); // Get errors from read operation
+        //           if (readCAllerrors.length === 0) {
+        //             await createSelMaterialsData(); // Proceed if no errors found
+        //           } else {
+        //             const tableItems = this.byId(
+        //               "id_SelectedProductsForSimulation_table"
+        //             ).getItems();
+        //             const set2Ids = new Set(
+        //               readCAllerrors.map((item) => item.model)
+        //             );
+
+        //             tableItems.map((item) => {
+        //               if (set2Ids.has(item.getCells()[1].getValue())) {
+        //                 item.getCells()[1].setValueState("Error");
+        //                 item
+        //                   .getCells()[1]
+        //                   .setValueStateText("Model not found in records");
+        //               } else {
+        //                 item.getCells()[1].setValueState("None");
+        //               }
+        //             });
+        //             let unknownMaterials = readCAllerrors
+        //               .map((item) => item.model)
+        //               .join(", \n");
+        //             MessageBox.error(
+        //               `There are some unknown materials/models in this file:\n  "${unknownMaterials}"`
+        //             );
+        //           }
+        //           //
+        //           async function readMaterialData() {
+        //             // Initialize readErrors array before starting
+        //             let readErrors = [];
+        //             // Loop over each item and read the data
+        //             for (let item of addedProdCodeModel.items) {
+        //               Count += 1;
+        //               let sPath = `/CM_MATERIALSet('${item.Model}')`; // Define the path
+        //               // Create a promise for each read operation to handle async properly
+        //               await new Promise((resolve, reject) => {
+        //                 oDataModel.read(sPath, {
+        //                   groupId: oBatchGroup,
+        //                   success: function (oData, response) {
+        //                     // MessageToast.show("Read successful for model: " + item.model);
+        //                     resolve(); // Resolve the promise to continue
+        //                   },
+        //                   error: function (oError) {
+        //                     // Handle errors by pushing them into the readErrors array
+        //                     readErrors.push({
+        //                       model: item.Model,
+        //                       error: oError,
+        //                     });
+        //                     console.log(
+        //                       "Error fetching record for model:",
+        //                       item.Model,
+        //                       oError
+        //                     );
+        //                     // MessageBox.error("Error fetching record for model: " + item.model);
+        //                     resolve(); // Resolve to continue, even after an error
+        //                   },
+        //                 });
+        //               });
+        //             }
+        //             // After all reads, submit the batch request
+        //             try {
+        //               await oDataModel.submitChanges({
+        //                 groupId: oBatchGroup,
+        //                 success: function (oData) {
+        //                   console.log("Batch sent", oData);
+        //                   // that
+        //                   //   .getView()
+        //                   //   .byId("idBarChart")
+        //                   //   .getModel("HistoryModel")
+        //                   //   .refresh(true);
+        //                 },
+        //                 error: function (oError) {
+        //                   console.log("Sending batch request failed", oError);
+        //                 },
+        //               });
+        //             } catch (error) {
+        //               console.error("Error: ", error);
+        //             }
+        //             // Return the collected errors after all operations are completed
+        //             return readErrors;
+        //           }
+        //           // Function to generate random hex color in 0xRRGGBB format
+        //           function generateRandomHexColor() {
+        //             const randomColor = Math.floor(Math.random() * 0xffffff);
+        //             return `#${randomColor
+        //               .toString(16)
+        //               .padStart(6, "0")
+        //               .toUpperCase()}`;
+        //           }
+        //           async function createSelMaterialsData() {
+        //             let creationCount = 0;
+        //             for (let item of addedProdCodeModel.items) {
+        //               const obJ = {
+        //                 Productno: item.Model,
+        //                 Selectedquantity: item.Quantity.toString(),
+        //                 Simulationname: that.SimulationName,
+        //                 Color: generateRandomHexColor(),
+        //               };
+        //               oDataModel.create("/CM_SELECTED_PRODUCTSet", obJ, {
+        //                 method: "POST",
+        //                 groupId: batchGroupId, // Specify the batch group ID here
+        //                 success: function (data, response) {
+        //                   creationCount += 1;
+        //                   if (
+        //                     creationCount === addedProdCodeModel.items.Length
+        //                   ) {
+        //                     // that.oFragmentSP.close()
+        //                     MessageBox.success("Materials added successfully");
+        //                     that
+        //                       .getView()
+        //                       .getModel("MaterialModel")
+        //                       .setData("");
+        //                     that
+        //                       .byId("id_SelectedProductsForSimulation_table")
+        //                       .setVisible(false);
+        //                     that.byId("idProductTable").setVisible(true);
+        //                     that.byId("_IDGenButton2").setVisible(false);
+        //                     var oTable = that.byId("idProductTable");
+        //                     var oBinding = oTable.getBinding("items");
+        //                     // Create the filter
+        //                     var oFilter = new sap.ui.model.Filter(
+        //                       "Simulationname",
+        //                       sap.ui.model.FilterOperator.EQ,
+        //                       that.SimulationName
+        //                     );
+        //                     // Apply the filter
+        //                     oBinding.filter([oFilter]);
+        //                   }
+        //                 },
+        //                 error: function (err) {
+        //                   // Handle error for individual item
+        //                   if (
+        //                     JSON.parse(
+        //                       err.responseText
+        //                     ).error.message.value.toLowerCase() ===
+        //                     "entity already exists"
+        //                   ) {
+        //                     MessageBox.error(
+        //                       "Material already exists. Please check and try again."
+        //                     );
+        //                   } else {
+        //                     MessageBox.error(
+        //                       "Error creating material. Please check the uploaded file and upload correct data."
+        //                     );
+        //                   }
+        //                   console.error("Error creating material:", err);
+        //                   // throw new Error('Error during material creation'); // Stop further execution
+        //                 },
+        //               });
+        //             }
+        //             await oDataModel.submitChanges({
+        //               batchGroupId: batchGroupId,
+        //               success: function (oData, response) {
+        //                 // console.log("Batch request submitted", oData);
+        //               },
+        //               error: function (err) {
+        //                 // MessageBox.error("Error creating material batch");
+        //                 console.error("Error in batch request:", err);
+        //               },
+        //             });
+        //           }
+        //         } else {
+        //           const tableItems = this.byId(
+        //             "id_SelectedProductsForSimulation_table"
+        //           ).getItems();
+        //           const set2Ids = new Set(
+        //             duplicateItems.map((item) => item.Productno)
+        //           );
+
+        //           tableItems.map((item) => {
+        //             if (set2Ids.has(item.getCells()[1].getValue())) {
+        //               item.getCells()[1].setValueState("Error");
+        //               item
+        //                 .getCells()[1]
+        //                 .setValueStateText("Model already selected");
+        //             } else {
+        //               item.getCells()[1].setValueState("None");
+        //             }
+        //           });
+
+        //           MessageBox.information(`Current file contains models/materials which are already selected for simulation.\n
+        //             ${duplicateItems
+        //               .map((item) => item.Productno_model)
+        //               .join(",\n")}\n
+        //                            NOTE:You can increase the quantity of already selected models/materials by editing them individually`);
+        //         }
+        //         // testing
+        //       } catch (error) {
+        //         console.log(error);
+        //         MessageToast.show(
+        //           "Facing technical issue please refresh the page"
+        //         );
+        //       } finally {
+        //         this._oBusyUpload.close();
+        //       }
+        //     } else {
+        //       MessageBox.information(
+        //         "To proceed please add products either by uploading a file or by manual"
+        //       );
+        //     }
+        //   } else {
+        //     MessageBox.information(
+        //       "To proceed please add products either by uploading a file or by manual"
+        //     );
+        //   }
+        // },
         onBatchSaveSelectedProduct: async function () {
           this._oBusyUpload = new sap.m.BusyDialog({
             text: "Please wait while uploading",
           });
-          var that = this;
-          var addedProdCodeModel = this.getView()
-            .getModel("MaterialModel")
-            .getData();
-          // var batchChanges = [];
-          var oDataModel = this.getOwnerComponent().getModel();
-          var batchGroupId = "batchCreateGroup";
-          const oView = this.getView();
-          var oProductDetailsArray = [];
-
-          // test
-          // excel Validations
-          let raisedErrors = [];
-          if (addedProdCodeModel) {
-            if (addedProdCodeModel.items) {
-              this._oBusyUpload.open();
-              addedProdCodeModel.items.forEach(async (item, index) => {
-                const aExcelInputs = [
-                  {
-                    value: item.model,
-                    regex: null,
-                    message: "Enter SAP model/product number",
-                  },
-                  {
-                    value: item.quantity,
-                    regex: /^\d+$/,
-                    message: "Quantity should be numeric",
-                  },
-                ];
-                for (let input of aExcelInputs) {
-                  let aValidations = this.validateField(
-                    oView,
-                    null,
-                    input.value,
-                    input.regex,
-                    input.message
-                  );
-                  if (aValidations.length > 0) {
-                    raisedErrors.push({
-                      index: index,
-                      errorMsg: aValidations[0],
-                    }); // pushning error into empty array
-                  }
-                }
-              });
-              if (raisedErrors.length > 0) {
-                for (let error of raisedErrors) {
-                  MessageBox.information(
-                    `Check record number ${error.index + 1} ${error.errorMsg}`
-                  ); // showing error msg
-                  this._oBusyUpload.close();
-                  return;
-                }
-              }
-              // test
-              try {
-                const sPath = "/CM_SELECTED_PRODUCTSet",
-                  oBatchGroup = "batchGroup1";
-                // Create the simulation filter
-                let aFilters = [
-                  new sap.ui.model.Filter(
-                    "Simulationname",
-                    sap.ui.model.FilterOperator.EQ,
-                    that.SimulationName
-                  ),
-                ];
-
-                var oProductsInCurrentSimulation = await this.readData(
-                  oDataModel,
-                  sPath,
-                  aFilters
-                );
-                // check the uploading data if exists...
-                // Create a Set of models for efficient lookup
-                const modelSet = new Set(
-                  addedProdCodeModel.items.map((item) => item.model)
-                );
-
-                // Filter products that match any model in the set
-                const duplicateItems =
-                  oProductsInCurrentSimulation.results.filter((product) =>
-                    modelSet.has(product.Productno)
-                  );
-
-                // const duplicateItems = oProductsInCurrentSimulation.results.filter(item1 => addedProdCodeModel.items.some(item2 => item2.model === item1.Productno_model));
-                if (duplicateItems.length === 0) {
-                  let Count = 0;
-                  const readCAllerrors = await readMaterialData(); // Get errors from read operation
-                  if (readCAllerrors.length === 0) {
-                    await createSelMaterialsData(); // Proceed if no errors found
-                  } else {
-                    const tableItems = this.byId(
-                      "id_SelectedProductsForSimulation_table"
-                    ).getItems();
-                    const set2Ids = new Set(
-                      readCAllerrors.map((item) => item.model)
-                    );
-
-                    tableItems.map((item) => {
-                      if (set2Ids.has(item.getCells()[1].getValue())) {
-                        item.getCells()[1].setValueState("Error");
-                        item
-                          .getCells()[1]
-                          .setValueStateText("Model not found in records");
-                      } else {
-                        item.getCells()[1].setValueState("None");
-                      }
-                    });
-                    let unknownMaterials = readCAllerrors
-                      .map((item) => item.model)
-                      .join(", \n");
-                    MessageBox.error(
-                      `There are some unknown materials/models in this file:\n  "${unknownMaterials}"`
-                    );
-                  }
-                  //
-                  async function readMaterialData() {
-                    // Initialize readErrors array before starting
-                    let readErrors = [];
-                    // Loop over each item and read the data
-                    for (let item of addedProdCodeModel.items) {
-                      Count += 1;
-                      let sPath = `/CM_MATERIALSet('${item.model}')`; // Define the path
-                      // Create a promise for each read operation to handle async properly
-                      await new Promise((resolve, reject) => {
-                        oDataModel.read(sPath, {
-                          groupId: oBatchGroup,
-                          success: function (oData, response) {
-                            // MessageToast.show("Read successful for model: " + item.model);
-                            resolve(); // Resolve the promise to continue
-                          },
-                          error: function (oError) {
-                            // Handle errors by pushing them into the readErrors array
-                            readErrors.push({
-                              model: item.Model,
-                              error: oError,
-                            });
-                            console.log(
-                              "Error fetching record for model:",
-                              item.Model,
-                              oError
-                            );
-                            // MessageBox.error("Error fetching record for model: " + item.model);
-                            resolve(); // Resolve to continue, even after an error
-                          },
-                        });
-                      });
-                    }
-                    // After all reads, submit the batch request
-                    try {
-                      await oDataModel.submitChanges({
-                        groupId: oBatchGroup,
-                        success: function (oData) {
-                          console.log("Batch sent", oData);
-                          // that
-                          //   .getView()
-                          //   .byId("idBarChart")
-                          //   .getModel("HistoryModel")
-                          //   .refresh(true);
-                        },
-                        error: function (oError) {
-                          console.log("Sending batch request failed", oError);
-                        },
-                      });
-                    } catch (error) {
-                      console.error("Error: ", error);
-                    }
-                    // Return the collected errors after all operations are completed
-                    return readErrors;
-                  }
-                  // Function to generate random hex color in 0xRRGGBB format
-                  function generateRandomHexColor() {
-                    const randomColor = Math.floor(Math.random() * 0xffffff);
-                    return `#${randomColor
-                      .toString(16)
-                      .padStart(6, "0")
-                      .toUpperCase()}`;
-                  }
-                  async function createSelMaterialsData() {
-                    let creationCount = 0;
-                    for (let item of addedProdCodeModel.items) {
-                      const obJ = {
-                        Productno: item.model,
-                        Selectedquantity: item.quantity.toString(),
-                        Simulationname: that.SimulationName,
-                        Color: generateRandomHexColor(),
-                      };
-                      oDataModel.create("/CM_SELECTED_PRODUCTSet", obJ, {
-                        method: "POST",
-                        groupId: batchGroupId, // Specify the batch group ID here
-                        success: function (data, response) {
-                          creationCount += 1;
-                          if (
-                            creationCount === addedProdCodeModel.items.length
-                          ) {
-                            // that.oFragmentSP.close()
-                            MessageBox.success("Materials added successfully");
-                            that
-                              .getView()
-                              .getModel("MaterialModel")
-                              .setData("");
-                            that
-                              .byId("id_SelectedProductsForSimulation_table")
-                              .setVisible(false);
-                            that.byId("idProductTable").setVisible(true);
-                            that.byId("_IDGenButton2").setVisible(false);
-                            var oTable = that.byId("idProductTable");
-                            var oBinding = oTable.getBinding("items");
-                            // Create the filter
-                            var oFilter = new sap.ui.model.Filter(
-                              "Simulationname",
-                              sap.ui.model.FilterOperator.EQ,
-                              that.SimulationName
-                            );
-                            // Apply the filter
-                            oBinding.filter([oFilter]);
-                          }
-                        },
-                        error: function (err) {
-                          // Handle error for individual item
-                          if (
-                            JSON.parse(
-                              err.responseText
-                            ).error.message.value.toLowerCase() ===
-                            "entity already exists"
-                          ) {
-                            MessageBox.error(
-                              "Material already exists. Please check and try again."
-                            );
-                          } else {
-                            MessageBox.error(
-                              "Error creating material. Please check the uploaded file and upload correct data."
-                            );
-                          }
-                          console.error("Error creating material:", err);
-                          // throw new Error('Error during material creation'); // Stop further execution
-                        },
-                      });
-                    }
-                    await oDataModel.submitChanges({
-                      batchGroupId: batchGroupId,
-                      success: function (oData, response) {
-                        // console.log("Batch request submitted", oData);
-                      },
-                      error: function (err) {
-                        // MessageBox.error("Error creating material batch");
-                        console.error("Error in batch request:", err);
-                      },
-                    });
-                  }
-                } else {
-                  const tableItems = this.byId(
-                    "id_SelectedProductsForSimulation_table"
-                  ).getItems();
-                  const set2Ids = new Set(
-                    duplicateItems.map((item) => item.Productno)
-                  );
-
-                  tableItems.map((item) => {
-                    if (set2Ids.has(item.getCells()[1].getValue())) {
-                      item.getCells()[1].setValueState("Error");
-                      item
-                        .getCells()[1]
-                        .setValueStateText("Model already selected");
-                    } else {
-                      item.getCells()[1].setValueState("None");
-                    }
-                  });
-
-                  MessageBox.information(`Current file contains models/materials which are already selected for simulation.\n
-                    ${duplicateItems
-                      .map((item) => item.Productno_model)
-                      .join(",\n")}\n
-                                   NOTE:You can increase the quantity of already selected models/materials by editing them individually`);
-                }
-                // testing
-              } catch (error) {
-                console.log(error);
-                MessageToast.show(
-                  "Facing technical issue please refresh the page"
-                );
-              } finally {
-                this._oBusyUpload.close();
-              }
-            } else {
-              MessageBox.information(
+          this._oBusyUpload.open();
+          
+          try {
+            const that = this;
+            const addedProdCodeModel = this.getView().getModel("MaterialModel").getData();
+            const oDataModel = this.getOwnerComponent().getModel();
+            const oView = this.getView();
+        
+            // Validate if there are items to process
+            if (!addedProdCodeModel?.items?.length) {
+              sap.m.MessageBox.information(
                 "To proceed please add products either by uploading a file or by manual"
               );
+              return;
             }
-          } else {
-            MessageBox.information(
-              "To proceed please add products either by uploading a file or by manual"
+        
+            // Excel Validations
+            const raisedErrors = [];
+            for (const [index, item] of addedProdCodeModel.items.entries()) {
+              const aExcelInputs = [
+                {
+                  value: item.Model,
+                  regex: null,
+                  message: "Enter SAP model/product number",
+                },
+                {
+                  value: item.Quantity,
+                  regex: /^\d+$/,
+                  message: "Quantity should be numeric",
+                },
+              ];
+        
+              for (const input of aExcelInputs) {
+                const aValidations = this.validateField(
+                  oView,
+                  null,
+                  input.value,
+                  input.regex,
+                  input.message
+                );
+                if (aValidations.length > 0) {
+                  raisedErrors.push({
+                    index: index,
+                    errorMsg: aValidations[0],
+                  });
+                }
+              }
+            }
+        
+            if (raisedErrors.length > 0) {
+              for (const error of raisedErrors) {
+                sap.m.MessageBox.information(
+                  `Check record number ${error.index + 1} ${error.errorMsg}`
+                );
+              }
+              return;
+            }
+        
+            // Check for duplicates in existing simulation
+            const sPath = "/CM_SELECTED_PRODUCTSet";
+            const aFilters = [
+              new sap.ui.model.Filter(
+                "Simulationname",
+                sap.ui.model.FilterOperator.EQ,
+                that.SimulationName
+              ),
+            ];
+        
+            const oProductsInCurrentSimulation = await this.readData(
+              oDataModel,
+              sPath,
+              aFilters
             );
+        
+            const modelSet = new Set(
+              addedProdCodeModel.items.map((item) => item.Model)
+            );
+        
+            const duplicateItems = oProductsInCurrentSimulation.results.filter((product) =>
+              modelSet.has(product.Productno)
+            );
+        
+            if (duplicateItems.length > 0) {
+              const tableItems = this.byId("id_SelectedProductsForSimulation_table").getItems();
+              const set2Ids = new Set(duplicateItems.map((item) => item.Productno));
+        
+              tableItems.forEach((item) => {
+                if (set2Ids.has(item.getCells()[1].getValue())) {
+                  item.getCells()[1].setValueState("Error");
+                  item.getCells()[1].setValueStateText("Model already selected");
+                } else {
+                  item.getCells()[1].setValueState("None");
+                }
+              });
+        
+              sap.m.MessageBox.information(
+                `Current file contains models/materials which are already selected for simulation.\n` +
+                `${duplicateItems.map((item) => item.Productno).join(",\n")}\n` +
+                `NOTE: You can increase the quantity of already selected models/materials by editing them individually`
+              );
+              return;
+            }
+        
+            // Validate materials exist in the system
+            const readErrors = [];
+            for (const item of addedProdCodeModel.items) {
+              try {
+                const sPath = `/CM_MATERIALSet('${item.Model}')`;
+                await new Promise((resolve, reject) => {
+                  oDataModel.read(sPath, {
+                    success: resolve,
+                    error: (oError) => {
+                      readErrors.push({
+                        model: item.Model,
+                        error: oError,
+                      });
+                      resolve(); // Continue even if error
+                    }
+                  });
+                });
+              } catch (error) {
+                console.error("Error reading material:", error);
+              }
+            }
+        
+            if (readErrors.length > 0) {
+              const tableItems = this.byId("id_SelectedProductsForSimulation_table").getItems();
+              const set2Ids = new Set(readErrors.map((item) => item.model));
+        
+              tableItems.forEach((item) => {
+                if (set2Ids.has(item.getCells()[1].getValue())) {
+                  item.getCells()[1].setValueState("Error");
+                  item.getCells()[1].setValueStateText("Model not found in records");
+                } else {
+                  item.getCells()[1].setValueState("None");
+                }
+              });
+        
+              const unknownMaterials = readErrors.map((item) => item.model).join(", \n");
+              sap.m.MessageBox.error(
+                `There are some unknown materials/models in this file:\n  "${unknownMaterials}"`
+              );
+              return;
+            }
+        
+            // Create selected products - one at a time with individual changesets
+            for (const item of addedProdCodeModel.items) {
+              const batchGroupId = `batchCreate_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+              
+              const obJ = {
+                Productno: item.Model,
+                Selectedquantity: item.Quantity.toString(),
+                Simulationname: that.SimulationName,
+                Color: this.generateRandomHexColor(),
+              };
+        
+              try {
+                await new Promise((resolve, reject) => {
+                  oDataModel.create("/CM_SELECTED_PRODUCTSet", obJ, {
+                    groupId: batchGroupId,
+                    success: resolve,
+                    error: reject
+                  });
+        
+                  oDataModel.submitChanges({
+                    groupId: batchGroupId,
+                    success: resolve,
+                    error: reject
+                  });
+                });
+              } catch (err) {
+                console.error("Error creating material:", err);
+                if (JSON.parse(err.responseText)?.error?.message?.value?.toLowerCase() === "entity already exists") {
+                  sap.m.MessageBox.error(
+                    "Material already exists. Please check and try again."
+                  );
+                } else {
+                  sap.m.MessageBox.error(
+                    "Error creating material. Please check the uploaded file and upload correct data."
+                  );
+                }
+                throw err; // Stop further execution
+              }
+            }
+        
+            // Success case
+            sap.m.MessageBox.success("Materials added successfully");
+            this.getView().getModel("MaterialModel").setData("");
+            this.byId("id_SelectedProductsForSimulation_table").setVisible(false);
+            this.byId("idProductTable").setVisible(true);
+            this.byId("_IDGenButton2").setVisible(false);
+        
+            const oTable = this.byId("idProductTable");
+            const oBinding = oTable.getBinding("items");
+            const oFilter = new sap.ui.model.Filter(
+              "Simulationname",
+              sap.ui.model.FilterOperator.EQ,
+              this.SimulationName
+            );
+            oBinding.filter([oFilter]);
+        
+          } catch (error) {
+            console.error("Error in onBatchSaveSelectedProduct:", error);
+            sap.m.MessageToast.show(
+              "Facing technical issue please refresh the page"
+            );
+          } finally {
+            this._oBusyUpload.close();
           }
+        },
+        
+        // Helper function to generate random hex color
+        generateRandomHexColor: function() {
+          const randomColor = Math.floor(Math.random() * 0xffffff);
+          return `#${randomColor.toString(16).padStart(6, "0").toUpperCase()}`;
         },
         onDeleSeleProducts: function () {
           const isTab_1Visible = this.getView()
@@ -5225,7 +5584,7 @@ sap.ui.define(
             .trim();
           const oRouter = this.getOwnerComponent().getRouter();
           oRouter.navTo("RouteManualSimulationDetails", {
-            id: oUserId,
+            // id: oUserId,
             simulationName: name,
           });
         },

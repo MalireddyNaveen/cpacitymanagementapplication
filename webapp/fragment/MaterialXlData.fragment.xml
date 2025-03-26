@@ -156,7 +156,7 @@
                         />
                         <Input
                             id="_IDGenText1WE1"
-                            value="{MaterialModel>model}"
+                            value="{MaterialModel>Model}"
                         />
                         <!-- <Input
                             id="_IDGe_wdffefs"
@@ -164,23 +164,23 @@
                         /> -->
                         <Input
                             id="_IDGe_wdefs"
-                            value="{MaterialModel>description}"
+                            value="{MaterialModel>Description}"
                         />
                         <Input
                             id="_IDGe_wwwdfs"
-                            value="{MaterialModel>mCategory}"
+                            value="{MaterialModel>Mcategory}"
                         />
                         <Input
                             id="_IDGenText3_SWfe"
-                            value="{MaterialModel>length}"
+                            value="{MaterialModel>Length}"
                         />
                         <Input
                             id="_IDGe_wdfs"
-                            value="{MaterialModel>width}"
+                            value="{MaterialModel>Width}"
                         />
                         <Input
                             id="_IDGwwee_wdfs"
-                            value="{MaterialModel>height}"
+                            value="{MaterialModel>Height}"
                         />
                         <!-- <Input
                             id="_IDGe_weeddfefs"
@@ -197,11 +197,11 @@
 
                         <Input
                             id="_IDGe_weedfedfes"
-                            value="{MaterialModel>grossWeight}"
+                            value="{MaterialModel>Grossweight}"
                         />
                         <Input
                             id="_IDGe_wedfedfes"
-                            value="{MaterialModel>netWeight}"
+                            value="{MaterialModel>Netweight}"
                         />
                         <!-- <Input
                             id="_IDGe_wertydfedfes"
@@ -209,7 +209,7 @@
                         /> -->
                         <Input
                             id="_IDGe_wertywfedfedfes"
-                            value="{MaterialModel>stack}"
+                            value="{MaterialModel>Stack}"
                         />
                     </cells>
                 </ColumnListItem>

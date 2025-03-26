@@ -1,0 +1,453 @@
+<mvc:View
+    xmlns:tnt="sap.tnt"
+    controllerName="com.app.capacitymanagement.controller.SimulationDetails"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:suite="sap.suite.ui.commons"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+>
+    <f:DynamicPage
+        id="idDynamicPage"
+        toggleHeaderOnTitleClick="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle_Header_CM">
+                <f:actions>
+                    <Button
+                        id="idbutton_CM"
+                        icon="sap-icon://nav-back"
+                        type="Transparent"
+                        class="navBack"
+                        press="onPressNavBackMainPg"
+                    />
+
+                    <Image
+                        id="idheaderImage1"
+                        class="sapUiSmallMarginBegin"
+                        height="1.5rem"
+                        src="https://www.daikin.com/-/media/Project/Daikin/daikin_com/dg_common/images/logo_daikin-png.png"
+                        alt="Logo"
+                    />
+                    <ToolbarSpacer id="idtoolbarspacer_CM" />
+
+                    <Title
+                        id="idTitleSimulatedPage_CM"
+                        level="Auto"
+                        text="Capacity Management"
+                        class="capacityManagementTitle"
+                    />
+
+                    <ToolbarSpacer id="idtoolbarspacer1_CM" />
+                    <Avatar
+                        id="idprofileAvatar1_SimulatedPage"
+                        displaySize="XS"
+                        class="Avatar_SP"
+                        press="onAvatarPress_CM_SimulationPage"
+                        tooltip="Profile"
+                    />
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader
+                id="idDynamicPageHeader_CM_SMLPage"
+                pinnable="true"
+            >
+                <VBox
+                    id="idExpandedContent"
+                    width="100%"
+                >
+                    <HBox
+                        id="idDateTimeBox"
+                        justifyContent="SpaceBetween"
+                    >
+                        <VBox id="idVBox1_sv">
+                            <HBox id="idHBox1_sv">
+                                <Title
+                                    id="idsimulationName"
+                                    text="Simulation Name :"
+                                    class="sapUiTinyMarginEnd"
+                                    titleStyle="H3"
+                                />
+                                <Title
+                                    id="idpageTitle"
+                                    text="{SimulatedRecord>/oSMLNameWithoutDT}"
+                                    class="sapUiTinyMarginEnd"
+                                    titleStyle="H3"
+                                />
+                            </HBox>
+
+                            <HBox id="idHbox2">
+                                <Title
+                                    id="iddateObjectAttribute2"
+                                    text="Date : "
+                                    class="sapUiTinyMarginEnd"
+                                    titleStyle="H6"
+                                />
+                                <Title
+                                    id="iddateObjectAttribute"
+                                    text="{SimulatedRecord>/sFormattedDate}"
+                                    titleStyle="H6"
+                                />
+                            </HBox>
+                            <HBox id="idHbox3">
+                                <Title
+                                    id="idtimeObjectAttribute2"
+                                    text="Time : "
+                                    class="sapUiTinyMarginEnd"
+                                    titleStyle="H6"
+                                />
+                                <Title
+                                    id="idtimeObjectAttribute"
+                                    text="{SimulatedRecord>/sFormattedTime}"
+                                    titleStyle="H6"
+                                />
+                            </HBox>
+                        </VBox>
+                        <VBox
+                            id="idVbox2"
+                            class="sapUiLargeMarginEnd"
+                        >
+                            <HBox
+                                id="idHbox4"
+                                class="sapUiLargeMarginTop"
+                            >
+                                <Title
+                                    id="idcreatedByText1"
+                                    text="Created By : "
+                                    class="sapUiTinyMarginEnd sapUiSmallMarginTop"
+                                    titleStyle="H6"
+                                />
+                                <Title
+                                    id="idcreatedByText"
+                                    class="sapUiSmallMarginTop"
+                                    text="{SimulatedRecord>/createdBy}"
+                                    titleStyle="H6"
+                                />
+                            </HBox>
+                            <!-- <ObjectAttribute
+                                id="idcreatedByText11"
+                                title="Created By"
+                                class="sapUiLargeMarginTop"
+                                text="Admin"
+                            /> -->
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox id="idVBoxSimulatedPage_CM">
+                <IconTabBar
+                    id="iconTabBar"
+                    select="onSelect"
+                >
+                    <items>
+                        <IconTabFilter
+                            id="idIconFilterTab01_CM_ProductDetails"
+                            key="SimulationDetails"
+                            text="Simulation Details"
+                        >
+                            <items>
+                                <IconTabFilter
+                                    id="idIconTabFilter1"
+                                    text="Product/model Details"
+                                    key="ProductDetails"
+                                >
+                                    <Table
+                                        id="idproductTable"
+                                        class="TableSection_SimulatedPage"
+                                        width="auto"
+                                        items="{path: '/SelectedProduct', parameters: {expand: 'Productno'}}"
+                                        noDataText="No Product Details"
+                                        sticky="ColumnHeaders"
+                                    >
+                                        <headerToolbar>
+                                            <Toolbar id="idProductTableHeader">
+                                                <Title
+                                                    id="idProductTableTitle"
+                                                    text="Product/Model Details"
+                                                    titleStyle="H3"
+                                                />
+                                                <ToolbarSpacer
+                                                    id="idProductTableHeaderToolbarSpacer"
+                                                />
+                                                <Button
+                                                    id="idProductTableHeaderDownloadBtn"
+                                                    text="PDF"
+                                                    icon="sap-icon://download"
+                                                    press="onPressBtnPDFDownloadPreviousModelsData"
+                                                />
+                                            </Toolbar>
+                                        </headerToolbar>
+                                        <columns>
+                                            <Column id="idColumnProductID">
+                                                <Title
+                                                    titleStyle="H5"
+                                                    id="idProductid"
+                                                    text="Product ID"
+                                                />
+                                            </Column>
+                                            <Column id="idColumnProductName">
+                                                <Title
+                                                    titleStyle="H5"
+                                                    id="idProductname"
+                                                    text="Product Description"
+                                                />
+                                            </Column>
+                                            <Column id="idColumnQuantity">
+                                                <Title
+                                                    titleStyle="H5"
+                                                    id="idQunatity"
+                                                    text="Quantity(Pcs)"
+                                                />
+                                            </Column>
+
+                                            <Column id="idColumnVolume">
+                                                <Title
+                                                    titleStyle="H5"
+                                                    id="idVolume"
+                                                    text="Volume(m³)"
+                                                />
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem
+                                                id="idCloumnListItem"
+                                            >
+                                                <cells>
+                                                    <Text
+                                                        id="idProductID"
+                                                        text="{Productno/model}"
+                                                    />
+                                                    <Text
+                                                        id="idProductName"
+                                                        text="{Productno/description}"
+                                                    />
+                                                    <Text
+                                                        id="idProductQuantity"
+                                                        text="{SelectedQuantity}"
+                                                    />
+                                                    <Text
+                                                        id="idProductvolume"
+                                                        text="{Productno/volume}"
+                                                    />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </IconTabFilter>
+                                <IconTabFilter
+                                    id="idIconTabFilter2"
+                                    text="ContainerDetails"
+                                >
+                                    <Table
+                                        id="idcontainerTable"
+                                        class="TableSection_SimulatedPage"
+                                        width="auto"
+                                        items="{path: '/SimulatedRecords', parameters: {expand: 'truckType'}}"
+                                        noDataText="No Product Details"
+                                    >
+                                        <headerToolbar>
+                                            <Toolbar
+                                                id="idcontainerTableHeader"
+                                            >
+                                                <Title
+                                                    id="idcontainerTableTitle"
+                                                    text="Container Details"
+                                                    titleStyle="H3"
+                                                />
+                                            </Toolbar>
+                                        </headerToolbar>
+                                        <columns>
+                                            <Column id="idColumnContainerID">
+                                                <Title
+                                                    id="idtextcontainerId"
+                                                    text="Container ID"
+                                                    titleStyle="H5"
+                                                />
+                                            </Column>
+                                            <Column id="idColumnCapacity">
+                                                <Title
+                                                    id="idtextcapacity"
+                                                    text="Capacity"
+                                                    titleStyle="H5"
+                                                />
+                                            </Column>
+                                            <Column id="idColumnStatus">
+                                                <Title
+                                                    id="idcapacity"
+                                                    text="No. of Containers"
+                                                    titleStyle="H5"
+                                                />
+                                            </Column>
+                                            <Column id="idColumnVolume1">
+                                                <Title
+                                                    id="idVolume1"
+                                                    text="Volume"
+                                                    titleStyle="H5"
+                                                />
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem
+                                                id="idColumnListItem"
+                                            >
+                                                <cells>
+                                                    <Text
+                                                        id="idContainerID"
+                                                        text="{truckType/truckType}"
+                                                    />
+                                                    <Text
+                                                        id="idContainerCapacity"
+                                                        text="{truckType/capacity}"
+                                                    />
+                                                    <Text
+                                                        id="idContainerStatus"
+                                                        text="{containerCount}"
+                                                    />
+                                                    <Text
+                                                        id="idContainerVolume1"
+                                                        text="{truckType/volume}"
+                                                    />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </IconTabFilter>
+                            </items>
+                        </IconTabFilter>
+
+                        <IconTabFilter
+                            id="idIconFilterTab03_CM_Datavisualization"
+                            text="Data Visualization"
+                        >
+                            <ScrollContainer
+                                id="idScrollcontainer03_SMLPAGE"
+                                vertical="true"
+                                height="100%"
+                                class="TableSection_SimulatedPage"
+                            >
+                                <!-- <Button
+                                    id="DataVisualization"
+                                    text="Data Visualization"
+                                    type="Default"
+                                    press="onDataVisualization"
+                                /> -->
+                                <VBox
+                                    id="VBoxChart_sv"
+                                    width="50%"
+                                    visible="false"
+                                >
+                                    <suite:ChartContainer
+                                        id="chartContainer_sv"
+                                        width="100%"
+                                    >
+                                        <suite:content>
+                                            <suite:ChartContainerContent
+                                                id="chartContainerContent_sv"
+                                            >
+                                                <suite:content>
+                                                    <viz:VizFrame
+                                                        id="idPieChart_sv"
+                                                        width="100%"
+                                                        height="500px"
+                                                        vizType="donut"
+                                                        vizProperties='{
+                            title: { text: "Container Volume Breakdown" },
+                            plotArea: {
+                                dataLabel: { visible: true },
+                                background: {
+                                    type: "Solid",
+                                    color: "Transparent"
+                                }
+                            }
+                        }'
+                                                    >
+                                                        <viz:dataset>
+                                                            <viz.data:FlattenedDataset
+                                                                id="idFlattenedDataSet_sv"
+                                                                data="{ChartModel>/aSelectedObject}"
+                                                            >
+                                                                <viz.data:dimensions
+                                                                >
+                                                                    <viz.data:DimensionDefinition
+                                                                        id="idDimension1_sv"
+                                                                        name="Name"
+                                                                        value="{ChartModel>model}"
+                                                                    />
+                                                                     <viz.data:DimensionDefinition
+                                                                        id="idDimension3_sv"
+                                                                        name="Quantity"
+                                                                        value="{ChartData>quantity}"
+                                                                    />
+                                                                    <viz.data:DimensionDefinition
+                                                                        id="idDimension4_sv"
+                                                                        name="Percentage"
+                                                                        value="{ChartData>Percentage}"
+                                                                    />
+                                                                </viz.data:dimensions>
+                                                                <viz.data:measures
+                                                                >
+                                                                    <viz.data:MeasureDefinition
+                                                                        id="idDimension2_sv"
+                                                                        name="Volume"
+                                                                        value="{ChartModel>volume}"
+                                                                    />
+                                                                      
+                                                                </viz.data:measures>
+                                                            </viz.data:FlattenedDataset>
+                                                        </viz:dataset>
+
+                                                        <viz:feeds>
+                                                            <viz.feeds:FeedItem
+                                                                id="idFeedItem_size_sv"
+                                                                uid="size"
+                                                                type="Measure"
+                                                                values="Volume"
+                                                            />
+                                                            <viz.feeds:FeedItem
+                                                                id="idFeedItem_color_sv"
+                                                                uid="color"
+                                                                type="Dimension"
+                                                                values="Name"
+                                                            />
+                                                                <viz.feeds:FeedItem
+                                                                id="idFeedItem_color1_sv"
+                                                                uid="color"
+                                                                type="Dimension"
+                                                                values="Quantity"
+                                                            />
+                                                            <viz.feeds:FeedItem
+                                                                id="idFeedItem_color2_sv"
+                                                                uid="color"
+                                                                type="Dimension"
+                                                                values="Percentage"
+                                                            />
+                                                            <!-- <viz.feeds:FeedItem
+                                                                id="idFeedItem_color_sv2"
+                                                                uid="color"
+                                                                type="Dimension"
+                                                                values="quantity"
+                                                            /> -->
+                                                        </viz:feeds>
+                                                    </viz:VizFrame>
+                                                </suite:content>
+                                            </suite:ChartContainerContent>
+                                        </suite:content>
+                                    </suite:ChartContainer>
+                                </VBox>
+                            </ScrollContainer>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
