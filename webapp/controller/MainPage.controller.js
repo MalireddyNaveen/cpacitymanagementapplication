@@ -1245,7 +1245,7 @@ sap.ui.define(
                 //   numberOfTrucksNeeded > 0 ? numberOfTrucksNeeded : 1;
                 // oRemainingVolume = Number(odata.volume) - oTotalProd;
                 // console.log("Truck Volume", Number(odata.volume));
-                // this.byId("idPieChartThings").setVisible(true);
+                this.byId("idPieChartThings").setVisible(true);
                 // const oDummyData = {
                 //   totalProductsVolume: oTotalProd.toFixed(2),
                 //   truckVolume: Number(odata.volume),
@@ -5287,40 +5287,6 @@ sap.ui.define(
                   return;
                 }
 
-                //           const SelectedQuantity = parseInt(product.SelectedQuantity);
-                //           const productLength = Math.max(parseFloat(product.length), 0.01);
-                //           const productHeight = Math.max(parseFloat(product.height), 0.01);
-                //           const productWidth = Math.max(parseFloat(product.width), 0.01);
-                //           const productColor = product.Color;
-                //           const productWeight = parseFloat(product.grossWeight);
-                //           const productStacking = parseFloat(product.stack);
-                //           const productName = product.model;
-                //           const productType = product.mCategory;
-
-                //           let totalChartVolume = 0;
-                //           let totalChartWeight = 0;
-                //           for (let i = 0; i < SelectedQuantity; i++) {
-                //             let isPlaced = false;
-                //             while (!isPlaced) {
-                //               console.log(`Attempting to place product: "${productName}" (Qty: ${SelectedQuantity}) at X: ${currentX}, Y: ${currentY}, Z: ${currentZ}`);
-                //               // Check if product fits within the container along the X axis (length)
-                //               if (currentX + productLength > containerLength / 2) {
-                //                 currentX = -containerLength / 2;
-                //                 currentZ += maxWidth; // Move to the next row (Z axis)
-                //                 console.log(`  X overflow detected, shifting to next row. New X: ${currentX}, Z: ${currentZ}`);
-                //                 maxWidth = 0; // Reset maxWidth for new row
-                //                 // Check if product fits within the container along the Z axis (width)
-                //                 if (currentZ + productWidth > containerWidth / 2) {
-                //                   currentZ = -containerWidth / 2;
-                //                   currentY += maxHeight; // Move to the next height level (Y axis)
-                //                   console.log(`  Z overflow detected, shifting to next level. New Y: ${currentY}, Z: ${currentZ}`);
-                //                   maxHeight = 0; // Reset maxHeight for new level
-                //                   // Check if product fits within the height
-                //                   if (currentY + productHeight > containerHeight) {
-                //                     console.log(`  Product "${productName}" cannot fit in the container.`);
-                //                     alert(`Product "${productName}" cannot fit in the container and will not be placed.`);
-                //                     return; // Skip product if it cannot fit
-                //                   }
               }
             } // Collect the product data for chart visualization
 
