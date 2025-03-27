@@ -1276,17 +1276,17 @@ sap.ui.define(
 
                 // Create a new container
                 this._createContainer(height, length, width, capacity);
-                // var height1 = height - 0.01,
-                //   width1 = width - 0.05,
-                //   length1 = length - 0.05;
+                var height1 = height - 0.01,
+                  width1 = width - 0.05,
+                  length1 = length - 0.05;
 
-                // this._createProducts(
-                //   aSlectedObject,
-                //   height1,
-                //   length1,
-                //   width1,
-                //   capacity
-                // );
+                this._createProducts(
+                  aSlectedObject,
+                  height1,
+                  length1,
+                  width1,
+                  capacity
+                );
                 this.byId("ManualSimulation").setVisible(true);
               } else {
                 console.error("No data found for the selected truck type.");
@@ -5148,20 +5148,20 @@ sap.ui.define(
 
           selectedProducts.sort((a, b) => {
             const aVolume =
-              parseFloat(a.length) * parseFloat(a.width) * parseFloat(a.height);
+              parseFloat(a.Length) * parseFloat(a.Width) * parseFloat(a.Height);
             const bVolume =
-              parseFloat(b.length) * parseFloat(b.width) * parseFloat(b.height);
-            return b.grossWeight - a.grossWeight || bVolume - aVolume;
+              parseFloat(b.Length) * parseFloat(b.Width) * parseFloat(b.Height);
+            return b.Netweight - a.Netweight || bVolume - aVolume;
           });
 
           selectedProducts.forEach((product) => {
-            const SelectedQuantity = parseInt(product.SelectedQuantity);
-            const productLength = Math.max(parseFloat(product.length), 0.01);
-            const productHeight = Math.max(parseFloat(product.height), 0.01);
-            const productWidth = Math.max(parseFloat(product.width), 0.01);
+            const SelectedQuantity = parseInt(product.Selectedquantity);
+            const productLength = Math.max(parseFloat(product.Length), 0.01);
+            const productHeight = Math.max(parseFloat(product.Height), 0.01);
+            const productWidth = Math.max(parseFloat(product.Width), 0.01);
             const productColor = product.Color;
-            const productWeight = parseFloat(product.grossWeight);
-            const productName = product.model;
+            const productWeight = parseFloat(product.Grossweight);
+            const productName = product.Model;
 
             let totalChartVolume = 0;
             let totalChartWeight = 0;
