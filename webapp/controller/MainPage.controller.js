@@ -1158,39 +1158,73 @@ sap.ui.define(
           }
 
           let aSlectedObject = [];
+          for (const item of aItems) {
+            try {
+              const oRowContext = item.getBindingContext();
+              const oRowObject = oRowContext.getObject("Productno");
+              
+              // Wait for the read operation to complete
+              const odata = await new Promise((resolve, reject) => {
+                oModel.read(`/CM_MATERIALSet('${oRowObject}')`, {
+                  success: resolve,
+                  error: reject
+                });
+              });
+              console.log("Naveen")
+              const { Description, Quantity, ...remainingProperties } = odata;
+              const oContextObject = oRowContext.getObject();
+              const { Id, Productno, Simulationname, ...sampleValues } = oContextObject;
+              const oMergeObject = { ...sampleValues, ...remainingProperties };
+              
+              aSlectedObject.push(oMergeObject);
+            } catch (error) {
+              console.error("Error processing item:", error);
+            }
+          }
+          
+          // Now you can use aSlectedObject here
+          console.log("Completed processing:", aSlectedObject);
 
           // /***New Code For Volumes */
           // aItems.forEach((item) => {
           //   let oRowContext = item.getBindingContext();
-          //   let oRowObject = oRowContext.getObject("ProductAssociation                                                ");
-          //   const { description, quantity, ...remainingProperties } = oRowObject;
-          //   let oContextObject = oRowContext.getObject();
-          //   const { ID, Productno, simulationName, ...sampleValues } = oContextObject;
-          //   let oMergeObject = { ...sampleValues, ...remainingProperties }
-          //   aSlectedObject.push(oMergeObject);
+          //   let oRowObject = oRowContext.getObject("Productno");
+          //   oModel.read(`CM_MATERIALSet('${oRowObject}')`,{
+          //     success:function(odata){
+          //       const { description, quantity, ...remainingProperties } = odata;
+          //     },
+          //     error:function(oError){
+          //       console.log(oError)
+          //     }
+          //   })
+          //   // const { description, quantity, ...remainingProperties } = oRowObject;
+          //   // let oContextObject = oRowContext.getObject();
+          //   // const { ID, Productno, simulationName, ...sampleValues } = oContextObject;
+          //   // let oMergeObject = { ...sampleValues, ...remainingProperties }
+          //   // aSlectedObject.push(oMergeObject);
           // })
           // console.log('Sreedhar Items::', aSlectedObject);
-          // let oTotalProd = aSlectedObject.reduce((sum, Item) => {
-          //   return sum + Number(Item.volume) * Number(Item.SelectedQuantity);
-          // }, 0)
-          // console.log("Total Product Volume", oTotalProd);
+          let oTotalProd = aSlectedObject.reduce((sum, Item) => {
+            return sum + Number(Item.Volume) * Number(Item.Selectedquantity);
+          }, 0)
+          console.log("Total Product Volume", oTotalProd);
 
-          //         var oTable = this.byId("idProductTable").getItems()
-          //         if (oTable.length == 0) {
-          //           sap.m.MessageBox.show(
-          //             "Please Add products or Upload excel file for Simulation",
-          //             sap.m.MessageBox.Icon.ERROR,
-          //             "Error",
-          //             [ sap.m.MessageBox.Action.CANCEL],
-          //             function(oAction){
-          //               if(oAction === sap.m.MessageBox.Action.CANCEL){
-          //                 that.getView().byId("id_combobox_for_truckType").setSelectedKey("").setValue("");
+                  var oTable = this.byId("idProductTable").getItems()
+                  if (oTable.length == 0) {
+                    sap.m.MessageBox.show(
+                      "Please Add products or Upload excel file for Simulation",
+                      sap.m.MessageBox.Icon.ERROR,
+                      "Error",
+                      [ sap.m.MessageBox.Action.CANCEL],
+                      function(oAction){
+                        if(oAction === sap.m.MessageBox.Action.CANCEL){
+                          that.getView().byId("id_combobox_for_truckType").setSelectedKey("").setValue("");
 
-          //               }
-          //             }
-          //           )
-          //           return
-          //         };
+                        }
+                      }
+                    )
+                    return
+                  };
 
           // Reinitialize the 3D scene
           this._init3DScene();
