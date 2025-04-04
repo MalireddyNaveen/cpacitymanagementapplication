@@ -5548,6 +5548,7 @@ sap.ui.define(
         _onBatchError: function (oError) {
           MessageToast.show("Batch delete failed. Please try again.");
         },
+
         onClosePressXlData: function () {
           if (this.oFragment.isOpen()) {
             this.oFragment.close();
@@ -5556,15 +5557,18 @@ sap.ui.define(
         //completed material batch
         // Round Of Value Start
         // Helper function to round the number to a specific number of decimals
+
         roundToDecimals: function (num, decimals) {
           var factor = Math.pow(10, decimals);
           return Math.round(num * factor) / factor;
         },
+
         getDecimalPlaces: function (num) {
           var str = num.toString();
           var decimalIndex = str.indexOf(".");
           return decimalIndex === -1 ? 0 : str.length - decimalIndex - 1;
         },
+
         roundOfValue: function (oValue) {
           var fValue = parseFloat(oValue);
           if (!isNaN(fValue)) {
@@ -5574,6 +5578,7 @@ sap.ui.define(
             return fValue.toString();
           }
         },
+
         onManualSimulation: function (oEvent) {
           debugger;
           const oUserId = this.ID;

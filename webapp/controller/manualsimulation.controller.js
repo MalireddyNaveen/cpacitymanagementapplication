@@ -42,6 +42,7 @@ sap.ui.define([
         // Call the reusable function from BaseController
         this.onPressAvatarPopOverBaseFunction(oEvent);
       },
+
       onPressNavBacktoMainPage_MannualSimulationPage: function () {
         const oRouter = this.getOwnerComponent().getRouter();
         oRouter.navTo("RouteMainPage", { id: this.ID });
@@ -236,6 +237,7 @@ sap.ui.define([
         this.scene.add(this.container);
   
       },
+
       _createProducts: function (dataArray, containerHeight, containerLength, containerWidth) {
         if (this.productsGroup) {
           this.scene.remove(this.productsGroup);
@@ -330,7 +332,7 @@ sap.ui.define([
         let selectedObject = null;
         let originalColor = null;
         const placedProducts = this.productsGroup.children;
-  
+        
         const onPointerDown = (event) => {
           const rect = this.renderer.domElement.getBoundingClientRect();
           pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -414,7 +416,6 @@ sap.ui.define([
           this.scene.add(light);
         });
       },
-  
   
       _animate: function () {
         const animate = () => {

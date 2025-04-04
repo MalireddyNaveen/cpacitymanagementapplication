@@ -79,10 +79,18 @@
                     <items>
                         <IconTabFilter
                             id="idIconTabFilterItems_1"
+                            	 items="{path: 'NamedModel>items', templateShareable: false}"
                             text="{NamedModel>title}"
                             key="{NamedModel>key}"
                             icon="{NamedModel>icon}"
-                        />
+                        >
+                        	<items>
+								<IconTabFilter
+									  text="{NamedModel>title}"
+                        key="{NamedModel>key}"/>
+								
+							</items>
+                            	</IconTabFilter>
                     </items>
                 </IconTabHeader>
             </tnt:ToolHeader>

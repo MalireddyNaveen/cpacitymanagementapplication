@@ -14,7 +14,21 @@
 		{
 			"title": "Add Model",
 			"key":"page3",
-			"icon":"sap-icon://add-product"
+			"icon":"sap-icon://add-product",
+			"items": [
+				{
+					"title": "User 1",
+					"key": "page31"
+				},
+				{
+					"title": "User 2",
+					"key": "page32"
+				},
+				{
+					"title": "User 3",
+					"key": "page33"
+				}
+			]
 		},
         {
 			"title": "Container List",
