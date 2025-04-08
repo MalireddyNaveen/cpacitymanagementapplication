@@ -29,6 +29,9 @@ sap.ui.define(
         _iCarouselTimeout: 0,
         _iCarouselLoopTime: 5000,
         onInit() {
+          // var oUserInfo = sap.ushell.Container.getService("UserInfo");
+          //   var userName = oUserInfo.getUser().getFullName(); // You can also use getId() for the user ID
+          //   console.log("Current User: ", oUserInfo);
           var sUrl = sap.ui.require.toUrl(
             "com/app/capacitymanagement/model/data.json"
           );
@@ -1140,7 +1143,7 @@ sap.ui.define(
         },
         //test
         /**Truck type selection based on click display details */
-        onTruckTypeChange:async function (oEvent) {
+        onTruckTypeChange: async function (oEvent) {
           const oModel = this.getOwnerComponent().getModel();
           var that = this;
           // let oSelectedItem = oEvent.getParameters().newValue;
@@ -1162,26 +1165,27 @@ sap.ui.define(
             try {
               const oRowContext = item.getBindingContext();
               const oRowObject = oRowContext.getObject("Productno");
-              
+
               // Wait for the read operation to complete
               const odata = await new Promise((resolve, reject) => {
                 oModel.read(`/CM_MATERIALSet('${oRowObject}')`, {
                   success: resolve,
-                  error: reject
+                  error: reject,
                 });
               });
-              console.log("Naveen")
+              console.log("Naveen");
               const { Description, Quantity, ...remainingProperties } = odata;
               const oContextObject = oRowContext.getObject();
-              const { Id, Productno, Simulationname, ...sampleValues } = oContextObject;
+              const { Id, Productno, Simulationname, ...sampleValues } =
+                oContextObject;
               const oMergeObject = { ...sampleValues, ...remainingProperties };
-              
+
               aSlectedObject.push(oMergeObject);
             } catch (error) {
               console.error("Error processing item:", error);
             }
           }
-          
+
           // Now you can use aSlectedObject here
           console.log("Completed processing:", aSlectedObject);
 
@@ -1206,37 +1210,40 @@ sap.ui.define(
           // console.log('Sreedhar Items::', aSlectedObject);
           let oTotalProd = aSlectedObject.reduce((sum, Item) => {
             return sum + Number(Item.Volume) * Number(Item.Selectedquantity);
-          }, 0)
+          }, 0);
           console.log("Total Product Volume", oTotalProd);
 
-                  var oTable = this.byId("idProductTable").getItems()
-                  if (oTable.length == 0) {
-                    sap.m.MessageBox.show(
-                      "Please Add products or Upload excel file for Simulation",
-                      sap.m.MessageBox.Icon.ERROR,
-                      "Error",
-                      [ sap.m.MessageBox.Action.CANCEL],
-                      function(oAction){
-                        if(oAction === sap.m.MessageBox.Action.CANCEL){
-                          that.getView().byId("id_combobox_for_truckType").setSelectedKey("").setValue("");
-
-                        }
-                      }
-                    )
-                    return
-                  };
+          var oTable = this.byId("idProductTable").getItems();
+          if (oTable.length == 0) {
+            sap.m.MessageBox.show(
+              "Please Add products or Upload excel file for Simulation",
+              sap.m.MessageBox.Icon.ERROR,
+              "Error",
+              [sap.m.MessageBox.Action.CANCEL],
+              function (oAction) {
+                if (oAction === sap.m.MessageBox.Action.CANCEL) {
+                  that
+                    .getView()
+                    .byId("id_combobox_for_truckType")
+                    .setSelectedKey("")
+                    .setValue("");
+                }
+              }
+            );
+            return;
+          }
 
           // Reinitialize the 3D scene
           this._init3DScene();
 
           // Fetch dimensions based on truck type
-        
+
           const sPath = `/CM_Truck_DetailsSet('${oSelectedItem}')`;
           let oRemainingVolume = 0;
 
           oModel.read(sPath, {
             success: function (odata) {
-              console.log(odata)
+              console.log(odata);
               if (odata) {
                 // const numberOfTrucksNeeded = Math.ceil(
                 //   Math.ceil(oTotalProd) / Number(odata.volume)
@@ -1299,8 +1306,7 @@ sap.ui.define(
         },
 
         //Material Batch operations fragment open and data setting to that model ---> subash */
-       
-       
+
         onMaterialUploadbtn: function () {
           var oFileInput = document.createElement("input");
           oFileInput.type = "file";
@@ -1801,143 +1807,213 @@ sap.ui.define(
         //     that.byId("idModelsTable").getBinding("items").refresh();
         //   }
         // },
-        onBatchSave: async function() {
+        onBatchSave: async function () {
           var that = this;
-          var addedProdCodeModel = this.getView().getModel("MaterialModel").getData();
+          var addedProdCodeModel = this.getView()
+            .getModel("MaterialModel")
+            .getData();
           var oDataModel = this.getView().getModel();
           const oView = this.getView();
-      
+
           // Validation phase
           let raisedErrors = [];
           addedProdCodeModel.items.forEach((item, index) => {
-              const aExcelInputs = [
-                  { value: item.Model, regex: null, message: "Enter SAP product number" },
-                  { value: item.Description, regex: null, message: "Enter description" },
-                  { value: item.Mcategory, regex: null, message: "Enter category" },
-                  { value: item.Length, regex: /^\d+(\.\d+)?$/, message: "Length should be numeric" },
-                  { value: item.Width, regex: /^\d+(\.\d+)?$/, message: "Width should be numeric" },
-                  { value: item.Height, regex: /^\d+(\.\d+)?$/, message: "Height should be numeric" },
-                  { value: item.Grossweight, regex: /^\d+(\.\d+)?$/, message: "Gross Weight should be numeric" },
-                  { value: item.Netweight, regex: /^\d+(\.\d+)?$/, message: "Net Weight should be numeric" }
-              ];
-      
-              for (let input of aExcelInputs) {
-                  let aValidations = this.validateField(oView, null, input.value, input.regex, input.message);
-                  if (aValidations.length > 0) {
-                      raisedErrors.push({ index: index + 1, errorMsg: aValidations[0] });
-                  }
+            const aExcelInputs = [
+              {
+                value: item.Model,
+                regex: null,
+                message: "Enter SAP product number",
+              },
+              {
+                value: item.Description,
+                regex: null,
+                message: "Enter description",
+              },
+              { value: item.Mcategory, regex: null, message: "Enter category" },
+              {
+                value: item.Length,
+                regex: /^\d+(\.\d+)?$/,
+                message: "Length should be numeric",
+              },
+              {
+                value: item.Width,
+                regex: /^\d+(\.\d+)?$/,
+                message: "Width should be numeric",
+              },
+              {
+                value: item.Height,
+                regex: /^\d+(\.\d+)?$/,
+                message: "Height should be numeric",
+              },
+              {
+                value: item.Grossweight,
+                regex: /^\d+(\.\d+)?$/,
+                message: "Gross Weight should be numeric",
+              },
+              {
+                value: item.Netweight,
+                regex: /^\d+(\.\d+)?$/,
+                message: "Net Weight should be numeric",
+              },
+            ];
+
+            for (let input of aExcelInputs) {
+              let aValidations = this.validateField(
+                oView,
+                null,
+                input.value,
+                input.regex,
+                input.message
+              );
+              if (aValidations.length > 0) {
+                raisedErrors.push({
+                  index: index + 1,
+                  errorMsg: aValidations[0],
+                });
               }
-      
-              // Validate weight relationship
-              if (Number(item.Grossweight) < Number(item.Netweight)) {
-                  raisedErrors.push({ 
-                      index: index + 1, 
-                      errorMsg: "Gross weight should be greater than or equal to net weight!" 
-                  });
-              }
+            }
+
+            // Validate weight relationship
+            if (Number(item.Grossweight) < Number(item.Netweight)) {
+              raisedErrors.push({
+                index: index + 1,
+                errorMsg:
+                  "Gross weight should be greater than or equal to net weight!",
+              });
+            }
           });
-      
+
           if (raisedErrors.length > 0) {
-              let errorMessage = raisedErrors.map(e => `Row ${e.index}: ${e.errorMsg}`).join("\n");
-              MessageBox.error("Validation errors found:\n\n" + errorMessage);
-              return;
+            let errorMessage = raisedErrors
+              .map((e) => `Row ${e.index}: ${e.errorMsg}`)
+              .join("\n");
+            MessageBox.error("Validation errors found:\n\n" + errorMessage);
+            return;
           }
-      
+
           // Processing phase
           try {
-              let successCount = 0;
-              let errorCount = 0;
-              let duplicateExists = false;
-              let errorMessages = [];
-      
-              // Process items sequentially to avoid the batch limitation
-              for (const [index, item] of addedProdCodeModel.items.entries()) {
-                  try {
-                      // Clean up item data
-                      const propertiesToDelete = ["serialNumber", "muom", "uom", "wuom", "EAN"];
-                      propertiesToDelete.forEach(property => delete item[property]);
-                      
-                      item.Length = String(item.Length).trim();
-                      item.Width = String(item.Width).trim();
-                      item.Height = String(item.Height).trim();
-                      item.Netweight = String(item.Netweight).trim();
-                      item.Grossweight = String(item.Grossweight).trim();
-                      item.Stack = String(item.Stack).trim();
-                      item.Volume = String((parseFloat(item.Length) * parseFloat(item.Width) * parseFloat(item.Height)).toFixed(3));
-                      item.Quantity = String(item.Quantity).trim();
-      
-                      // Create material one by one
-                      await new Promise((resolve) => {
-                          oDataModel.create("/CM_MATERIALSet", item, {
-                              success: function(data) {
-                                  successCount++;
-                                  console.log(`Material ${item.Model} created successfully`);
-                                  resolve();
-                              },
-                              error: function(err) {
-                                  errorCount++;
-                                  let errorMsg = `Row ${index + 1}: Failed to create material`;
-                                  
-                                  if (err.responseText) {
-                                      try {
-                                          const errorObj = JSON.parse(err.responseText).error;
-                                          if (errorObj.message.value.toLowerCase().includes("entity already exists")) {
-                                              errorMsg = `Row ${index + 1}: Material ${item.Model} already exists`;
-                                              duplicateExists = true;
-                                          } else {
-                                              errorMsg = `Row ${index + 1}: ${errorObj.message.value}`;
-                                          }
-                                      } catch (e) {
-                                          console.error("Error parsing error response", e);
-                                      }
-                                  }
-                                  
-                                  errorMessages.push(errorMsg);
-                                  console.error(errorMsg, err);
-                                  resolve(); // Continue with next item
-                              }
-                          });
-                      });
-                  } catch (e) {
+            let successCount = 0;
+            let errorCount = 0;
+            let duplicateExists = false;
+            let errorMessages = [];
+
+            // Process items sequentially to avoid the batch limitation
+            for (const [index, item] of addedProdCodeModel.items.entries()) {
+              try {
+                // Clean up item data
+                const propertiesToDelete = [
+                  "serialNumber",
+                  "muom",
+                  "uom",
+                  "wuom",
+                  "EAN",
+                ];
+                propertiesToDelete.forEach((property) => delete item[property]);
+
+                item.Length = String(item.Length).trim();
+                item.Width = String(item.Width).trim();
+                item.Height = String(item.Height).trim();
+                item.Netweight = String(item.Netweight).trim();
+                item.Grossweight = String(item.Grossweight).trim();
+                item.Stack = String(item.Stack).trim();
+                item.Volume = String(
+                  (
+                    parseFloat(item.Length) *
+                    parseFloat(item.Width) *
+                    parseFloat(item.Height)
+                  ).toFixed(3)
+                );
+                item.Quantity = String(item.Quantity).trim();
+
+                // Create material one by one
+                await new Promise((resolve) => {
+                  oDataModel.create("/CM_MATERIALSet", item, {
+                    success: function (data) {
+                      successCount++;
+                      console.log(
+                        `Material ${item.Model} created successfully`
+                      );
+                      resolve();
+                    },
+                    error: function (err) {
                       errorCount++;
-                      errorMessages.push(`Row ${index + 1}: Unexpected error - ${e.message}`);
-                      console.error(`Error processing row ${index + 1}`, e);
-                  }
+                      let errorMsg = `Row ${
+                        index + 1
+                      }: Failed to create material`;
+
+                      if (err.responseText) {
+                        try {
+                          const errorObj = JSON.parse(err.responseText).error;
+                          if (
+                            errorObj.message.value
+                              .toLowerCase()
+                              .includes("entity already exists")
+                          ) {
+                            errorMsg = `Row ${index + 1}: Material ${
+                              item.Model
+                            } already exists`;
+                            duplicateExists = true;
+                          } else {
+                            errorMsg = `Row ${index + 1}: ${
+                              errorObj.message.value
+                            }`;
+                          }
+                        } catch (e) {
+                          console.error("Error parsing error response", e);
+                        }
+                      }
+
+                      errorMessages.push(errorMsg);
+                      console.error(errorMsg, err);
+                      resolve(); // Continue with next item
+                    },
+                  });
+                });
+              } catch (e) {
+                errorCount++;
+                errorMessages.push(
+                  `Row ${index + 1}: Unexpected error - ${e.message}`
+                );
+                console.error(`Error processing row ${index + 1}`, e);
               }
-      
-              // Refresh UI
-              that.byId("idModelsTable").getBinding("items").refresh();
-              oDataModel.refresh(true);
-      
-              // Show summary
-              let summaryMessage = `Processed ${addedProdCodeModel.items.length} items:\n` +
-                                  `- Success: ${successCount}\n` +
-                                  `- Failed: ${errorCount}`;
-              
-              if (errorMessages.length > 0) {
-                  summaryMessage += "\n\nErrors:\n" + errorMessages.join("\n");
-              }
-      
-              if (errorCount === 0) {
-                  MessageBox.success(summaryMessage);
-              } else if (duplicateExists && errorCount === 1) {
-                  MessageBox.warning(summaryMessage);
-              } else {
-                  MessageBox.error(summaryMessage);
-              }
-      
-              // Close dialog if exists
-              if (that.oFragment) {
-                  that.getView().getModel("MaterialModel").setData("");
-                  that.oFragment.close();
-              }
-      
+            }
+
+            // Refresh UI
+            that.byId("idModelsTable").getBinding("items").refresh();
+            oDataModel.refresh(true);
+
+            // Show summary
+            let summaryMessage =
+              `Processed ${addedProdCodeModel.items.length} items:\n` +
+              `- Success: ${successCount}\n` +
+              `- Failed: ${errorCount}`;
+
+            if (errorMessages.length > 0) {
+              summaryMessage += "\n\nErrors:\n" + errorMessages.join("\n");
+            }
+
+            if (errorCount === 0) {
+              MessageBox.success(summaryMessage);
+            } else if (duplicateExists && errorCount === 1) {
+              MessageBox.warning(summaryMessage);
+            } else {
+              MessageBox.error(summaryMessage);
+            }
+
+            // Close dialog if exists
+            if (that.oFragment) {
+              that.getView().getModel("MaterialModel").setData("");
+              that.oFragment.close();
+            }
           } catch (error) {
-              console.error("Unexpected error in onBatchSave", error);
-              MessageBox.error("A technical error occurred while processing your request");
-              that.byId("idModelsTable").getBinding("items").refresh();
+            console.error("Unexpected error in onBatchSave", error);
+            MessageBox.error(
+              "A technical error occurred while processing your request"
+            );
+            that.byId("idModelsTable").getBinding("items").refresh();
           }
-      },
+        },
         //close Models upload Fragment
         onClosePressXlData: function () {
           if (this.oFragment.isOpen()) {
@@ -1963,7 +2039,7 @@ sap.ui.define(
         },
         /***After Completed Simulation */
         async onFinishSimulation(oEvent) {
-          var oModel = this.getOwnerComponent().getModel()
+          var oModel = this.getOwnerComponent().getModel();
           let oView = this.getView();
           let oSimulationTable = oView.byId("idSimulationtable");
           let oSimulationKeyText = oView.byId("idCurrentSimName").getText();
@@ -4629,13 +4705,15 @@ sap.ui.define(
             text: "Please wait while uploading",
           });
           this._oBusyUpload.open();
-          
+
           try {
             const that = this;
-            const addedProdCodeModel = this.getView().getModel("MaterialModel").getData();
+            const addedProdCodeModel = this.getView()
+              .getModel("MaterialModel")
+              .getData();
             const oDataModel = this.getOwnerComponent().getModel();
             const oView = this.getView();
-        
+
             // Validate if there are items to process
             if (!addedProdCodeModel?.items?.length) {
               sap.m.MessageBox.information(
@@ -4643,7 +4721,7 @@ sap.ui.define(
               );
               return;
             }
-        
+
             // Excel Validations
             const raisedErrors = [];
             for (const [index, item] of addedProdCodeModel.items.entries()) {
@@ -4659,7 +4737,7 @@ sap.ui.define(
                   message: "Quantity should be numeric",
                 },
               ];
-        
+
               for (const input of aExcelInputs) {
                 const aValidations = this.validateField(
                   oView,
@@ -4676,7 +4754,7 @@ sap.ui.define(
                 }
               }
             }
-        
+
             if (raisedErrors.length > 0) {
               for (const error of raisedErrors) {
                 sap.m.MessageBox.information(
@@ -4685,7 +4763,7 @@ sap.ui.define(
               }
               return;
             }
-        
+
             // Check for duplicates in existing simulation
             const sPath = "/CM_SELECTED_PRODUCTSet";
             const aFilters = [
@@ -4695,42 +4773,50 @@ sap.ui.define(
                 that.SimulationName
               ),
             ];
-        
+
             const oProductsInCurrentSimulation = await this.readData(
               oDataModel,
               sPath,
               aFilters
             );
-        
+
             const modelSet = new Set(
               addedProdCodeModel.items.map((item) => item.Model)
             );
-        
-            const duplicateItems = oProductsInCurrentSimulation.results.filter((product) =>
-              modelSet.has(product.Productno)
+
+            const duplicateItems = oProductsInCurrentSimulation.results.filter(
+              (product) => modelSet.has(product.Productno)
             );
-        
+
             if (duplicateItems.length > 0) {
-              const tableItems = this.byId("id_SelectedProductsForSimulation_table").getItems();
-              const set2Ids = new Set(duplicateItems.map((item) => item.Productno));
-        
+              const tableItems = this.byId(
+                "id_SelectedProductsForSimulation_table"
+              ).getItems();
+              const set2Ids = new Set(
+                duplicateItems.map((item) => item.Productno)
+              );
+
               tableItems.forEach((item) => {
                 if (set2Ids.has(item.getCells()[1].getValue())) {
                   item.getCells()[1].setValueState("Error");
-                  item.getCells()[1].setValueStateText("Model already selected");
+                  item
+                    .getCells()[1]
+                    .setValueStateText("Model already selected");
                 } else {
                   item.getCells()[1].setValueState("None");
                 }
               });
-        
+
               sap.m.MessageBox.information(
                 `Current file contains models/materials which are already selected for simulation.\n` +
-                `${duplicateItems.map((item) => item.Productno).join(",\n")}\n` +
-                `NOTE: You can increase the quantity of already selected models/materials by editing them individually`
+                  `${duplicateItems
+                    .map((item) => item.Productno)
+                    .join(",\n")}\n` +
+                  `NOTE: You can increase the quantity of already selected models/materials by editing them individually`
               );
               return;
             }
-        
+
             // Validate materials exist in the system
             const readErrors = [];
             for (const item of addedProdCodeModel.items) {
@@ -4745,62 +4831,75 @@ sap.ui.define(
                         error: oError,
                       });
                       resolve(); // Continue even if error
-                    }
+                    },
                   });
                 });
               } catch (error) {
                 console.error("Error reading material:", error);
               }
             }
-        
+
             if (readErrors.length > 0) {
-              const tableItems = this.byId("id_SelectedProductsForSimulation_table").getItems();
+              const tableItems = this.byId(
+                "id_SelectedProductsForSimulation_table"
+              ).getItems();
               const set2Ids = new Set(readErrors.map((item) => item.model));
-        
+
               tableItems.forEach((item) => {
                 if (set2Ids.has(item.getCells()[1].getValue())) {
                   item.getCells()[1].setValueState("Error");
-                  item.getCells()[1].setValueStateText("Model not found in records");
+                  item
+                    .getCells()[1]
+                    .setValueStateText("Model not found in records");
                 } else {
                   item.getCells()[1].setValueState("None");
                 }
               });
-        
-              const unknownMaterials = readErrors.map((item) => item.model).join(", \n");
+
+              const unknownMaterials = readErrors
+                .map((item) => item.model)
+                .join(", \n");
               sap.m.MessageBox.error(
                 `There are some unknown materials/models in this file:\n  "${unknownMaterials}"`
               );
               return;
             }
-        
+
             // Create selected products - one at a time with individual changesets
             for (const item of addedProdCodeModel.items) {
-              const batchGroupId = `batchCreate_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
-              
+              const batchGroupId = `batchCreate_${Date.now()}_${Math.random()
+                .toString(36)
+                .substr(2, 5)}`;
+
               const obJ = {
                 Productno: item.Model,
                 Selectedquantity: item.Quantity.toString(),
                 Simulationname: that.SimulationName,
                 Color: this.generateRandomHexColor(),
               };
-        
+
               try {
                 await new Promise((resolve, reject) => {
                   oDataModel.create("/CM_SELECTED_PRODUCTSet", obJ, {
                     groupId: batchGroupId,
                     success: resolve,
-                    error: reject
+                    error: reject,
                   });
-        
+
                   oDataModel.submitChanges({
                     groupId: batchGroupId,
                     success: resolve,
-                    error: reject
+                    error: reject,
                   });
                 });
               } catch (err) {
                 console.error("Error creating material:", err);
-                if (JSON.parse(err.responseText)?.error?.message?.value?.toLowerCase() === "entity already exists") {
+                if (
+                  JSON.parse(
+                    err.responseText
+                  )?.error?.message?.value?.toLowerCase() ===
+                  "entity already exists"
+                ) {
                   sap.m.MessageBox.error(
                     "Material already exists. Please check and try again."
                   );
@@ -4812,14 +4911,16 @@ sap.ui.define(
                 throw err; // Stop further execution
               }
             }
-        
+
             // Success case
             sap.m.MessageBox.success("Materials added successfully");
             this.getView().getModel("MaterialModel").setData("");
-            this.byId("id_SelectedProductsForSimulation_table").setVisible(false);
+            this.byId("id_SelectedProductsForSimulation_table").setVisible(
+              false
+            );
             this.byId("idProductTable").setVisible(true);
             this.byId("_IDGenButton2").setVisible(false);
-        
+
             const oTable = this.byId("idProductTable");
             const oBinding = oTable.getBinding("items");
             const oFilter = new sap.ui.model.Filter(
@@ -4828,7 +4929,6 @@ sap.ui.define(
               this.SimulationName
             );
             oBinding.filter([oFilter]);
-        
           } catch (error) {
             console.error("Error in onBatchSaveSelectedProduct:", error);
             sap.m.MessageToast.show(
@@ -4838,9 +4938,9 @@ sap.ui.define(
             this._oBusyUpload.close();
           }
         },
-        
+
         // Helper function to generate random hex color
-        generateRandomHexColor: function() {
+        generateRandomHexColor: function () {
           const randomColor = Math.floor(Math.random() * 0xffffff);
           return `#${randomColor.toString(16).padStart(6, "0").toUpperCase()}`;
         },
@@ -5286,7 +5386,6 @@ sap.ui.define(
                   );
                   return;
                 }
-
               }
             } // Collect the product data for chart visualization
 

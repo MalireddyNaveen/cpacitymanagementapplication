@@ -7,48 +7,44 @@
 			"icon":"sap-icon://home"
 		},
 		{
-			"title": "Model List",
-			"key": "page2",
-			"icon":"sap-icon://product"
-		},
-		{
 			"title": "Add Model",
-			"key":"page3",
+			"key":"page2",
 			"icon":"sap-icon://add-product",
 			"items": [
 				{
-					"title": "User 1",
-					"key": "page31"
-				},
-				{
-					"title": "User 2",
-					"key": "page32"
-				},
-				{
-					"title": "User 3",
-					"key": "page33"
+					"title": "Model List",
+					"key": "page21",
+					"icon":"sap-icon://product"
 				}
+				
 			]
-		},
-        {
-			"title": "Container List",
-			"key": "page4",
-			"icon":"sap-icon://shipping-status"
 		},
 		{
 			"title": "Add Container",
-			"key":"page5",
-			"icon":"sap-icon://add"
+			"key":"page3",
+			"icon":"sap-icon://add",
+			"items": [
+				{
+					"title": "Container List",
+					"key": "page31",
+					"icon":"sap-icon://shipping-status"
+				}
+				
+			]
 		},
-        {
-			"title": "Previous Simulation",
-			"key": "page6",
-			"icon":"sap-icon://clinical-task-tracker"
-		},
+        
 		{
 			"title": "Simulation",
-			"key":"page7",
-			"icon":"sap-icon://simulate"
+			"key":"page4",
+			"icon":"sap-icon://simulate",
+			"items": [
+				{
+					"title": "Simulation History",
+					"key": "page41",
+					"icon":"sap-icon://clinical-task-tracker"
+				}
+				
+			]
 		}
 
 

@@ -87,7 +87,8 @@
                         	<items>
 								<IconTabFilter
 									  text="{NamedModel>title}"
-                        key="{NamedModel>key}"/>
+                        key="{NamedModel>key}"
+                         icon="{NamedModel>icon}"/>
 								
 							</items>
                             	</IconTabFilter>
@@ -392,7 +393,7 @@
                         height="100%"
                         class="sapUiContentPadding"
                     > -->
-                    <uxap:ObjectPageLayout id="page2">
+                    <uxap:ObjectPageLayout id="page21">
                         <uxap:headerTitle>
                             <uxap:ObjectPageDynamicHeaderTitle
                                 id="ObjectPageDynamicHeaderTitlepage2"
@@ -616,7 +617,7 @@
                     </uxap:ObjectPageLayout>
                     <!-- </ScrollContainer> -->
                     <ScrollContainer
-                        id="page3"
+                        id="page2"
                         horizontal="false"
                         vertical="true"
                         height="100%"
@@ -935,7 +936,7 @@
                         </HBox>
                     </ScrollContainer>
 
-                    <uxap:ObjectPageLayout id="page4">
+                    <uxap:ObjectPageLayout id="page31">
                         <uxap:headerTitle>
                             <uxap:ObjectPageDynamicHeaderTitle
                                 id="idObjectPageDynamicHeaderTitle"
@@ -1061,7 +1062,7 @@
                     </uxap:ObjectPageLayout>
 
                     <ScrollContainer
-                        id="page5"
+                        id="page3"
                         horizontal="false"
                         vertical="true"
                         height="100%"
@@ -1222,7 +1223,7 @@
                         </HBox>
                     </ScrollContainer>
 
-                    <uxap:ObjectPageLayout id="page6">
+                    <uxap:ObjectPageLayout id="page41">
                         <uxap:headerTitle>
                             <uxap:ObjectPageDynamicHeaderTitle
                                 id="idFilterTitleBarContainerFor_previous_simulation"
@@ -1354,7 +1355,7 @@
                         </uxap:sections>
                     </uxap:ObjectPageLayout>
                     <ScrollContainer
-                        id="page7"
+                        id="page4"
                         horizontal="false"
                         vertical="true"
                         height="100%"
