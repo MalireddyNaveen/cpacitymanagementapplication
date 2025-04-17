@@ -2,11 +2,11 @@
     "base": "./dist",
     "conn_usestrictssl" : false,
     "conn_server": "https://vhcalakeci.artihcus.com:44306",
-    "conn_client" : "400",
-    "conn_user": "NaveenM",
+    "conn_client" : "100",
+    "conn_user": "MNaveen",
     "conn_password": "Naveen@123",
-    "abap_package": "Z_CAPACITY_PACKAGE",
-    "abap_bsp": "Z_CAPMANAGE_APP",
+    "abap_package": "Z_CAPMANAGE_PACKAGE",
+    "abap_bsp": "Z_CAPMANAGE_V1",
     "abap_bsp_text": "UI5 upload through VSCode App",
-    "abap_transport": "AKEK903811"
+    "abap_transport": "AKEK903999"
 }

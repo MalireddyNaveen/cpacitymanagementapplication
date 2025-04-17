@@ -635,7 +635,7 @@ sap.ui.define(
           const oView = this.getView(),
             oCombinedModel = oView.getModel("CombinedModel"),
             oProductPayload = oCombinedModel.getProperty("/Product"),
-            oSelectedCat = this.byId("idSelectCat").getSelectedKey(),
+            // oSelectedCat = this.byId("idSelectCat").getSelectedKey(),
             oModel = oView.getModel(),
             oPath = "/CM_MATERIALSet";
           let raisedErrors = [];
@@ -684,12 +684,12 @@ sap.ui.define(
               regex: /^\d+(\.\d+)?$/,
               message: "Gross Weight should be numeric",
             },
-            {
-              Id: "idInputForModelStack",
-              value: oProductPayload.Stack,
-              regex: /^\d+$/,
-              message: "Stack should be numeric",
-            },
+            // {
+            //   Id: "idInputForModelStack",
+            //   value: oProductPayload.Stack,
+            //   regex: /^\d+$/,
+            //   message: "Stack should be numeric",
+            // },
           ];
           // Create an array of promises for validation
           const validationPromises = aUserInputs.map(async (input) => {
@@ -730,10 +730,10 @@ sap.ui.define(
           }
 
           // validate category
-          if (oSelectedCat === "") {
-            MessageBox.information("Please Select Category"); // Show consolidated error messages
-            return;
-          }
+          // if (oSelectedCat === "") {
+          //   MessageBox.information("Please Select Category"); // Show consolidated error messages
+          //   return;
+          // }
 
           //(*****)PLEASE DONT REMOVE THE COMMENT PART(*****)
           /**Checking L*W*H UOM */
@@ -768,9 +768,9 @@ sap.ui.define(
           // oProductPayload.vuom = "M³";
 
           //Displaying Length Width Height from mm or cm to Meters
-          var uom = this.byId("idForSelectModelLWHUOM").getSelectedKey();
+          var uom = this.byId("idInputForModelLengUnits").getValue();
 
-          if (uom == "CM") {
+          if (uom == "CM" || uom == "cm") {
             (oProductPayload.Height = String(
               (oProductPayload.Height * 0.01).toFixed(4)
             )), // Convert height from cm to meters
@@ -782,7 +782,7 @@ sap.ui.define(
               )); // Convert width from cm to meters
           }
 
-          if (uom == "mm") {
+          if (uom == "mm" || uom == "MM") {
             (oProductPayload.Height = String(
               (oProductPayload.Height * 0.001).toFixed(4)
             )), // Convert height from mm to meters
@@ -813,14 +813,14 @@ sap.ui.define(
               "Gross weight Should be greater or Equals to the NetWeight!!"
             );
           }
-          oProductPayload.Mcategory = oSelectedCat;
+          // oProductPayload.Mcategory = oSelectedCat;
           try {
             await this.createData(oModel, oProductPayload, oPath);
             this.getView().byId("idModelsTable").getBinding("items")?.refresh();
             this.byId("idForSelectModelLWHUOM").setSelectedKey("");
             this.byId("idSelectModelWeightUOM").setSelectedKey("");
             MessageToast.show("Successfully Created!");
-            this.byId("idSelectCat").setSelectedKey("");
+           // this.byId("idSelectCat").setSelectedKey("");
             oCombinedModel.setProperty("/Product", {}); // clear data after successful creation
             // this.ClearingModel(true);
             MessageToast.show("Successfully Created!");
@@ -3913,7 +3913,7 @@ sap.ui.define(
             var oIconTabBar = this.byId("idIconTabHeader");
             oIconTabBar.setSelectedKey("page7");
 
-            this.byId("pageContainer").to(this.getView().createId("page7"));
+            this.byId("pageContainer").to(this.getView().createId("page4"));
             oView.byId("idList4").setVisible(false);
             oView.byId("idPieChartThings").setVisible(false);
             oView
@@ -5738,6 +5738,46 @@ sap.ui.define(
             sap.m.MessageToast.show("No records selected");
           }
         },
+        onModelSubmit: function(oEvent) {
+          var that =this
+          const oView = this.getView();
+          const oCombinedModel = oView.getModel("CombinedModel");
+          const oODataModel = this.getOwnerComponent().getModel();
+          const sProductId = oEvent.getParameter("value");
+          
+          // Clear previous values while loading new ones
+         
+          
+          oODataModel.read(`/CM_MARASet('${sProductId}')`, {
+              success: function(oData) {
+                  // Update the combined model with the retrieved data
+                  oCombinedModel.setProperty("/Product", {
+                      Model: sProductId,
+                      Description: oData.Description || "",
+                      Length: oData.Laeng || "",
+                      Width: oData.Breit || "",
+                      Height: oData.Hoehe || "",
+                      Volume: oData.Volum|| "",
+                      Mcategory: oData.Extwg || "",
+                      Netweight: oData.Ntgew || "",
+                      Grossweight: oData.Brgew || "",
+                      Stack: oData.Stack || "",
+                      Bearingcapacity: oData.Bearingcapacity || "",
+                  });
+                 
+                  oView.byId("idInputForModelLengUnits").setValue(oData.Meabm);
+                  oView.byId("idInputForModelWidthUnits").setValue(oData.Meabm);
+                  oView.byId("idInputForModelHeightUnit").setValue(oData.Meabm);
+                  oView.byId("idInputForModelNetWeightUnits").setValue(oData.Gewei);
+                  oView.byId("idInputForModelGrossWeightUnits").setValue(oData.Gewei);
+              },
+              error: function(oError) {
+                  MessageToast.show("Product not found");
+                  // Clear the input if product not found
+                  oCombinedModel.setProperty("/Product/Model", "");
+              }
+          });
+      }
       }
     );
   }

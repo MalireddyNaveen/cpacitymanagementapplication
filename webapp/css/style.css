@@ -726,7 +726,9 @@
   /* Custom styles for capacity management section (Title)*/
   .capacityManagementTitle {
     font-weight: bold !important;
-    /* font-size: x-large !important; */
+    
+    font-size: 1.8rem !important;
+    margin-bottom: 0.5rem !important;
   }
   
   .SimulationDetailsProfile {

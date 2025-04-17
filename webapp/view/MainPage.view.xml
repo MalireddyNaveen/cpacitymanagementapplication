@@ -29,7 +29,7 @@
                     id="idheaderImage"
                     height="1.5rem"
                     class="sapUiTinyMarginBegin"
-                    src="https://www.daikin.com/-/media/Project/Daikin/daikin_com/dg_common/images/logo_daikin-png.png"
+                    src=""
                 />
 
                 <ToolbarSpacer id="idToolbarSpacer_1" />
@@ -38,7 +38,7 @@
                     text="Capacity Management"
                     wrapping="false"
                     id="idCapacityManaementTitle"
-                    class="capacityManagementTitle"
+                    class="sapUiTinyMarginBottom capacityManagementTitle"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData
@@ -59,9 +59,10 @@
                 
             </tnt:ToolHeader>
         </tnt:header>
-        <tnt:subHeader>
+        <tnt:subHeader >
             <tnt:ToolHeader id="idToolHeaderPageSubHeader">
                 <IconTabHeader
+                
                     id="idIconTabHeader"
                     selectedKey="{NamedModel>/selectedKey}"
                     items="{path: 'NamedModel>/navigation'}"
@@ -654,7 +655,7 @@
                                                 value="{CombinedModel>/Product/Model}"
                                                 placeholder="Enter Productno"
                                                 class="customInput"
-                                                liveChange="onLiveChangeProduct"
+                                                submit=".onModelSubmit"
                                                 width="100%"
                                             />
                                         </HBox>
@@ -674,6 +675,7 @@
                                                 liveChange="onLiveChangeDesc"
                                                 width="100%"
                                                 maxLength="200"
+                                                
                                             />
                                         </HBox>
 
@@ -684,7 +686,18 @@
                                                 width="125px"
                                                 class="sapUiTinyMarginTop"
                                             />
-                                            <ComboBox
+
+                                              <Input
+                                                id="idInputForMaterialCate"
+                                                value="{CombinedModel>/Product/Mcategory}"
+                                                placeholder="Enter Material Category"
+                                                class="customInput"
+                                                liveChange="onLiveChangeDesc"
+                                                width="100%"
+                                                maxLength="200"
+                                                 editable="false"
+                                            />
+                                            <!-- <ComboBox
                                                 id="idSelectCat"
                                                 width="174px"
                                                 placeholder="Select from dropdown"
@@ -699,13 +712,13 @@
                                                     key="RA-ODU"
                                                     text="RA-ODU"
                                                 />
-                                            </ComboBox>
+                                            </ComboBox> -->
                                         </HBox>
 
                                         <HBox id="idHBoxForModelLeng">
                                             <Label
                                                 id="idLableForModelLeng"
-                                                text="Length(m):"
+                                                text="Length:"
                                                 width="125px"
                                                 class="sapUiTinyMarginTop"
                                             />
@@ -716,13 +729,21 @@
                                                 liveChange="onLiveChange"
                                                 width="100%"
                                                 type="Number"
+                                                 editable="false"
+                                            />
+
+                                            <Input
+                                                id="idInputForModelLengUnits"
+                                                value=""
+                                               width="25%"
+                                                editable="false"
                                             />
                                         </HBox>
 
                                         <HBox id="idHBoxForModelWidth">
                                             <Label
                                                 id="idLableForModelWidth"
-                                                text="Width(m):"
+                                                text="Width:"
                                                 width="125px"
                                                 class="sapUiTinyMarginTop"
                                             />
@@ -733,15 +754,22 @@
                                                 maxLength="5"
                                                 width="100%"
                                                 liveChange="onLiveChange1"
-                                                editable="true"
+                                               
                                                 type="Number"
+                                                 editable="false"
+                                            />
+                                              <Input
+                                                id="idInputForModelWidthUnits"
+                                                value=""
+                                                width="25%"
+                                                 editable="false"
                                             />
                                         </HBox>
 
                                         <HBox id="idHBoxForModelHeight">
                                             <Label
                                                 id="idLabelForModelHeight"
-                                                text="Height(m):"
+                                                text="Height:"
                                                 width="125px"
                                                 class="sapUiTinyMarginTop"
                                             />
@@ -753,6 +781,13 @@
                                                 liveChange="onLiveChange2"
                                                 width="100%"
                                                 type="Number"
+                                                 editable="false"
+                                            />
+                                             <Input
+                                                id="idInputForModelHeightUnit"
+                                                value=""
+                                                 width="25%"
+                                                  editable="false"
                                             />
                                         </HBox>
 
@@ -797,7 +832,7 @@
                                         <HBox id="idHBoxForModelNetWeight">
                                             <Label
                                                 id="idLablelForModelNetWeight"
-                                                text="Net Weight(Kg):"
+                                                text="Net Weight:"
                                                 width="125px"
                                                 class="sapUiTinyMarginTop"
                                             />
@@ -810,6 +845,13 @@
                                                 width="100%"
                                                 maxLength="200"
                                                 type="Number"
+                                                 editable="false"
+                                            />
+                                              <Input
+                                                id="idInputForModelNetWeightUnits"
+                                                value=""
+                                                width="25%"
+                                                 editable="false"
                                             />
                                         </HBox>
                                         <HBox id="idHBoxForModelGrossWeight">
@@ -828,6 +870,13 @@
                                                 width="100%"
                                                 maxLength="200"
                                                 type="Number"
+                                                editable="false"
+                                            />
+                                             <Input
+                                                id="idInputForModelGrossWeightUnits"
+                                                value=""
+                                               width="25%"
+                                                editable="false"
                                             />
                                         </HBox>
 
@@ -868,7 +917,7 @@
                                             </Select>
                                         </HBox>
                                         <HBox id="idHBoxForModelStack">
-                                            <Label
+                                            <!-- <Label
                                                 id="idLablelForModelStack"
                                                 text="Stack Level:"
                                                 width="125px"
@@ -883,7 +932,7 @@
                                                 liveChange="onLiveChange4"
                                                 maxLength="200"
                                                 type="Number"
-                                            />
+                                            /> -->
                                         </HBox>
                                         <HBox
                                             id="buttonsHbox_productList"
@@ -900,6 +949,13 @@
                                             <Button
                                                 id="idBtnForModelSave"
                                                 text="Save"
+                                                press="onCreateProduct"
+                                                type="Emphasized"
+                                                class="dialogButton_sapconnect addProductSaveButton"
+                                            />
+                                             <Button
+                                                id="idBtnForModelChange"
+                                                text="Change"
                                                 press="onCreateProduct"
                                                 type="Emphasized"
                                                 class="dialogButton_sapconnect addProductSaveButton"
