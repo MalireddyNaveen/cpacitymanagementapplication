@@ -816,6 +816,7 @@ sap.ui.define(
           // oProductPayload.Mcategory = oSelectedCat;
           try {
             await this.createData(oModel, oProductPayload, oPath);
+            this.onClearProduct();
             this.getView().byId("idModelsTable").getBinding("items")?.refresh();
             this.byId("idForSelectModelLWHUOM").setSelectedKey("");
             this.byId("idSelectModelWeightUOM").setSelectedKey("");
@@ -2027,15 +2028,18 @@ sap.ui.define(
         onClearProduct: function () {
           this.getView().byId("idInputForModelNum").setValue();
           this.getView().byId("idInputForModelDesc").setValue();
-          // this.getView().byId("idForSelectModelLWHUOM").setValue("");
+          this.getView().byId("idInputForMaterialCate").setValue();
           this.getView().byId("idInputForModelLeng").setValue();
+          this.getView().byId("idInputForModelLengUnits").setValue();
           this.getView().byId("idInputForModelWidth").setValue();
+          this.getView().byId("idInputForModelWidthUnits").setValue();
           this.getView().byId("idInputForModelHeight").setValue();
-          // this.getView().byId("idForSelectModelLWHUOM").setValue("Select");
+          this.getView().byId("idInputForModelHeightUnit").setValue();
           this.getView().byId("idInputForModelNetWeight").setValue();
+          this.getView().byId("idInputForModelNetWeightUnits").setValue();
           this.getView().byId("idInputForModelGrossWeight").setValue();
-          this.getView().byId("idSelectModelWeightUOM").setValue("Select");
-          this.getView().byId("idInputForModelStack").setValue();
+          this.getView().byId("idInputForModelGrossWeightUnits").setValue();
+          this.getView().byId("idInputForModelGrossWeight").setValue();
         },
         /***After Completed Simulation */
         async onFinishSimulation(oEvent) {

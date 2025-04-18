@@ -857,7 +857,7 @@
                                         <HBox id="idHBoxForModelGrossWeight">
                                             <Label
                                                 id="idLablelForModelGrossWeight"
-                                                text="Gross Weight(Kg):"
+                                                text="Gross Weight:"
                                                 width="125px"
                                                 class="sapUiTinyMarginTop"
                                             />
@@ -944,6 +944,7 @@
                                                 press="onClearProduct"
                                                 type="Emphasized"
                                                 class="dialogButton_sapconnect addProductSaveButton sapUiMediumMarginEnd"
+                                                width="70%"
                                             />
 
                                             <Button
@@ -951,13 +952,15 @@
                                                 text="Save"
                                                 press="onCreateProduct"
                                                 type="Emphasized"
-                                                class="dialogButton_sapconnect addProductSaveButton"
+                                                 width="70%"
+                                                class="dialogButton_sapconnect addProductSaveButton sapUiMediumMarginEnd"
                                             />
                                              <Button
                                                 id="idBtnForModelChange"
                                                 text="Change"
-                                                press="onCreateProduct"
+                                                press="onChangeProduct"
                                                 type="Emphasized"
+                                                width="100%"
                                                 class="dialogButton_sapconnect addProductSaveButton"
                                             />
                                         </HBox> 
