@@ -1,85 +1,102 @@
-<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
-<edmx:DataServices m:DataServiceVersion="2.0">
-<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZEWM_CAPACITY_MANAGEMENT_SRV" xml:lang="en" sap:schema-version="1">
-<Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.SchemaVersion" String="1.0.0"/>
-<EntityType Name="CM_MATERIAL" sap:content-version="1">
-<Key>
-<PropertyRef Name="Model"/>
-</Key>
-<Property Name="Model" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="PRODUCTNO"/>
-<Property Name="Length" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="LENGTH"/>
-<Property Name="Width" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="WIDTH"/>
-<Property Name="Height" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="HEIGHT"/>
-<Property Name="Volume" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="VOLUME"/>
-<Property Name="Mcategory" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MCATEGORY"/>
-<Property Name="Description" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="DESCRIPTION"/>
-<Property Name="Netweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="NETWEIGHT"/>
-<Property Name="Grossweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="GROSSWEIGHT"/>
-<Property Name="Quantity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="QUANTITY"/>
-<Property Name="Stack" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="STACK"/>
-<Property Name="Bearingcapacity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="BEARINGCAPACITY"/>
-</EntityType>
-<EntityType Name="CM_SELECTED_PRODUCT" sap:content-version="1">
-<Key>
-<PropertyRef Name="Id"/>
-</Key>
-<Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="ID"/>
-<Property Name="Productno" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="PRODUCTNO"/>
-<Property Name="Selectedquantity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="SELECTEDQUANTITY"/>
-<Property Name="Simulationname" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="SIMULATIONNAME"/>
-<Property Name="Color" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="COLOR"/>
-</EntityType>
-<EntityType Name="CM_SIMULATED_RECORDS" sap:content-version="1">
-<Key>
-<PropertyRef Name="Simulationname"/>
-</Key>
-<Property Name="Simulationname" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="SIMULATIONNAME"/>
-<Property Name="Trucktype" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="TRUCKTYPE"/>
-<Property Name="Status" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="STATUS"/>
-<Property Name="Createdby" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CREATEDBY"/>
-<Property Name="Containercount" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CONTAINERCOUNT"/>
-<Property Name="Createdat" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CREATEDAT"/>
-<Property Name="Modifiedat" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MODIFIEDAT"/>
-<Property Name="Modifiedby" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MODIFIEDBY"/>
-</EntityType>
-<EntityType Name="CM_Truck_Details" sap:content-version="1">
-<Key>
-<PropertyRef Name="Trucktype"/>
-</Key>
-<Property Name="Trucktype" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="TRUCKTYPE"/>
-<Property Name="Length" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="LENGTH"/>
-<Property Name="Width" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="WIDTH"/>
-<Property Name="Height" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="HEIGHT"/>
-<Property Name="Volume" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="VOLUME"/>
-<Property Name="Truckweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="TRUCKWEIGHT"/>
-<Property Name="Capacity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CAPACITY"/>
-</EntityType>
-<EntityType Name="CM_MARA" sap:content-version="1">
-<Key>
-<PropertyRef Name="Matnr"/>
-</Key>
-<Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material"/>
-<Property Name="Brgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Gewei" sap:label="Gross Weight"/>
-<Property Name="Ntgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Gewei" sap:label="Net Weight"/>
-<Property Name="Gewei" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Unit of Weight" sap:semantics="unit-of-measure"/>
-<Property Name="Volum" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Voleh" sap:label="Volume"/>
-<Property Name="Voleh" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Volume Unit" sap:semantics="unit-of-measure"/>
-<Property Name="Laeng" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meabm" sap:label="Length"/>
-<Property Name="Breit" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meabm" sap:label="Width"/>
-<Property Name="Hoehe" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meabm" sap:label="Height"/>
-<Property Name="Meabm" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Unit" sap:semantics="unit-of-measure"/>
-<Property Name="Extwg" Type="Edm.String" MaxLength="18" sap:unicode="false" sap:label="Ext. Matl Group"/>
-</EntityType>
-<EntityContainer Name="ZEWM_CAPACITY_MANAGEMENT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
-<EntitySet Name="CM_MATERIALSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_MATERIAL" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-<EntitySet Name="CM_SELECTED_PRODUCTSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_SELECTED_PRODUCT" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-<EntitySet Name="CM_SIMULATED_RECORDSSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_SIMULATED_RECORDS" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-<EntitySet Name="CM_Truck_DetailsSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_Truck_Details" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-<EntitySet Name="CM_MARASet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_MARA" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-</EntityContainer>
-<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="http://vhcalakeci.artihcus.com:50600/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata"/>
-<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="http://vhcalakeci.artihcus.com:50600/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata"/>
-</Schema>
-</edmx:DataServices>
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+ <edmx:DataServices m:DataServiceVersion="2.0">
+  <Schema Namespace="ZEWM_CAPACITY_MANAGEMENT_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+   <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+   <EntityType Name="CM_MATERIAL" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Model"/>
+    </Key>
+    <Property Name="Model" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="PRODUCTNO"/>
+    <Property Name="Length" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="LENGTH"/>
+    <Property Name="Width" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="WIDTH"/>
+    <Property Name="Height" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="HEIGHT"/>
+    <Property Name="Volume" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="VOLUME"/>
+    <Property Name="Mcategory" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MCATEGORY"/>
+    <Property Name="Description" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="DESCRIPTION"/>
+    <Property Name="Netweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="NETWEIGHT"/>
+    <Property Name="Grossweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="GROSSWEIGHT"/>
+    <Property Name="Quantity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="QUANTITY"/>
+    <Property Name="Stack" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="STACK"/>
+    <Property Name="Bearingcapacity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="BEARINGCAPACITY"/>
+    <NavigationProperty Name="ProductAssociationNav" Relationship="ZEWM_CAPACITY_MANAGEMENT_SRV.ProductNav" FromRole="FromRole_ProductNav" ToRole="ToRole_ProductNav"/>
+   </EntityType>
+   <EntityType Name="CM_SELECTED_PRODUCT" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Id"/>
+    </Key>
+    <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="ID"/>
+    <Property Name="Productno" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="PRODUCTNO"/>
+    <Property Name="Selectedquantity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="SELECTEDQUANTITY"/>
+    <Property Name="Simulationname" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="SIMULATIONNAME"/>
+    <Property Name="Color" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="COLOR"/>
+   </EntityType>
+   <EntityType Name="CM_SIMULATED_RECORDS" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Simulationname"/>
+    </Key>
+    <Property Name="Simulationname" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="SIMULATIONNAME"/>
+    <Property Name="Trucktype" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="TRUCKTYPE"/>
+    <Property Name="Status" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="STATUS"/>
+    <Property Name="Createdby" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CREATEDBY"/>
+    <Property Name="Containercount" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CONTAINERCOUNT"/>
+    <Property Name="Createdat" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CREATEDAT"/>
+    <Property Name="Modifiedat" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MODIFIEDAT"/>
+    <Property Name="Modifiedby" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="MODIFIEDBY"/>
+   </EntityType>
+   <EntityType Name="CM_Truck_Details" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Trucktype"/>
+    </Key>
+    <Property Name="Trucktype" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="TRUCKTYPE"/>
+    <Property Name="Length" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="LENGTH"/>
+    <Property Name="Width" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="WIDTH"/>
+    <Property Name="Height" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="HEIGHT"/>
+    <Property Name="Volume" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="VOLUME"/>
+    <Property Name="Truckweight" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="TRUCKWEIGHT"/>
+    <Property Name="Capacity" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="CAPACITY"/>
+   </EntityType>
+   <EntityType Name="CM_MARA" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Matnr"/>
+    </Key>
+    <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material"/>
+    <Property Name="Brgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Gewei" sap:label="Gross Weight"/>
+    <Property Name="Ntgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Gewei" sap:label="Net Weight"/>
+    <Property Name="Gewei" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Unit of Weight" sap:semantics="unit-of-measure"/>
+    <Property Name="Volum" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Voleh" sap:label="Volume"/>
+    <Property Name="Voleh" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Volume Unit" sap:semantics="unit-of-measure"/>
+    <Property Name="Laeng" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meabm" sap:label="Length"/>
+    <Property Name="Breit" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meabm" sap:label="Width"/>
+    <Property Name="Hoehe" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meabm" sap:label="Height"/>
+    <Property Name="Meabm" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Unit" sap:semantics="unit-of-measure"/>
+    <Property Name="Extwg" Type="Edm.String" MaxLength="18" sap:unicode="false" sap:label="Ext. Matl Group"/>
+   </EntityType>
+   <Association Name="ProductNav" sap:content-version="1">
+    <End Type="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_MATERIAL" Multiplicity="1" Role="FromRole_ProductNav"/>
+    <End Type="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_SELECTED_PRODUCT" Multiplicity="*" Role="ToRole_ProductNav"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_ProductNav">
+      <PropertyRef Name="Model"/>
+     </Principal>
+     <Dependent Role="ToRole_ProductNav">
+      <PropertyRef Name="Productno"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <EntityContainer Name="ZEWM_CAPACITY_MANAGEMENT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+    <EntitySet Name="CM_MATERIALSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_MATERIAL" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="CM_SELECTED_PRODUCTSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_SELECTED_PRODUCT" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="CM_SIMULATED_RECORDSSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_SIMULATED_RECORDS" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="CM_Truck_DetailsSet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_Truck_Details" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="CM_MARASet" EntityType="ZEWM_CAPACITY_MANAGEMENT_SRV.CM_MARA" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+    <AssociationSet Name="ProductNavSet" Association="ZEWM_CAPACITY_MANAGEMENT_SRV.ProductNav" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="CM_MATERIALSet" Role="FromRole_ProductNav"/>
+     <End EntitySet="CM_SELECTED_PRODUCTSet" Role="ToRole_ProductNav"/>
+    </AssociationSet>
+   </EntityContainer>
+   <atom:link rel="self" href="https://VHCALAKECI.ARTIHCUS.COM:44306/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+   <atom:link rel="latest-version" href="https://VHCALAKECI.ARTIHCUS.COM:44306/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+  </Schema>
+ </edmx:DataServices>
 </edmx:Edmx>
- 
