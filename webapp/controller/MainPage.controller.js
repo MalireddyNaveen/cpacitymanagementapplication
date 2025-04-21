@@ -28,6 +28,7 @@ sap.ui.define(
       {
         _iCarouselTimeout: 0,
         _iCarouselLoopTime: 5000,
+        _isOnChangePressed: false,
         onInit() {
           // var oUserInfo = sap.ushell.Container.getService("UserInfo");
           //   var userName = oUserInfo.getUser().getFullName(); // You can also use getId() for the user ID
@@ -631,7 +632,20 @@ sap.ui.define(
         //  }},
 
         /**Create Product/Model */
-        onCreateProduct: async function () {
+        onCreateProduct:function(){
+          MessageBox.information("You have changed the product details", {
+            onClose: function(oAction) {
+                if (oAction === MessageBox.Action.OK) {
+                   
+                    this.CreateProduct();
+                }
+            }.bind(this)
+        });
+        },
+
+        CreateProduct: async function () {
+         
+         
           const oView = this.getView(),
             oCombinedModel = oView.getModel("CombinedModel"),
             oProductPayload = oCombinedModel.getProperty("/Product"),
@@ -817,11 +831,12 @@ sap.ui.define(
           try {
             await this.createData(oModel, oProductPayload, oPath);
             this.onClearProduct();
+            this.productDetailsEditable(false)
             this.getView().byId("idModelsTable").getBinding("items")?.refresh();
             this.byId("idForSelectModelLWHUOM").setSelectedKey("");
             this.byId("idSelectModelWeightUOM").setSelectedKey("");
             MessageToast.show("Successfully Created!");
-           // this.byId("idSelectCat").setSelectedKey("");
+            // this.byId("idSelectCat").setSelectedKey("");
             oCombinedModel.setProperty("/Product", {}); // clear data after successful creation
             // this.ClearingModel(true);
             MessageToast.show("Successfully Created!");
@@ -5742,46 +5757,68 @@ sap.ui.define(
             sap.m.MessageToast.show("No records selected");
           }
         },
-        onModelSubmit: function(oEvent) {
-          var that =this
+        onModelSubmit: function (oEvent) {
+          var that = this;
           const oView = this.getView();
           const oCombinedModel = oView.getModel("CombinedModel");
           const oODataModel = this.getOwnerComponent().getModel();
           const sProductId = oEvent.getParameter("value");
-          
+
           // Clear previous values while loading new ones
-         
-          
+
           oODataModel.read(`/CM_MARASet('${sProductId}')`, {
-              success: function(oData) {
-                  // Update the combined model with the retrieved data
-                  oCombinedModel.setProperty("/Product", {
-                      Model: sProductId,
-                      Description: oData.Description || "",
-                      Length: oData.Laeng || "",
-                      Width: oData.Breit || "",
-                      Height: oData.Hoehe || "",
-                      Volume: oData.Volum|| "",
-                      Mcategory: oData.Extwg || "",
-                      Netweight: oData.Ntgew || "",
-                      Grossweight: oData.Brgew || "",
-                      Stack: oData.Stack || "",
-                      Bearingcapacity: oData.Bearingcapacity || "",
-                  });
-                 
-                  oView.byId("idInputForModelLengUnits").setValue(oData.Meabm);
-                  oView.byId("idInputForModelWidthUnits").setValue(oData.Meabm);
-                  oView.byId("idInputForModelHeightUnit").setValue(oData.Meabm);
-                  oView.byId("idInputForModelNetWeightUnits").setValue(oData.Gewei);
-                  oView.byId("idInputForModelGrossWeightUnits").setValue(oData.Gewei);
-              },
-              error: function(oError) {
-                  MessageToast.show("Product not found");
-                  // Clear the input if product not found
-                  oCombinedModel.setProperty("/Product/Model", "");
-              }
+            success: function (oData) {
+              // Update the combined model with the retrieved data
+              oCombinedModel.setProperty("/Product", {
+                Model: sProductId,
+                Description: oData.Description || "",
+                Length: oData.Laeng || "",
+                Width: oData.Breit || "",
+                Height: oData.Hoehe || "",
+                Volume: oData.Volum || "",
+                Mcategory: oData.Extwg || "",
+                Netweight: oData.Ntgew || "",
+                Grossweight: oData.Brgew || "",
+                Stack: oData.Stack || "",
+                Bearingcapacity: oData.Bearingcapacity || "",
+              });
+
+              oView.byId("idInputForModelLengUnits").setValue(oData.Meabm);
+              oView.byId("idInputForModelWidthUnits").setValue(oData.Meabm);
+              oView.byId("idInputForModelHeightUnit").setValue(oData.Meabm);
+              oView.byId("idInputForModelNetWeightUnits").setValue(oData.Gewei);
+              oView
+                .byId("idInputForModelGrossWeightUnits")
+                .setValue(oData.Gewei);
+            },
+            error: function (oError) {
+              MessageToast.show("Product not found");
+              // Clear the input if product not found
+              oCombinedModel.setProperty("/Product/Model", "");
+            },
           });
-      }
+        },
+        onChangeProduct:function(){
+          this._isOnChangePressed = true;
+         this.productDetailsEditable(true)
+        },
+
+        productDetailsEditable:function(oBol){
+          let oView=this.getView();
+
+          oView.byId("idInputForModelDesc").setEditable(oBol);
+          oView.byId("idInputForMaterialCate").setEditable(oBol);
+          oView.byId("idInputForModelLeng").setEditable(oBol);
+          oView.byId("idInputForModelLengUnits").setEditable(oBol);
+          oView.byId("idInputForModelWidth").setEditable(oBol);
+          oView.byId("idInputForModelWidthUnits").setEditable(oBol);
+          oView.byId("idInputForModelHeight").setEditable(oBol);
+          oView.byId("idInputForModelHeightUnit").setEditable(oBol);
+          oView.byId("idInputForModelNetWeight").setEditable(oBol);
+          oView.byId("idInputForModelNetWeightUnits").setEditable(oBol);
+          oView.byId("idInputForModelGrossWeight").setEditable(oBol);
+          oView.byId("idInputForModelGrossWeightUnits").setEditable(oBol);
+        }
       }
     );
   }
