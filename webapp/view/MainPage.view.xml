@@ -675,6 +675,7 @@
                                                 liveChange="onLiveChangeDesc"
                                                 width="100%"
                                                 maxLength="200"
+                                                editable="false"
                                                 
                                             />
                                         </HBox>
@@ -1145,7 +1146,7 @@
                                     <HBox id="idHboxForContainerNum">
                                         <Label
                                             id="idCreateContainerTruckTypeLabel"
-                                            text="Truck Type"
+                                            text="Truck Type:"
                                             width="125px"
                                             class="sapUiTinyMarginTop"
                                         />
@@ -1163,7 +1164,7 @@
                                     <HBox id="idHBoxForContainerDesc">
                                         <Label
                                             id="idCreateContainerLengthLabel"
-                                            text="Length(m)"
+                                            text="Length:"
                                             width="125px"
                                             class="sapUiTinyMarginTop"
                                         />
@@ -1180,7 +1181,7 @@
                                     <HBox id="idHBoxForModelCat1">
                                         <Label
                                             id="idCreateContainerWidthLable"
-                                            text="Width(m)"
+                                            text="Width:"
                                             width="125px"
                                             class="sapUiTinyMarginTop"
                                         />
@@ -1197,7 +1198,7 @@
                                     <HBox id="idHBoxForModelLeng1">
                                         <Label
                                             id="idCreateContainerHeightLabel"
-                                            text="Height(m)"
+                                            text="Height:"
                                             width="125px"
                                             class="sapUiTinyMarginTop"
                                         />
@@ -1594,7 +1595,7 @@
                                             <Table
                                                 id="idProductTable"
                                                 mode="MultiSelect"
-                                                items="{path: '/CM_SELECTED_PRODUCTSet',parameters:{expand:'ProductAssociation'}, filters: []}"
+                                                items="{path: '/CM_SELECTED_PRODUCTSet',parameters:{expand:'productAssocationnav'}, filters: []}"
                                                 width="100%"
                                                 class="tableSection"
                                                 sticky="ColumnHeaders"
