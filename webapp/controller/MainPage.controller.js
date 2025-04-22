@@ -633,6 +633,12 @@ sap.ui.define(
 
         /**Create Product/Model */
         onCreateProduct:function(){
+          if( ! this._isOnChangePressed){
+            this.CreateProduct();
+          }
+          else{
+
+          
           MessageBox.information("You have changed the product details", {
             onClose: function(oAction) {
                 if (oAction === MessageBox.Action.OK) {
@@ -641,10 +647,11 @@ sap.ui.define(
                 }
             }.bind(this)
         });
+      }
         },
 
         CreateProduct: async function () {
-         
+          this._isOnChangePressed=false
          
           const oView = this.getView(),
             oCombinedModel = oView.getModel("CombinedModel"),
@@ -5875,57 +5882,73 @@ sap.ui.define(
             sap.m.MessageToast.show("No records selected");
           }
         },
-        onModelSubmit: function (oEvent) {
-
+        getDescription: function(oODataModel,product,oCombinedModel) {
+          return new Promise((resolve, reject) => {
+            oODataModel.read(`/CM_MAKTSet`, {
+              filters: [new Filter("Matnr", FilterOperator.EQ, product)],
+              success: function (oData) {
+                console.log(oData);
+                var oDetails = oData.results[0];
+                resolve(oDetails.Maktg); 
+              },
+              error: function (oError) {
+                MessageToast.show("Description not found");
+                oCombinedModel.setProperty("/Product/Model", "");
+                reject(oError); 
+              },
+            });
+          });
+        },
+       
+        onModelSubmit: async function(oEvent) {
           var that = this;
-
           const oView = this.getView();
           const oCombinedModel = oView.getModel("CombinedModel");
           const oODataModel = this.getOwnerComponent().getModel();
           const sProductId = oEvent.getParameter("value");
-
-          // Clear previous values while loading new ones
-
-
-
-          oODataModel.read(`/CM_MARASet`, {
-            filters: [
-                       new Filter("Matnr", FilterOperator.EQ, sProductId)
-                   ],
-            success: function (oData) {
-              // Update the combined model with the retrieved data
-              console.log(oData)
-              var oDetails =oData.results[0]
-              oCombinedModel.setProperty("/Product", {
-                Model: sProductId,
-                Description: oDetails.Description || "",
-                Length: oDetails.Laeng || "",
-                Width: oDetails.Breit || "",
-                Height: oDetails.Hoehe || "",
-                Volume: oDetails.Volum || "",
-                Mcategory: oDetails.Extwg || "",
-                Netweight: oDetails.Ntgew || "",
-                Grossweight: oDetails.Brgew || "",
-                Stack: oDetails.Stack || "",
-                Bearingcapacity: oDetails.Bearingcapacity || "",
-              });
-
-              oView.byId("idInputForModelLengUnits").setValue(oDetails.Meabm);
-              oView.byId("idInputForModelWidthUnits").setValue(oDetails.Meabm);
-              oView.byId("idInputForModelHeightUnit").setValue(oDetails.Meabm);
-              oView.byId("idInputForModelNetWeightUnits").setValue(oDetails.Gewei);
-              oView
-                .byId("idInputForModelGrossWeightUnits")
-                .setValue(oDetails.Gewei);
-
-            },
-            error: function (oError) {
-              MessageToast.show("Product not found");
-              // Clear the input if product not found
-              oCombinedModel.setProperty("/Product/Model", "");
-            },
-          });
+       
+          try {
+           
+         var   oDescription= await this.getDescription(oODataModel,sProductId,oCombinedModel);
+       
+          
+            await oODataModel.read(`/CM_MARASet`, {
+              filters: [new Filter("Matnr", FilterOperator.EQ, sProductId)],
+              success: function(oData) {
+                console.log(oData);
+                var oDetails = oData.results[0];
+       
+                oCombinedModel.setProperty("/Product", {
+                  Model: sProductId,
+                  Description:oDescription || "",
+                  Length: oDetails.Laeng || "",
+                  Width: oDetails.Breit || "",
+                  Height: oDetails.Hoehe || "",
+                  Volume: oDetails.Volum || "",
+                  Mcategory: oDetails.Extwg || "",
+                  Netweight: oDetails.Ntgew || "",
+                  Grossweight: oDetails.Brgew || "",
+                  Stack: oDetails.Stack || "",
+                  Bearingcapacity: oDetails.Bearingcapacity || "",
+                });
+       
+                oView.byId("idInputForModelLengUnits").setValue(oDetails.Meabm);
+                oView.byId("idInputForModelWidthUnits").setValue(oDetails.Meabm);
+                oView.byId("idInputForModelHeightUnit").setValue(oDetails.Meabm);
+                oView.byId("idInputForModelNetWeightUnits").setValue(oDetails.Gewei);
+                oView.byId("idInputForModelGrossWeightUnits").setValue(oDetails.Gewei);
+              },
+              error: function(oError) {
+                MessageToast.show("Product not found");
+                
+                oCombinedModel.setProperty("/Product/Model", "");
+              },
+            });
+          } catch (error) {
+            console.error("Error fetching description:", error);
+          }
         },
+ 
         onChangeProduct:function(){
           this._isOnChangePressed = true;
          this.productDetailsEditable(true)
