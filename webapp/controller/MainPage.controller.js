@@ -5888,30 +5888,35 @@ sap.ui.define(
 
 
 
-          oODataModel.read(`/CM_MARASet('${sProductId}')`, {
+          oODataModel.read(`/CM_MARASet`, {
+            filters: [
+                       new Filter("Matnr", FilterOperator.EQ, sProductId)
+                   ],
             success: function (oData) {
               // Update the combined model with the retrieved data
+              console.log(oData)
+              var oDetails =oData.results[0]
               oCombinedModel.setProperty("/Product", {
                 Model: sProductId,
-                Description: oData.Description || "",
-                Length: oData.Laeng || "",
-                Width: oData.Breit || "",
-                Height: oData.Hoehe || "",
-                Volume: oData.Volum || "",
-                Mcategory: oData.Extwg || "",
-                Netweight: oData.Ntgew || "",
-                Grossweight: oData.Brgew || "",
-                Stack: oData.Stack || "",
-                Bearingcapacity: oData.Bearingcapacity || "",
+                Description: oDetails.Description || "",
+                Length: oDetails.Laeng || "",
+                Width: oDetails.Breit || "",
+                Height: oDetails.Hoehe || "",
+                Volume: oDetails.Volum || "",
+                Mcategory: oDetails.Extwg || "",
+                Netweight: oDetails.Ntgew || "",
+                Grossweight: oDetails.Brgew || "",
+                Stack: oDetails.Stack || "",
+                Bearingcapacity: oDetails.Bearingcapacity || "",
               });
 
-              oView.byId("idInputForModelLengUnits").setValue(oData.Meabm);
-              oView.byId("idInputForModelWidthUnits").setValue(oData.Meabm);
-              oView.byId("idInputForModelHeightUnit").setValue(oData.Meabm);
-              oView.byId("idInputForModelNetWeightUnits").setValue(oData.Gewei);
+              oView.byId("idInputForModelLengUnits").setValue(oDetails.Meabm);
+              oView.byId("idInputForModelWidthUnits").setValue(oDetails.Meabm);
+              oView.byId("idInputForModelHeightUnit").setValue(oDetails.Meabm);
+              oView.byId("idInputForModelNetWeightUnits").setValue(oDetails.Gewei);
               oView
                 .byId("idInputForModelGrossWeightUnits")
-                .setValue(oData.Gewei);
+                .setValue(oDetails.Gewei);
 
             },
             error: function (oError) {
