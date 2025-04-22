@@ -1595,7 +1595,7 @@
                                             <Table
                                                 id="idProductTable"
                                                 mode="MultiSelect"
-                                                items="{path: '/CM_SELECTED_PRODUCTSet',parameters:{expand:'productAssocationnav'}, filters: []}"
+                                                items="{path: '/CM_SELECTED_PRODUCTSet',parameters:{expand:'ProductAssociationNav'}, filters: []}"
                                                 width="100%"
                                                 class="tableSection"
                                                 sticky="ColumnHeaders"
