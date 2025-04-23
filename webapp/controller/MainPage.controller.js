@@ -29,7 +29,21 @@ sap.ui.define(
         _iCarouselTimeout: 0,
         _iCarouselLoopTime: 5000,
         _isOnChangePressed: false,
+        _iLoggedInUser:"",
+
         onInit() {
+          var that = this;
+          var oDataModel = this.getOwnerComponent().getModel();
+          oDataModel.read("/cm_userSet",{
+            success:function(oData){
+             
+              that._iLoggedInUser=oData.results[0].UserDetails
+              console.log( that._iLoggedInUser)
+            },
+            error:function(oerror){
+              console.log(oerror)
+            }
+          })
           // var oUserInfo = sap.ushell.Container.getService("UserInfo");
           //   var userName = oUserInfo.getUser().getFullName(); // You can also use getId() for the user ID
           //   console.log("Current User: ", oUserInfo);
