@@ -29,21 +29,20 @@ sap.ui.define(
         _iCarouselTimeout: 0,
         _iCarouselLoopTime: 5000,
         _isOnChangePressed: false,
-        _iLoggedInUser:"",
+        _iLoggedInUser: "",
 
         onInit() {
           var that = this;
           var oDataModel = this.getOwnerComponent().getModel();
-          oDataModel.read("/cm_userSet",{
-            success:function(oData){
-             
-              that._iLoggedInUser=oData.results[0].UserDetails
-              console.log( that._iLoggedInUser)
+          oDataModel.read("/cm_userSet", {
+            success: function (oData) {
+              that._iLoggedInUser = oData.results[0].UserDetails;
+              console.log(that._iLoggedInUser);
             },
-            error:function(oerror){
-              console.log(oerror)
-            }
-          })
+            error: function (oerror) {
+              console.log(oerror);
+            },
+          });
           // var oUserInfo = sap.ushell.Container.getService("UserInfo");
           //   var userName = oUserInfo.getUser().getFullName(); // You can also use getId() for the user ID
           //   console.log("Current User: ", oUserInfo);
@@ -283,7 +282,7 @@ sap.ui.define(
                   oData.results[0].fName + " " + oData.results[0].lName;
               }
             },
-            error: function (oError) { },
+            error: function (oError) {},
           });
         },
         onAvatarPress_CapacityManagement: function (oEvent) {
@@ -649,23 +648,19 @@ sap.ui.define(
         onCreateProduct: function () {
           if (!this._isOnChangePressed) {
             this.CreateProduct();
-          }
-          else {
-
-
+          } else {
             MessageBox.information("You have changed the product details", {
               onClose: function (oAction) {
                 if (oAction === MessageBox.Action.OK) {
-
                   this.CreateProduct();
                 }
-              }.bind(this)
+              }.bind(this),
             });
           }
         },
 
         CreateProduct: async function () {
-          this._isOnChangePressed = false
+          this._isOnChangePressed = false;
 
           const oView = this.getView(),
             oCombinedModel = oView.getModel("CombinedModel"),
@@ -852,7 +847,7 @@ sap.ui.define(
           try {
             await this.createData(oModel, oProductPayload, oPath);
             this.onClearProduct();
-            this.productDetailsEditable(false)
+            this.productDetailsEditable(false);
             this.getView().byId("idModelsTable").getBinding("items")?.refresh();
             this.byId("idForSelectModelLWHUOM").setSelectedKey("");
             this.byId("idSelectModelWeightUOM").setSelectedKey("");
@@ -1851,17 +1846,16 @@ sap.ui.define(
             .getData();
           var oDataModel = this.getView().getModel();
           const oView = this.getView(),
-            batchGroupId = "materialBatchId"
+            batchGroupId = "materialBatchId";
 
           // Validation phase
           let raisedErrors = [];
           addedProdCodeModel.items.forEach((item, index) => {
-            const aExcelInputs =
-            {
+            const aExcelInputs = {
               value: item.Model,
               regex: null,
               message: "Enter SAP product number",
-            }
+            };
 
             let aValidations = this.validateField(
               oView,
@@ -1876,7 +1870,7 @@ sap.ui.define(
                 errorMsg: aValidations[0],
               });
             }
-          })
+          });
           if (raisedErrors.length > 0) {
             let errorMessage = raisedErrors
               .map((e) => `Row ${e.index}: ${e.errorMsg}`)
@@ -1885,23 +1879,28 @@ sap.ui.define(
             return;
           }
           // TEST
-          addedProdCodeModel.items.entries().forEach(item => {
-            delete item['serialNumber']
+          addedProdCodeModel.items.entries().forEach((item) => {
+            delete item["serialNumber"];
             var sGroupId = "batchGroup1";
             oDataModel.setDeferredGroups([sGroupId]);
             oDataModel.read("/CM_MARASet", {
-              filters: [new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, item)],
+              filters: [
+                new sap.ui.model.Filter(
+                  "Matnr",
+                  sap.ui.model.FilterOperator.EQ,
+                  item
+                ),
+              ],
               groupId: sGroupId,
               success: function (oData) {
                 MessageToast.show("Product found");
-                console.log(oData)
+                console.log(oData);
                 // console.log("MaterialDATA-->", oData.results[0]);
               },
               error: function (oError) {
                 MessageToast.show("Product not found");
-              }
+              },
             });
-
           });
           // for (const [index, item] of addedProdCodeModel.items.entries()) {
           //   delete item['serialNumber']
@@ -2006,7 +2005,6 @@ sap.ui.define(
           // }
 
           // // TEST
-
         },
         onBatchSaves: async function () {
           var that = this;
@@ -2139,8 +2137,9 @@ sap.ui.define(
                     },
                     error: function (err) {
                       errorCount++;
-                      let errorMsg = `Row ${index + 1
-                        }: Failed to create material`;
+                      let errorMsg = `Row ${
+                        index + 1
+                      }: Failed to create material`;
 
                       if (err.responseText) {
                         try {
@@ -2150,12 +2149,14 @@ sap.ui.define(
                               .toLowerCase()
                               .includes("entity already exists")
                           ) {
-                            errorMsg = `Row ${index + 1}: Material ${item.Model
-                              } already exists`;
+                            errorMsg = `Row ${index + 1}: Material ${
+                              item.Model
+                            } already exists`;
                             duplicateExists = true;
                           } else {
-                            errorMsg = `Row ${index + 1}: ${errorObj.message.value
-                              }`;
+                            errorMsg = `Row ${index + 1}: ${
+                              errorObj.message.value
+                            }`;
                           }
                         } catch (e) {
                           console.error("Error parsing error response", e);
@@ -2428,8 +2429,9 @@ sap.ui.define(
 
                 // Format dateKey to show the month
                 const monthKey = createdAt.getMonth() + 1; // Get month (0-11) and convert to (1-12)
-                dateKey = `${createdAt.getFullYear()}-${monthKey < 10 ? "0" : ""
-                  }${monthKey}`; // Format as YYYY-MM
+                dateKey = `${createdAt.getFullYear()}-${
+                  monthKey < 10 ? "0" : ""
+                }${monthKey}`; // Format as YYYY-MM
                 break;
               case "all":
                 dateKey = createdAt.getFullYear(); // YYYY
@@ -3227,10 +3229,14 @@ sap.ui.define(
           let oModel = this.getOwnerComponent().getModel();
           let oView = this.getView();
           const oNewSimulationName = oView.byId("simulationInput").getValue();
+          const localDate  = new Date().toLocaleString();
+          console.log(localDate );
+
           let payloadObejct = {
             Simulationname: oNewSimulationName,
             Status: "Pending",
-            // createdBy: this.UserName
+            Createdby: this._iLoggedInUser,
+            Createdat:localDate 
           };
           await this.createData(
             oModel,
@@ -4187,7 +4193,7 @@ sap.ui.define(
               }
               console.log(oProducts);
             },
-            error: function (oError) { },
+            error: function (oError) {},
           });
         },
 
@@ -4266,9 +4272,9 @@ sap.ui.define(
                     oBinding.filter(
                       aFilters.length > 0
                         ? new sap.ui.model.Filter({
-                          filters: aFilters,
-                          and: true,
-                        })
+                            filters: aFilters,
+                            and: true,
+                          })
                         : []
                     );
                   }
@@ -5009,10 +5015,10 @@ sap.ui.define(
 
               sap.m.MessageBox.information(
                 `Current file contains models/materials which are already selected for simulation.\n` +
-                `${duplicateItems
-                  .map((item) => item.Productno)
-                  .join(",\n")}\n` +
-                `NOTE: You can increase the quantity of already selected models/materials by editing them individually`
+                  `${duplicateItems
+                    .map((item) => item.Productno)
+                    .join(",\n")}\n` +
+                  `NOTE: You can increase the quantity of already selected models/materials by editing them individually`
               );
               return;
             }
@@ -5021,9 +5027,11 @@ sap.ui.define(
             const readErrors = [];
             for (const item of addedProdCodeModel.items) {
               try {
-                const sPath = `/CM_MATERIALSet('${item.Model}')`;
+                const sPath = `/CM_MATERIALSet`;
                 await new Promise((resolve, reject) => {
-                  oDataModel.read(sPath, {
+                  oDataModel.read(sPath, 
+                    {
+                      filters: [new Filter("Model", FilterOperator.EQ, item.Model)],
                     success: resolve,
                     error: (oError) => {
                       readErrors.push({
@@ -5944,7 +5952,7 @@ sap.ui.define(
               filters: [new Filter("Matnr", FilterOperator.EQ, product)],
               success: function (oData) {
                 console.log(oData);
-                var oDetails = oData.results[0];
+                var oDetails = oData.results[0]; 
                 resolve(oDetails.Maktg);
               },
               error: function (oError) {
@@ -5964,9 +5972,11 @@ sap.ui.define(
           const sProductId = oEvent.getParameter("value");
 
           try {
-
-            var oDescription = await this.getDescription(oODataModel, sProductId, oCombinedModel);
-
+            var oDescription = await this.getDescription(
+              oODataModel,
+              sProductId,
+              oCombinedModel
+            );
 
             await oODataModel.read(`/CM_MARASet`, {
               filters: [new Filter("Matnr", FilterOperator.EQ, sProductId)],
@@ -5989,10 +5999,18 @@ sap.ui.define(
                 });
 
                 oView.byId("idInputForModelLengUnits").setValue(oDetails.Meabm);
-                oView.byId("idInputForModelWidthUnits").setValue(oDetails.Meabm);
-                oView.byId("idInputForModelHeightUnit").setValue(oDetails.Meabm);
-                oView.byId("idInputForModelNetWeightUnits").setValue(oDetails.Gewei);
-                oView.byId("idInputForModelGrossWeightUnits").setValue(oDetails.Gewei);
+                oView
+                  .byId("idInputForModelWidthUnits")
+                  .setValue(oDetails.Meabm);
+                oView
+                  .byId("idInputForModelHeightUnit")
+                  .setValue(oDetails.Meabm);
+                oView
+                  .byId("idInputForModelNetWeightUnits")
+                  .setValue(oDetails.Gewei);
+                oView
+                  .byId("idInputForModelGrossWeightUnits")
+                  .setValue(oDetails.Gewei);
               },
               error: function (oError) {
                 MessageToast.show("Product not found");
@@ -6007,7 +6025,7 @@ sap.ui.define(
 
         onChangeProduct: function () {
           this._isOnChangePressed = true;
-          this.productDetailsEditable(true)
+          this.productDetailsEditable(true);
         },
 
         productDetailsEditable: function (oBol) {
@@ -6025,8 +6043,7 @@ sap.ui.define(
           oView.byId("idInputForModelNetWeightUnits").setEditable(oBol);
           oView.byId("idInputForModelGrossWeight").setEditable(oBol);
           oView.byId("idInputForModelGrossWeightUnits").setEditable(oBol);
-
-        }
+        },
       }
     );
   }
