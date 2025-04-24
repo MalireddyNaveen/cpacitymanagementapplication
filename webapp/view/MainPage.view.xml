@@ -461,7 +461,6 @@
                                         showFullScreenButton="true"
                                         enableAutoBinding="false"
                                         enableExport="true"
-                                        enableCopy="false"
                                         tableType="ResponsiveTable"
                                         smartFilterId="idSmartFiltersForModel"
                                         entitySet="CM_MATERIALSet"
