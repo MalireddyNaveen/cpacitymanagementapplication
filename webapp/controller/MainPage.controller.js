@@ -1839,6 +1839,21 @@ sap.ui.define(
         //     that.byId("idModelsTable").getBinding("items").refresh();
         //   }
         // },
+
+        CheckMatetial: function name(Model, oDataModel) {
+          return new Promise((resolve, reject) => {
+            oDataModel.read("/CM_MARASet", {
+              filters: [new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, Model)],
+              // groupId: sGroupId,
+              success: function (oData) {
+                resolve(oData.results[0])
+              },
+              error: function (oError) {
+                reject(oError)
+              }
+            });
+          })
+        },
         onBatchSave: async function () {
           var that = this;
           var addedProdCodeModel = this.getView()
@@ -1879,132 +1894,97 @@ sap.ui.define(
             return;
           }
           // TEST
-          addedProdCodeModel.items.entries().forEach((item) => {
-            delete item["serialNumber"];
-            var sGroupId = "batchGroup1";
-            oDataModel.setDeferredGroups([sGroupId]);
-            oDataModel.read("/CM_MARASet", {
-              filters: [
-                new sap.ui.model.Filter(
-                  "Matnr",
-                  sap.ui.model.FilterOperator.EQ,
-                  item
-                ),
-              ],
-              groupId: sGroupId,
-              success: function (oData) {
-                MessageToast.show("Product found");
-                console.log(oData);
-                // console.log("MaterialDATA-->", oData.results[0]);
+          try {
+            let entityExistsFlag = false;
+            let batchErrorOccurred = false;
+            const existingMaterialData = [];
+
+            // let Count = 0;
+            for (const item of addedProdCodeModel.items.entries()) {
+              var existingMaterial = await this.CheckMatetial(item[1].Model, oDataModel)
+              if (existingMaterial === undefined) {
+                MessageToast.show(`Material ${item[1].Model} Not found`)
+                return;
+              } else {
+                var oDescription = await this.getDescription(oDataModel, item[1].Model);
+                // existingMaterial.Description = oDescription
+
+                const oExistingMatPayload = {
+                  Model: item[1].Model,
+                  Description: oDescription || "",
+                  Length: existingMaterial.Laeng || "",
+                  Width: existingMaterial.Breit || "",
+                  Height: existingMaterial.Hoehe || "",
+                  Volume: existingMaterial.Volum || "",
+                  Mcategory: existingMaterial.Extwg || "",
+                  Netweight: existingMaterial.Ntgew || "",
+                  Grossweight: existingMaterial.Brgew || "",
+                  Stack: existingMaterial.Stack || "",
+                  Bearingcapacity: existingMaterial.Bearingcapacity || "",
+                }
+                existingMaterialData.push(oExistingMatPayload)
+              }
+            }
+
+            for (const item of existingMaterialData) {
+              //Create a batch request for each item
+              oDataModel.create("/CM_MATERIALSet", item, {
+                method: "POST",
+                groupId: batchGroupId,
+                success: function (data, response) {
+                  console.log("Material created successfully:", data);
+                  // that.byId("idModelsTable").getBinding("items").refresh();
+                },
+                error: function (err) {
+                  console.error("Error creating material:", err);
+                  if (JSON.parse(err.responseText).error.message.value.toLowerCase() === "entity already exists") {
+                    if (!entityExistsFlag) {
+                      MessageBox.error(`You are trying to upload a material which already exists`);
+                      entityExistsFlag = true; // Set the flag to prevent showing the message again
+                    }
+                  } else {
+                    batchErrorOccurred = true;
+                  }
+                  // that.byId("idModelsTable").getBinding("items").refresh();
+                }
+              });
+            }
+            //Submit the batch request
+            await oDataModel.submitChanges({
+              batchGroupId: batchGroupId,
+              success: function (oData, response) {
+                console.log("Batch request submitted successfully", oData);
+
+                //  Refresh Model
+                oDataModel.refresh(true);
+
+                //Refresh the table binding explicitly
+                // that.byId("idModelsTable").getBinding("items").refresh();
+
+                //MessageBox.success("Materials created successfully");
+
+                // Close dialog if it exists
+                if (that.oFragment) {
+                  that.getView().getModel("MaterialModel").setData("");
+                  that.oFragment.close();
+                }
               },
-              error: function (oError) {
-                MessageToast.show("Product not found");
-              },
+              error: function (err) {
+                if (batchErrorOccurred) {
+                  MessageBox.error("Please check the uploaded file and upload correct data");
+                }
+                console.error("Error in batch request:", err);
+                // that.byId("idModelsTable").getBinding("items").refresh();
+              }
+
             });
-          });
-          // for (const [index, item] of addedProdCodeModel.items.entries()) {
-          //   delete item['serialNumber']
-          //   var sGroupId = "batchGroup1";
-          //   oDataModel.setDeferredGroups([sGroupId]);
-          //   oDataModel.read("/CM_MARASet", {
-          //     filters: [new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.EQ, item)],
-          //     groupId: sGroupId,
-          //     success: function (oData) {
-          //       MessageToast.show("Product found");
-          //       console.log(oData)
-          //       // console.log("MaterialDATA-->", oData.results[0]);
-          //     },
-          //     error: function (oError) {
-          //       MessageToast.show("Product not found");
-          //     }
-          //   });
-          // }
 
-          oDataModel.submitChanges({ groupId: sGroupId });
-
-          // try {
-          //   let entityExistsFlag = false;
-          //   let batchErrorOccurred = false;
-
-          //   // for (const [index, item] of addedProdCodeModel.items.entries()) {
-          //   //   const propertiesToDelete = ['serialNumber'];
-          //   //   propertiesToDelete.forEach(property => delete item[property]);
-          //   //   await oDataModel.read(`/CM_MARASet`, {
-          //   //     filters: [new Filter("Matnr", FilterOperator.EQ, item)],
-          //   //     success: function (oData) {
-          //   //       MessageToast.show("Product found");
-          //   //       console.log("MaterialDATA-->" + oData.results[0])
-          //   //     },
-          //   //     error: function (oError) {
-          //   //       MessageToast.show("Product not found");
-          //   //       return;
-          //   //     }
-          //   //   });
-          //   // }
-
-          //   for (const [index, item] of addedProdCodeModel.items.entries()) {
-          //     const propertiesToDelete = ['serialNumber'];
-          //     propertiesToDelete.forEach(property => delete item[property]);
-
-          //     //Create a batch request for each item
-          //     oDataModel.create("/CM_MATERIALSet", item, {
-          //       method: "POST",
-          //       groupId: batchGroupId,
-          //       success: function (data, response) {
-          //         console.log("Material created successfully:", data);
-          //         // that.byId("idModelsTable").getBinding("items").refresh();
-          //       },
-          //       error: function (err) {
-          //         console.error("Error creating material:", err);
-          //         if (JSON.parse(err.responseText).error.message.value.toLowerCase() === "entity already exists") {
-          //           if (!entityExistsFlag) {
-          //             MessageBox.error(`You are trying to upload a material which already exists`);
-          //             entityExistsFlag = true; // Set the flag to prevent showing the message again
-          //           }
-          //         } else {
-          //           batchErrorOccurred = true;
-          //         }
-          //         // that.byId("idModelsTable").getBinding("items").refresh();
-          //       }
-          //     });
-          //   }
-          //   //Submit the batch request
-          //   await oDataModel.submitChanges({
-          //     batchGroupId: batchGroupId,
-          //     success: function (oData, response) {
-          //       console.log("Batch request submitted successfully", oData);
-
-          //       //  Refresh Model
-          //       oDataModel.refresh(true);
-
-          //       //Refresh the table binding explicitly
-          //       // that.byId("idModelsTable").getBinding("items").refresh();
-
-          //       //MessageBox.success("Materials created successfully");
-
-          //       // Close dialog if it exists
-          //       if (that.oFragment) {
-          //         that.getView().getModel("MaterialModel").setData("");
-          //         that.oFragment.close();
-          //       }
-          //     },
-          //     error: function (err) {
-          //       if (batchErrorOccurred) {
-          //         MessageBox.error("Please check the uploaded file and upload correct data");
-          //       }
-          //       console.error("Error in batch request:", err);
-          //       // that.byId("idModelsTable").getBinding("items").refresh();
-          //     }
-
-          //   });
-
-          // } catch (error) {
-          //   console.log(error);
-          //   MessageToast.show("Facing technical issue");
-          //   that.byId("idModelsTable").getBinding("items").refresh();
-          // }
-
-          // // TEST
+          } catch (error) {
+            console.log(error);
+            MessageToast.show("Facing technical issue");
+            that.byId("idModelsTable").getBinding("items").refresh();
+          }
+          // TEST
         },
         onBatchSaves: async function () {
           var that = this;
@@ -5957,8 +5937,8 @@ sap.ui.define(
               },
               error: function (oError) {
                 MessageToast.show("Description not found");
-                oCombinedModel.setProperty("/Product/Model", "");
                 reject(oError);
+                oCombinedModel.setProperty("/Product/Model", "");
               },
             });
           });
