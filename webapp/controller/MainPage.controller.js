@@ -1175,67 +1175,101 @@ sap.ui.define(
           MessageToast.show("Batch delete failed. Please try again.");
         },
         //test
+
+        getMaterialDetails: function (oODataModel, sMaterial) {
+          return new Promise((resolve, reject) => {
+            oODataModel.read(`/CM_MATERIALSet`, {
+              filters: [new Filter("Model", FilterOperator.EQ, sMaterial)],
+              success: function (oData) {
+                console.log(oData);
+                
+                resolve(oData.results[0]);
+              },
+              error: function (oError) {
+                MessageToast.show("Material not found");
+                reject(oError);
+               
+              },
+            });
+          });
+        },
         /**Truck type selection based on click display details */
         onTruckTypeChange: async function (oEvent) {
           const oModel = this.getOwnerComponent().getModel();
           var that = this;
           var oTable = this.byId("idProductTable"); // Get table
-          var oBinding = oTable.getBinding("rows"); // Get the row binding
-          var aContexts = oBinding.getContexts(); // Get all row contexts
+          var oBinding = oTable.getBinding("items"); // Get the row binding
+          var aItem = oBinding.getContexts(); // Get all row contexts
 
           var aSelectedProducts = [];
 
-          // Iterate through each row and add the value of the first column (Amount)
-          aContexts.forEach(function (oContext) {
-            var sMaterial = oContext.getProperty("Productno"); // Get the Amount value from the row context
-            if (sMaterial) {
-              aSelectedProducts.push(sMaterial)
-            }
-          });
-          console.log("aSelectedProducts..." + aSelectedProducts);
+          for(const oItem of aItem){
+            var sMaterial =  oItem.getObject().Productno; 
+            var sSelectedQuantity =  oItem.getObject().Selectedquantity
+            var sColor =oItem.getObject().Color
+            // if (sMaterial) {
+            //   aSelectedProducts.push(sMaterial)
+            // }
+            var sMaterialsDetails= await that.getMaterialDetails(oModel,sMaterial)
+            sMaterialsDetails.Selectedquantity=sSelectedQuantity
+            sMaterialsDetails.Color=sColor
+            console.log(sMaterialsDetails)
+            aSelectedProducts.push(sMaterialsDetails)
+          };
 
-          // let oSelectedItem = oEvent.getParameters().newValue;
-          let oSelectedItem = this.byId(
+          // aItem.forEach(async function (oItem) {
+          //   var sMaterial =  oItem.getObject().Productno; 
+          //   var sSelectedQuantity =  oItem.getObject().Selectedquantity
+          //   if (sMaterial) {
+          //     aSelectedProducts.push(sMaterial)
+          //   }
+          //   var sMaterialsDetails= await that.getMaterialDetails(oModel,sMaterial)
+          //   console.log(sMaterialsDetails)
+          // });
+          console.log("aSelectedProducts..." , aSelectedProducts);
+
+         // let oSelectedItem = oEvent.getParameters().newValue;
+         let  oSelectedItem = this.byId(
             "id_combobox_for_truckType"
           ).getSelectedKey();
 
-          var oTable = this.byId("idProductTable");
-          var aItems = oTable.getItems();
-          if (aItems.length == 0) {
-            MessageBox.information(
-              "Please Add products or Upload excel file for Simulation and Save"
-            );
-            return;
-          }
+          // var oTable = this.byId("idProductTable");
+          // var aItems = oTable.getItems();
+          // if (aItems.length == 0) {
+          //   MessageBox.information(
+          //     "Please Add products or Upload excel file for Simulation and Save"
+          //   );
+          //   return;
+          // }
 
-          let aSlectedObject = [];
-          for (const item of aItems) {
-            try {
-              const oRowContext = item.getBindingContext();
-              const oRowObject = oRowContext.getObject("Productno");
+          // let aSlectedObject = [];
+          // for (const item of aItems) {
+          //   try {
+          //     const oRowContext = item.getBindingContext();
+          //     const oRowObject = oRowContext.getObject("Productno");
 
-              // Wait for the read operation to complete
-              const odata = await new Promise((resolve, reject) => {
-                oModel.read(`/CM_MATERIALSet('${oRowObject}')`, {
-                  success: resolve,
-                  error: reject,
-                });
-              });
-              console.log("Naveen");
-              const { Description, Quantity, ...remainingProperties } = odata;
-              const oContextObject = oRowContext.getObject();
-              const { Id, Productno, Simulationname, ...sampleValues } =
-                oContextObject;
-              const oMergeObject = { ...sampleValues, ...remainingProperties };
+          //     // Wait for the read operation to complete
+          //     const odata = await new Promise((resolve, reject) => {
+          //       oModel.read(`/CM_MATERIALSet('${oRowObject}')`, {
+          //         success: resolve,
+          //         error: reject,
+          //       });
+          //     });
+          //     console.log("Naveen");
+          //     const { Description, Quantity, ...remainingProperties } = odata;
+          //     const oContextObject = oRowContext.getObject();
+          //     const { Id, Productno, Simulationname, ...sampleValues } =
+          //       oContextObject;
+          //     const oMergeObject = { ...sampleValues, ...remainingProperties };
 
-              aSlectedObject.push(oMergeObject);
-            } catch (error) {
-              console.error("Error processing item:", error);
-            }
-          }
+          //     aSlectedObject.push(oMergeObject);
+          //   } catch (error) {
+          //     console.error("Error processing item:", error);
+          //   }
+          // }
 
           // Now you can use aSlectedObject here
-          console.log("Completed processing:", aSlectedObject);
+       //   console.log("Completed processing:", aSlectedObject);
 
           // /***New Code For Volumes */
           // aItems.forEach((item) => {
@@ -1256,7 +1290,7 @@ sap.ui.define(
           //   // aSlectedObject.push(oMergeObject);
           // })
           // console.log('Sreedhar Items::', aSlectedObject);
-          let oTotalProd = aSlectedObject.reduce((sum, Item) => {
+          let oTotalProd = aSelectedProducts.reduce((sum, Item) => {
             return sum + Number(Item.Volume) * Number(Item.Selectedquantity);
           }, 0);
           console.log("Total Product Volume", oTotalProd);
@@ -1286,14 +1320,18 @@ sap.ui.define(
 
           // Fetch dimensions based on truck type
 
-          const sPath = `/CM_Truck_DetailsSet('${oSelectedItem}')`;
+          const sPath = `/CM_Truck_DetailsSet`;
           let oRemainingVolume = 0;
 
           oModel.read(sPath, {
+            filters: [new Filter("Trucktype", FilterOperator.EQ, oSelectedItem)],
             success: function (odata) {
               console.log(odata);
               if (odata) {
-                // const numberOfTrucksNeeded = Math.ceil(
+                let oDetails = odata.results[0]
+                console.log(oDetails)
+                // const numberOf
+                // TrucksNeeded = Math.ceil(
                 //   Math.ceil(oTotalProd) / Number(odata.volume)
                 // );
                 // const trucksToUse =
@@ -1318,10 +1356,10 @@ sap.ui.define(
                 //   // MessageBox.information(`You will need ${trucksToUse} truck.`);
                 // }
 
-                const height = parseFloat(odata.Height);
-                const length = parseFloat(odata.Length);
-                const width = parseFloat(odata.Width);
-                const capacity = parseFloat(odata.Capacity);
+                const height = parseFloat(oDetails.Height);
+                const length = parseFloat(oDetails.Length);
+                const width = parseFloat(oDetails.Width);
+                const capacity = parseFloat(oDetails.Capacity);
                 //   OTruckData = {
                 //     height,
                 //     length,
@@ -1336,7 +1374,7 @@ sap.ui.define(
                   length1 = length - 0.05;
 
                 this._createProducts(
-                  aSlectedObject,
+                  aSelectedProducts,
                   height1,
                   length1,
                   width1,
