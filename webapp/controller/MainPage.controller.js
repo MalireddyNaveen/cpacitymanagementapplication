@@ -282,7 +282,7 @@ sap.ui.define(
                   oData.results[0].fName + " " + oData.results[0].lName;
               }
             },
-            error: function (oError) {},
+            error: function (oError) { },
           });
         },
         onAvatarPress_CapacityManagement: function (oEvent) {
@@ -668,6 +668,7 @@ sap.ui.define(
             // oSelectedCat = this.byId("idSelectCat").getSelectedKey(),
             oModel = oView.getModel(),
             oPath = "/CM_MATERIALSet";
+          console.log("oProductPayload--->" + oProductPayload)
           let raisedErrors = [];
           const aUserInputs = [
             // { Id: "idDesvbncriptionInput_InitialView", value: oProductPayload.EAN, regex: null, message: "Please enter EAN" },
@@ -1178,6 +1179,21 @@ sap.ui.define(
         onTruckTypeChange: async function (oEvent) {
           const oModel = this.getOwnerComponent().getModel();
           var that = this;
+          var oTable = this.byId("idProductTable"); // Get table
+          var oBinding = oTable.getBinding("rows"); // Get the row binding
+          var aContexts = oBinding.getContexts(); // Get all row contexts
+
+          var aSelectedProducts = [];
+
+          // Iterate through each row and add the value of the first column (Amount)
+          aContexts.forEach(function (oContext) {
+            var sMaterial = oContext.getProperty("Productno"); // Get the Amount value from the row context
+            if (sMaterial) {
+              aSelectedProducts.push(sMaterial)
+            }
+          });
+          console.log("aSelectedProducts..." + aSelectedProducts);
+
           // let oSelectedItem = oEvent.getParameters().newValue;
           let oSelectedItem = this.byId(
             "id_combobox_for_truckType"
@@ -1855,6 +1871,10 @@ sap.ui.define(
           })
         },
         onBatchSave: async function () {
+          this._batchBusyDialog = new sap.m.BusyDialog({
+            text: "Creation in progress"
+          });
+          this._batchBusyDialog.open();
           var that = this;
           var addedProdCodeModel = this.getView()
             .getModel("MaterialModel")
@@ -1862,6 +1882,7 @@ sap.ui.define(
           var oDataModel = this.getView().getModel();
           const oView = this.getView(),
             batchGroupId = "materialBatchId";
+          oDataModel.setDeferredGroups([batchGroupId]);
 
           // Validation phase
           let raisedErrors = [];
@@ -1895,8 +1916,8 @@ sap.ui.define(
           }
           // TEST
           try {
-            let entityExistsFlag = false;
-            let batchErrorOccurred = false;
+            // let entityExistsFlag = false;
+            // let batchErrorOccurred = false;
             const existingMaterialData = [];
 
             // let Count = 0;
@@ -1909,13 +1930,51 @@ sap.ui.define(
                 var oDescription = await this.getDescription(oDataModel, item[1].Model);
                 // existingMaterial.Description = oDescription
 
+                existingMaterial.Meabm
+
+                // unit conversion
+                if (existingMaterial.Meabm == "CM" || existingMaterial.Meabm == "cm") {
+                  (existingMaterial.Hoehe = String(
+                    (existingMaterial.Hoehe * 0.01).toFixed(4)
+                  )), // Convert Hoehe from cm to meters
+                    (existingMaterial.Laeng = String(
+                      (existingMaterial.Laeng * 0.01).toFixed(4)
+                    )), // Convert Laeng from cm to meters
+                    (existingMaterial.Breit = String(
+                      (existingMaterial.Breit * 0.01).toFixed(4)
+                    )); // Convert Breit from cm to meters
+                }
+
+                if (existingMaterial.Meabm == "mm" || existingMaterial.Meabm == "MM") {
+                  (existingMaterial.Hoehe = String(
+                    (existingMaterial.Hoehe * 0.001).toFixed(4)
+                  )), // Convert height from mm to meters
+                    (existingMaterial.Laeng = String(
+                      (existingMaterial.Laeng * 0.001).toFixed(4)
+                    )), // Convert Laeng from mm to meters
+                    (existingMaterial.Breit = String(
+                      (existingMaterial.Breit * 0.001).toFixed(4)
+                    )); // Convert Breit from mm to meters
+                }
+
+                // Calculate volume in cubic meters
+                let oVolume =
+                  existingMaterial.Laeng *
+                  existingMaterial.Breit *
+                  existingMaterial.Hoehe;
+                // Store the volume in the payload with 2 decimal places
+                existingMaterial.Volume = String(oVolume.toFixed(2));
+                // unit conversion
+
+
+
                 const oExistingMatPayload = {
                   Model: item[1].Model,
                   Description: oDescription || "",
                   Length: existingMaterial.Laeng || "",
                   Width: existingMaterial.Breit || "",
                   Height: existingMaterial.Hoehe || "",
-                  Volume: existingMaterial.Volum || "",
+                  Volume: existingMaterial.Volume || "",
                   Mcategory: existingMaterial.Extwg || "",
                   Netweight: existingMaterial.Ntgew || "",
                   Grossweight: existingMaterial.Brgew || "",
@@ -1932,19 +1991,19 @@ sap.ui.define(
                 method: "POST",
                 groupId: batchGroupId,
                 success: function (data, response) {
-                  console.log("Material created successfully:", data);
+                  // console.log("Material created successfully:", data);
                   // that.byId("idModelsTable").getBinding("items").refresh();
                 },
                 error: function (err) {
-                  console.error("Error creating material:", err);
-                  if (JSON.parse(err.responseText).error.message.value.toLowerCase() === "entity already exists") {
-                    if (!entityExistsFlag) {
-                      MessageBox.error(`You are trying to upload a material which already exists`);
-                      entityExistsFlag = true; // Set the flag to prevent showing the message again
-                    }
-                  } else {
-                    batchErrorOccurred = true;
-                  }
+                  // console.error("Error creating material:", err);
+                  // if (JSON.parse(err.responseText).error.message.value.toLowerCase() === "entity already exists") {
+                  //   if (!entityExistsFlag) {
+                  //     MessageBox.error(`You are trying to upload a material which already exists`);
+                  //     entityExistsFlag = true; // Set the flag to prevent showing the message again
+                  //   }
+                  // } else {
+                  //   batchErrorOccurred = true;
+                  // }
                   // that.byId("idModelsTable").getBinding("items").refresh();
                 }
               });
@@ -1953,19 +2012,15 @@ sap.ui.define(
             await oDataModel.submitChanges({
               batchGroupId: batchGroupId,
               success: function (oData, response) {
-                console.log("Batch request submitted successfully", oData);
-
-                //  Refresh Model
-                oDataModel.refresh(true);
-
-                //Refresh the table binding explicitly
-                // that.byId("idModelsTable").getBinding("items").refresh();
-
-                //MessageBox.success("Materials created successfully");
-
-                // Close dialog if it exists
+                const aResp = Object.keys(oData.__batchResponses[0])
+                if (aResp.includes("response")) {
+                  oData.__batchResponses[0].response.statusCode == 400 ? MessageToast.show("Creation failed some records already exists") : MessageToast.show("Facing technical creation failed")
+                } else {
+                  MessageToast.show("Records created successfully")
+                }
                 if (that.oFragment) {
                   that.getView().getModel("MaterialModel").setData("");
+                  that._batchBusyDialog.close()
                   that.oFragment.close();
                 }
               },
@@ -1974,6 +2029,7 @@ sap.ui.define(
                   MessageBox.error("Please check the uploaded file and upload correct data");
                 }
                 console.error("Error in batch request:", err);
+                that._batchBusyDialog.close()
                 // that.byId("idModelsTable").getBinding("items").refresh();
               }
 
@@ -2117,9 +2173,8 @@ sap.ui.define(
                     },
                     error: function (err) {
                       errorCount++;
-                      let errorMsg = `Row ${
-                        index + 1
-                      }: Failed to create material`;
+                      let errorMsg = `Row ${index + 1
+                        }: Failed to create material`;
 
                       if (err.responseText) {
                         try {
@@ -2129,14 +2184,12 @@ sap.ui.define(
                               .toLowerCase()
                               .includes("entity already exists")
                           ) {
-                            errorMsg = `Row ${index + 1}: Material ${
-                              item.Model
-                            } already exists`;
+                            errorMsg = `Row ${index + 1}: Material ${item.Model
+                              } already exists`;
                             duplicateExists = true;
                           } else {
-                            errorMsg = `Row ${index + 1}: ${
-                              errorObj.message.value
-                            }`;
+                            errorMsg = `Row ${index + 1}: ${errorObj.message.value
+                              }`;
                           }
                         } catch (e) {
                           console.error("Error parsing error response", e);
@@ -2409,9 +2462,8 @@ sap.ui.define(
 
                 // Format dateKey to show the month
                 const monthKey = createdAt.getMonth() + 1; // Get month (0-11) and convert to (1-12)
-                dateKey = `${createdAt.getFullYear()}-${
-                  monthKey < 10 ? "0" : ""
-                }${monthKey}`; // Format as YYYY-MM
+                dateKey = `${createdAt.getFullYear()}-${monthKey < 10 ? "0" : ""
+                  }${monthKey}`; // Format as YYYY-MM
                 break;
               case "all":
                 dateKey = createdAt.getFullYear(); // YYYY
@@ -3209,14 +3261,14 @@ sap.ui.define(
           let oModel = this.getOwnerComponent().getModel();
           let oView = this.getView();
           const oNewSimulationName = oView.byId("simulationInput").getValue();
-          const localDate  = new Date().toLocaleString();
-          console.log(localDate );
+          const localDate = new Date().toLocaleString();
+          console.log(localDate);
 
           let payloadObejct = {
             Simulationname: oNewSimulationName,
             Status: "Pending",
             Createdby: this._iLoggedInUser,
-            Createdat:localDate 
+            Createdat: localDate
           };
           await this.createData(
             oModel,
@@ -4173,7 +4225,7 @@ sap.ui.define(
               }
               console.log(oProducts);
             },
-            error: function (oError) {},
+            error: function (oError) { },
           });
         },
 
@@ -4252,9 +4304,9 @@ sap.ui.define(
                     oBinding.filter(
                       aFilters.length > 0
                         ? new sap.ui.model.Filter({
-                            filters: aFilters,
-                            and: true,
-                          })
+                          filters: aFilters,
+                          and: true,
+                        })
                         : []
                     );
                   }
@@ -4995,10 +5047,10 @@ sap.ui.define(
 
               sap.m.MessageBox.information(
                 `Current file contains models/materials which are already selected for simulation.\n` +
-                  `${duplicateItems
-                    .map((item) => item.Productno)
-                    .join(",\n")}\n` +
-                  `NOTE: You can increase the quantity of already selected models/materials by editing them individually`
+                `${duplicateItems
+                  .map((item) => item.Productno)
+                  .join(",\n")}\n` +
+                `NOTE: You can increase the quantity of already selected models/materials by editing them individually`
               );
               return;
             }
@@ -5009,18 +5061,18 @@ sap.ui.define(
               try {
                 const sPath = `/CM_MATERIALSet`;
                 await new Promise((resolve, reject) => {
-                  oDataModel.read(sPath, 
+                  oDataModel.read(sPath,
                     {
                       filters: [new Filter("Model", FilterOperator.EQ, item.Model)],
-                    success: resolve,
-                    error: (oError) => {
-                      readErrors.push({
-                        model: item.Model,
-                        error: oError,
-                      });
-                      resolve(); // Continue even if error
-                    },
-                  });
+                      success: resolve,
+                      error: (oError) => {
+                        readErrors.push({
+                          model: item.Model,
+                          error: oError,
+                        });
+                        resolve(); // Continue even if error
+                      },
+                    });
                 });
               } catch (error) {
                 console.error("Error reading material:", error);
@@ -5932,7 +5984,7 @@ sap.ui.define(
               filters: [new Filter("Matnr", FilterOperator.EQ, product)],
               success: function (oData) {
                 console.log(oData);
-                var oDetails = oData.results[0]; 
+                var oDetails = oData.results[0];
                 resolve(oDetails.Maktg);
               },
               error: function (oError) {
@@ -5963,7 +6015,6 @@ sap.ui.define(
               success: function (oData) {
                 console.log(oData);
                 var oDetails = oData.results[0];
-
                 oCombinedModel.setProperty("/Product", {
                   Model: sProductId,
                   Description: oDescription || "",
