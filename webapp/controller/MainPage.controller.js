@@ -1179,6 +1179,21 @@ sap.ui.define(
         onTruckTypeChange: async function (oEvent) {
           const oModel = this.getOwnerComponent().getModel();
           var that = this;
+          var oTable = this.byId("idProductTable"); // Get table
+          var oBinding = oTable.getBinding("rows"); // Get the row binding
+          var aContexts = oBinding.getContexts(); // Get all row contexts
+
+          var aSelectedProducts = [];
+
+          // Iterate through each row and add the value of the first column (Amount)
+          aContexts.forEach(function (oContext) {
+            var sMaterial = oContext.getProperty("Productno"); // Get the Amount value from the row context
+            if (sMaterial) {
+              aSelectedProducts.push(sMaterial)
+            }
+          });
+          console.log("aSelectedProducts..." + aSelectedProducts);
+
           // let oSelectedItem = oEvent.getParameters().newValue;
           let oSelectedItem = this.byId(
             "id_combobox_for_truckType"
@@ -1915,6 +1930,43 @@ sap.ui.define(
                 var oDescription = await this.getDescription(oDataModel, item[1].Model);
                 // existingMaterial.Description = oDescription
 
+                existingMaterial.Meabm
+
+                // unit conversion
+                if (existingMaterial.Meabm == "CM" || existingMaterial.Meabm == "cm") {
+                  (existingMaterial.Hoehe = String(
+                    (existingMaterial.Hoehe * 0.01).toFixed(4)
+                  )), // Convert Hoehe from cm to meters
+                    (existingMaterial.Laeng = String(
+                      (existingMaterial.Laeng * 0.01).toFixed(4)
+                    )), // Convert Laeng from cm to meters
+                    (existingMaterial.Breit = String(
+                      (existingMaterial.Breit * 0.01).toFixed(4)
+                    )); // Convert Breit from cm to meters
+                }
+
+                if (existingMaterial.Meabm == "mm" || existingMaterial.Meabm == "MM") {
+                  (existingMaterial.Hoehe = String(
+                    (existingMaterial.Hoehe * 0.001).toFixed(4)
+                  )), // Convert height from mm to meters
+                    (existingMaterial.Laeng = String(
+                      (existingMaterial.Laeng * 0.001).toFixed(4)
+                    )), // Convert Laeng from mm to meters
+                    (existingMaterial.Breit = String(
+                      (existingMaterial.Breit * 0.001).toFixed(4)
+                    )); // Convert Breit from mm to meters
+                }
+
+                // Calculate volume in cubic meters
+                let oVolume =
+                  existingMaterial.Laeng *
+                  existingMaterial.Breit *
+                  existingMaterial.Hoehe;
+                // Store the volume in the payload with 2 decimal places
+                existingMaterial.Volume = String(oVolume.toFixed(2));
+                // unit conversion
+
+
 
                 const oExistingMatPayload = {
                   Model: item[1].Model,
@@ -1922,7 +1974,7 @@ sap.ui.define(
                   Length: existingMaterial.Laeng || "",
                   Width: existingMaterial.Breit || "",
                   Height: existingMaterial.Hoehe || "",
-                  Volume: existingMaterial.Volum || "",
+                  Volume: existingMaterial.Volume || "",
                   Mcategory: existingMaterial.Extwg || "",
                   Netweight: existingMaterial.Ntgew || "",
                   Grossweight: existingMaterial.Brgew || "",
@@ -1960,17 +2012,12 @@ sap.ui.define(
             await oDataModel.submitChanges({
               batchGroupId: batchGroupId,
               success: function (oData, response) {
-                console.log("Batch request submitted successfully", oData);
-                console.log("Batch request submitted response", response);
-                // console.log("StatusCode", oData.__batchResponses[0].response.statusCode);
-                // // __changeResponses
-                
-                // //  Refresh Model
-                // oDataModel.refresh(true);
-                // if (oData.__batchResponses[0].response.statusCode == 400) {
-                //   MessageToast.show("Creation stopped some materials alredy exists");
-                // }
-                // Close dialog if it exists
+                const aResp = Object.keys(oData.__batchResponses[0])
+                if (aResp.includes("response")) {
+                  oData.__batchResponses[0].response.statusCode == 400 ? MessageToast.show("Creation failed some records already exists") : MessageToast.show("Facing technical creation failed")
+                } else {
+                  MessageToast.show("Records created successfully")
+                }
                 if (that.oFragment) {
                   that.getView().getModel("MaterialModel").setData("");
                   that._batchBusyDialog.close()
@@ -5968,7 +6015,6 @@ sap.ui.define(
               success: function (oData) {
                 console.log(oData);
                 var oDetails = oData.results[0];
-
                 oCombinedModel.setProperty("/Product", {
                   Model: sProductId,
                   Description: oDescription || "",
