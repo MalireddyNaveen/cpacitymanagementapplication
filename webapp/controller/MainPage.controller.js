@@ -43,9 +43,7 @@ sap.ui.define(
               console.log(oerror);
             },
           });
-          // var oUserInfo = sap.ushell.Container.getService("UserInfo");
-          //   var userName = oUserInfo.getUser().getFullName(); // You can also use getId() for the user ID
-          //   console.log("Current User: ", oUserInfo);
+          
           var sUrl = sap.ui.require.toUrl(
             "com/app/capacitymanagement/model/data.json"
           );
@@ -55,8 +53,8 @@ sap.ui.define(
           var oModel = new JSONModel(sUrl);
           console.log(oModel);
           this.getView().setModel(oModel, "NamedModel");
-          //   const oRouter = this.getOwnerComponent().getRouter();
-          //   oRouter.attachRoutePatternMatched(this.onUserDetailsLoadCapacityManagement, this);
+            // const oRouter = this.getOwnerComponent().getRouter();
+            // oRouter.attachRoutePatternMatched(this.onUserDetailsLoadCapacityManagement, this);
           /**Combined Model for Model and Containers */
 
           const oCombinedModel = new JSONModel({
@@ -237,11 +235,12 @@ sap.ui.define(
         onUserDetailsLoadCapacityManagement: async function (oEvent1) {
           const { id } = oEvent1.getParameter("arguments");
           this.ID = id;
-          this.UserName;
-          await this.getUserName(this.ID);
-          // Apply the stored profile image to all avatars in the app & load the user details...
-          this.applyStoredProfileImage(); //from Base controller
-          this.onLoadUserDetailsBasedOnUserID_CM(); //from Base controller
+          console.log(this.ID)
+          // this.UserName;
+          // await this.getUserName(this.ID);
+          // // Apply the stored profile image to all avatars in the app & load the user details...
+          // this.applyStoredProfileImage(); //from Base controller
+          // this.onLoadUserDetailsBasedOnUserID_CM(); //from Base controller
 
           //Initially Action btns and Barchart will be Disabled in the pages...
           // this.byId("idMaterialMenuBtn").setEnabled(false);
@@ -2354,11 +2353,14 @@ sap.ui.define(
             .getProperty("/RequiredTruck");
           let oCount = oRequiredTruck.requiredTrucks;
           let sPath = `/CM_SIMULATED_RECORDSSet('${oSimulationKey}')`;
+          const localDate = new Date().toLocaleString();
+          console.log(localDate);
           const oPayload = {
-            // modifiedBy: oUserName,
+            Modifiedby: this._iLoggedInUser,
             Status: "Completed",
             // containerCount: oCount,
             Trucktype: oKey,
+            Modifiedat:localDate
           };
           try {
             await this.updateData(oModel, oPayload, sPath);
@@ -4167,17 +4169,18 @@ sap.ui.define(
           }
         },
         onListItemPress: function (oEvent) {
+          
           const { ID } = oEvent.getSource().getBindingContext().getObject();
           var oView = this.getView();
           var oSelectedItem = oEvent.getSource(),
             oBindingContext = oSelectedItem.getBindingContext(),
             oSelectedRowData = oBindingContext.getObject();
 
-          if (oSelectedRowData.status === "Completed") {
+          if (oSelectedRowData.Status === "Completed" || oSelectedRowData.Status === "COMPLETED" ) {
             const oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo("RouteSimulationDetails", {
               sid: ID,
-              id: this.ID,
+              id: this._iLoggedInUser,
               simID: oSelectedRowData.Simulationname,
             });
           } else {

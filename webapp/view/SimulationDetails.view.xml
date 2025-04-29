@@ -27,13 +27,13 @@
                         press="onPressNavBackMainPg"
                     />
 
-                    <Image
+                    <!-- <Image
                         id="idheaderImage1"
                         class="sapUiSmallMarginBegin"
                         height="1.5rem"
                         src="https://www.daikin.com/-/media/Project/Daikin/daikin_com/dg_common/images/logo_daikin-png.png"
                         alt="Logo"
-                    />
+                    /> -->
                     <ToolbarSpacer id="idtoolbarspacer_CM" />
 
                     <Title
@@ -44,13 +44,13 @@
                     />
 
                     <ToolbarSpacer id="idtoolbarspacer1_CM" />
-                    <Avatar
+                    <!-- <Avatar
                         id="idprofileAvatar1_SimulatedPage"
                         displaySize="XS"
                         class="Avatar_SP"
                         press="onAvatarPress_CM_SimulationPage"
                         tooltip="Profile"
-                    />
+                    /> -->
                 </f:actions>
             </f:DynamicPageTitle>
         </f:title>
@@ -92,7 +92,7 @@
                                 />
                                 <Title
                                     id="iddateObjectAttribute"
-                                    text="{SimulatedRecord>/sFormattedDate}"
+                                    text="{SimulatedRecord>/date}"
                                     titleStyle="H6"
                                 />
                             </HBox>
@@ -105,7 +105,7 @@
                                 />
                                 <Title
                                     id="idtimeObjectAttribute"
-                                    text="{SimulatedRecord>/sFormattedTime}"
+                                    text="{SimulatedRecord>/time}"
                                     titleStyle="H6"
                                 />
                             </HBox>
@@ -127,7 +127,7 @@
                                 <Title
                                     id="idcreatedByText"
                                     class="sapUiSmallMarginTop"
-                                    text="{SimulatedRecord>/createdBy}"
+                                    text="{SimulatedRecord>/Createdby}"
                                     titleStyle="H6"
                                 />
                             </HBox>
@@ -164,7 +164,7 @@
                                         id="idproductTable"
                                         class="TableSection_SimulatedPage"
                                         width="auto"
-                                        items="{path: '/SelectedProduct', parameters: {expand: 'Productno'}}"
+                                       
                                         noDataText="No Product Details"
                                         sticky="ColumnHeaders"
                                     >
@@ -218,28 +218,7 @@
                                             </Column>
                                         </columns>
                                         <items>
-                                            <ColumnListItem
-                                                id="idCloumnListItem"
-                                            >
-                                                <cells>
-                                                    <Text
-                                                        id="idProductID"
-                                                        text="{Productno/model}"
-                                                    />
-                                                    <Text
-                                                        id="idProductName"
-                                                        text="{Productno/description}"
-                                                    />
-                                                    <Text
-                                                        id="idProductQuantity"
-                                                        text="{SelectedQuantity}"
-                                                    />
-                                                    <Text
-                                                        id="idProductvolume"
-                                                        text="{Productno/volume}"
-                                                    />
-                                                </cells>
-                                            </ColumnListItem>
+                                            
                                         </items>
                                     </Table>
                                 </IconTabFilter>
@@ -251,8 +230,8 @@
                                         id="idcontainerTable"
                                         class="TableSection_SimulatedPage"
                                         width="auto"
-                                        items="{path: '/SimulatedRecords', parameters: {expand: 'truckType'}}"
-                                        noDataText="No Product Details"
+                                        items="{path: '/CM_Truck_DetailsSet'}"
+                                        noDataText="No Container Details"
                                     >
                                         <headerToolbar>
                                             <Toolbar
@@ -280,13 +259,13 @@
                                                     titleStyle="H5"
                                                 />
                                             </Column>
-                                            <Column id="idColumnStatus">
+                                            <!-- <Column id="idColumnStatus">
                                                 <Title
                                                     id="idcapacity"
                                                     text="No. of Containers"
                                                     titleStyle="H5"
                                                 />
-                                            </Column>
+                                            </Column> -->
                                             <Column id="idColumnVolume1">
                                                 <Title
                                                     id="idVolume1"
@@ -302,19 +281,19 @@
                                                 <cells>
                                                     <Text
                                                         id="idContainerID"
-                                                        text="{truckType/truckType}"
+                                                        text="{Trucktype}"
                                                     />
                                                     <Text
                                                         id="idContainerCapacity"
-                                                        text="{truckType/capacity}"
+                                                        text="{Capacity}"
                                                     />
-                                                    <Text
+                                                    <!-- <Text
                                                         id="idContainerStatus"
                                                         text="{containerCount}"
-                                                    />
+                                                    /> -->
                                                     <Text
                                                         id="idContainerVolume1"
-                                                        text="{truckType/volume}"
+                                                        text="{Volume}"
                                                     />
                                                 </cells>
                                             </ColumnListItem>
