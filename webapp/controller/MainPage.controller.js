@@ -4497,13 +4497,13 @@ sap.ui.define(
           if (this.totalSelected === oSelected.length) {
             try {
               oSelected.forEach((item) => {
-                const modelId = item.getBindingContext().getObject().ID;
+                const sPath = item.getBindingContext().getPath();
                 const QTY = item.getCells()[1].getValue();
                 if (QTY > 0 && /^\d+$/.test(QTY)) {
                   // Create update request
                   oModel.update(
-                    `/SelectedProduct('${modelId}')`,
-                    { SelectedQuantity: QTY },
+                    sPath,
+                    { Selectedquantity: QTY },
                     {
                       groupId: "updateGroup", // Group updates in a batch
                       success: async function (oData, response) {
@@ -4517,7 +4517,7 @@ sap.ui.define(
                       },
                       error: function (oError) {
                         console.error(
-                          `Error updating product ${modelId}:`,
+                          `Error updating products`,
                           oError
                         );
                       },
@@ -5917,7 +5917,7 @@ sap.ui.define(
         },
 
         // Success callback after the batch request
-        _onBatchSuccess: function (oData) {
+        _onBatchSuccess: function (oData,resp) {
           MessageToast.show("successfully Deleted");
         },
 
