@@ -38,7 +38,7 @@ sap.ui.define(
           const oRouter = this.getOwnerComponent().getRouter();
           oRouter.attachRoutePatternMatched(
             this.onSimulationDetailsLoad_CM,
-            this
+         this
           );
 
           //Background for the Icons are Tarnsparent..
@@ -60,6 +60,67 @@ sap.ui.define(
             this.onDataVisualization();
           }
           console.log(selectedText);
+        },
+
+        getMaterialDetails: function (oODataModel, sMaterial) {
+          return new Promise((resolve, reject) => {
+            oODataModel.read(`/CM_MATERIALSet`, {
+              filters: [new Filter("Model", FilterOperator.EQ, sMaterial)],
+              success: function (oData) {
+                console.log(oData);
+                
+                resolve(oData.results[0]);
+              },
+              error: function (oError) {
+                MessageToast.show("Material not found");
+                reject(oError);
+               
+              },
+            });
+          });
+        },
+
+     async  getSimulatedProductDetails() {
+          var oModel = this.getOwnerComponent().getModel();
+          var aProductDetails = [];
+          var that=this;
+         await oModel.read("/CM_SELECTED_PRODUCTSet", {
+            filters: [
+              new Filter("Simulationname", FilterOperator.EQ, this.simID),
+            ],
+            success:async function (oData) {
+              console.log(oData)
+              for(const oItem of oData.results){
+                console.log(oItem.Productno)
+                // var sSelectedQuantity =  oItem.getObject().Selectedquantity
+                // var sColor =oItem.getObject().Color
+                // if (sMaterial) {
+                //   aSelectedProducts.push(sMaterial)
+                // }
+                var sMaterialsDetails= await that.getMaterialDetails(oModel,oItem.Productno)
+                 sMaterialsDetails.Selectedquantity=oItem.Selectedquantity
+                // sMaterialsDetails.Color=sColor
+                console.log("in for loop",sMaterialsDetails)
+                aProductDetails.push(sMaterialsDetails)
+              }
+
+              console.log("Out of for",aProductDetails)
+              var oProductModel = new sap.ui.model.json.JSONModel({ products: aProductDetails });
+              that.byId("idproductTable").setModel(oProductModel);
+              that.byId("idproductTable").bindItems({
+                path: "/products",
+                template: new sap.m.ColumnListItem({
+                    cells: [
+                        new sap.m.Text({ text: "{Model}" }),
+                        new sap.m.Text({ text: "{Description}" }),
+                        new sap.m.Text({ text: "{Selectedquantity}" }),
+                        new sap.m.Text({ text: "{Volume}" }),
+                    ]
+                })
+            });
+            },
+            error: function (oError) {},
+          });
         },
         // onSimulationDetailsLoad_CM: async function (oEvent) {
         //   debugger;
@@ -92,6 +153,7 @@ sap.ui.define(
         //   return oSimulatedRecordData;  // Optional: Return the data if needed
         // },
         onSimulationDetailsLoad_CM: async function (oEvent) {
+          var that=this
           var oIconTabBar = this.byId("iconTabBar");
           oIconTabBar.setSelectedKey("ProductDetails");
           debugger;
@@ -101,63 +163,75 @@ sap.ui.define(
           this.ID = id;
           this.simID = simID;
 
-          this.applyStoredProfileImage();
-          this.onLoadUserDetailsBasedOnUserID_CM();
+          // this.applyStoredProfileImage();
+          // this.onLoadUserDetailsBasedOnUserID_CM();
 
           //For the SMLName and Date Time for the SimulationDetails Page...
           var oSimulatedRecordModel = new sap.ui.model.json.JSONModel();
-          oModel.read(`/SimulatedRecords('${this.simID}')`, {
+          oModel.read(`/CM_SIMULATED_RECORDSSet`, {
+            filters: [
+              new Filter("Simulationname", FilterOperator.EQ, this.simID),
+            ],
             success: function (oData) {
+              console.log("simulation Details",oData);
               //console.log("Fetched Simulation Data:", oData);
 
               // Extract Simulation Name & Created At
-              const { simulationName, createdAt, createdBy } = oData;
-              const oSMLNameWithoutDT = simulationName.split("_")[0]; //for the Simulation Name only like "SML1" instead of "SML1_2023393993"
+              const { Simulationname, Createdat, Createdby,Trucktype } = oData.results[0];
+              const oSMLNameWithoutDT = Simulationname;
+              // .split("_")[0]; //for the Simulation Name only like "SML1" instead of "SML1_2023393993"
 
               // Format createdAt into separate Date and Time
-              const oDate = new Date(createdAt);
-              const userLocale = navigator.language || "en-GB"; // Detect User Locale
+              // const oDate = new Date(createdAt);
+              // const userLocale = navigator.language || "en-GB"; // Detect User Locale
 
-              const sFormattedDate = new Intl.DateTimeFormat(userLocale, {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              }).format(oDate);
-              const sFormattedTime = new Intl.DateTimeFormat(userLocale, {
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-                hour12: true,
-              }).format(oDate);
+              // const sFormattedDate = new Intl.DateTimeFormat(userLocale, {
+              //   year: "numeric",
+              //   month: "short",
+              //   day: "numeric",
+              // }).format(oDate);
+              // const sFormattedTime = new Intl.DateTimeFormat(userLocale, {
+              //   hour: "numeric",
+              //   minute: "numeric",
+              //   second: "numeric",
+              //   hour12: true,
+              // }).format(oDate);
+              const dateObj = new Date(Createdat);
+
+              // Get the date and time separately
+              const date = dateObj.toLocaleDateString(); // Formats as '4/25/2025' based on locale
+              const time = dateObj.toLocaleTimeString(); // Formats as '12:26:21 PM' based on locale
 
               // Set Data to JSON Model
               oSimulatedRecordModel.setData({
                 oSMLNameWithoutDT,
-                sFormattedDate,
-                sFormattedTime,
-                createdBy,
+                date,
+                time,
+                Createdby,
               });
 
               // Set the model to the view
               oView.setModel(oSimulatedRecordModel, "SimulatedRecord");
+              var oTable = that.byId("idcontainerTable");
+              var oBinding = oTable.getBinding("items");
+              var oFilter = new Filter("Trucktype", FilterOperator.EQ, Trucktype);
+              oBinding.filter([oFilter]);
             },
             error: function (oError) {
               console.error("Error fetching simulation data:", oError);
             },
           });
-          var oTable = this.byId("idproductTable");
-          var oBinding = oTable.getBinding("items");
-          var oFilter = new Filter(
-            "simulationName_simulationName",
-            FilterOperator.EQ,
-            simID
-          );
-          oBinding.filter([oFilter]);
+          this.getSimulatedProductDetails()
+          // var oTable = this.byId("idproductTable");
+          // var oBinding = oTable.getBinding("items");
+          // var oFilter = new Filter(
+          //   "Simulationname",
+          //   FilterOperator.EQ,
+          //   simID
+          // );
+          // oBinding.filter([oFilter]);
 
-          var oTable = this.byId("idcontainerTable");
-          var oBinding = oTable.getBinding("items");
-          var oFilter = new Filter("simulationName", FilterOperator.EQ, simID);
-          oBinding.filter([oFilter]);
+         
         },
         // onAfterRendering:function(){
         //   this.getView().byId("idpageTitle").setText(this.simID)
@@ -199,9 +273,9 @@ sap.ui.define(
           const oContainerObject = oContainerTable
             .getItems()[0]
             .getBindingContext()
-            .getObject("truckType");
-          let oTruckVolume = Number(oContainerObject.volume); // Ensure it's a number
-          let oTruckWeight = Number(oContainerObject.capacity); // Ensure it's a number
+            .getObject();
+          let oTruckVolume = Number(oContainerObject.Volume); // Ensure it's a number
+          let oTruckWeight = Number(oContainerObject.Capacity); // Ensure it's a number
 
           let aTableItems = oTable.getItems();
 
@@ -219,7 +293,7 @@ sap.ui.define(
             let oRowContext = item.getBindingContext();
             if (!oRowContext) return; // Skip if no context
             console.log("Bye", oRowContext.getObject().SelectedQuantity);
-            let oRowObject = oRowContext.getObject("Productno");
+            let oRowObject = oRowContext.getObject();
             console.log("sreedhar", oRowObject);
 
             let t = oRowContext.getObject().SelectedQuantity;
