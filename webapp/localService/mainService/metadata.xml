@@ -112,8 +112,8 @@
      <End EntitySet="CM_SELECTED_PRODUCTSet" Role="ToRole_ProductNav"/>
     </AssociationSet>
    </EntityContainer>
-   <atom:link rel="self" href="http://vhcalakeci.artihcus.com:50600/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
-   <atom:link rel="latest-version" href="http://vhcalakeci.artihcus.com:50600/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+   <atom:link rel="self" href="https://VHCALAKECI.ARTIHCUS.COM:44306/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+   <atom:link rel="latest-version" href="https://VHCALAKECI.ARTIHCUS.COM:44306/sap/opu/odata/sap/ZEWM_CAPACITY_MANAGEMENT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
   </Schema>
  </edmx:DataServices>
 </edmx:Edmx>
